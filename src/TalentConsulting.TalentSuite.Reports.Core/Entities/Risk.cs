@@ -1,10 +1,13 @@
-﻿namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
+﻿using TalentConsulting.TalentSuite.Reports.Common;
+using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
-public record RiskDto
+namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
+
+public class Risk : EntityBase<string>, IAggregateRoot
 {
-    private RiskDto() { }
+    private Risk() { }
 
-    public RiskDto(string id, int reportid, string riskdetails, string riskmitigation, int ragstatus)
+    public Risk(string id, int reportid, string riskdetails, string riskmitigation, int ragstatus)
     {
         Id = id;
         ReportId = reportid;
