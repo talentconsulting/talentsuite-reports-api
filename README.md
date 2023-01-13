@@ -26,13 +26,52 @@ Configuration should be added to resemble the following:
 
 ```
 {
-  "ReportsApi": {
-    "ConnectionString": "<local db connection string>"
+  "UseRabbitMQ": false,
+  "UseDbType": "UseInMemoryDatabase",
+  //"UseDbType": "UsePostgresDatabase",
+  "ConnectionStrings": {
+    "ReferralConnection": ""
   },
-  "AzureAd": {
-    "tenant": "<tenant>",
-    "identifier": "<service identifier>"
-  }
+  "RabbitMqSettings": {
+    "Uri": "localhost",
+    "UserName": "guest",
+    "Password": "guest"
+  },
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "Microsoft": "Information",
+        "Microsoft.AspNetCore": "Warning",
+        "System": "Error"
+      }
+    },
+    "Enrich": [
+      "FromLogContext",
+      "WithEnvironmentName",
+      "WithMachineName"
+    ],
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "{Timestamp:HH:mm:ss.fff zzz} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}"
+        }
+      }
+    ],
+    "Properties": {
+      "ApplicationName": "ts-reports-api"
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+  "APPINSIGHTS_CONNECTION_STRING": ""
 }
 ```
 
