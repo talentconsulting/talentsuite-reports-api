@@ -26,42 +26,11 @@ Configuration should be added to resemble the following:
 
 ```
 {
-  "UseRabbitMQ": false,
   "UseDbType": "UseInMemoryDatabase",
   //"UseDbType": "UsePostgresDatabase",
+  "LogLevel": "Verbose",
   "ConnectionStrings": {
-    "ReferralConnection": ""
-  },
-  "RabbitMqSettings": {
-    "Uri": "localhost",
-    "UserName": "guest",
-    "Password": "guest"
-  },
-  "Serilog": {
-    "MinimumLevel": {
-      "Default": "Debug",
-      "Override": {
-        "Microsoft": "Information",
-        "Microsoft.AspNetCore": "Warning",
-        "System": "Error"
-      }
-    },
-    "Enrich": [
-      "FromLogContext",
-      "WithEnvironmentName",
-      "WithMachineName"
-    ],
-    "WriteTo": [
-      {
-        "Name": "Console",
-        "Args": {
-          "outputTemplate": "{Timestamp:HH:mm:ss.fff zzz} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}"
-        }
-      }
-    ],
-    "Properties": {
-      "ApplicationName": "ts-reports-api"
-    }
+    //"ReferralConnection": "Server={Your Server};Database={Your Database};Trusted_Connection=True;MultipleActiveResultSets=true;"
   },
   "Logging": {
     "LogLevel": {
@@ -69,10 +38,9 @@ Configuration should be added to resemble the following:
       "Microsoft.AspNetCore": "Warning"
     }
   },
-  "AllowedHosts": "*",
-  "APPINSIGHTS_INSTRUMENTATIONKEY": "",
-  "APPINSIGHTS_CONNECTION_STRING": ""
+  "AllowedHosts": "*"
 }
+
 ```
 
 
