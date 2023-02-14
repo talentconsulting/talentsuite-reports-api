@@ -2,9 +2,9 @@
 
 namespace TalentConsulting.TalentSuite.Reports.API.Commands.CreateProject;
 
-public class CreateReferralCommandValidator : AbstractValidator<CreateProjectCommand>
+public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
 {
-    public CreateReferralCommandValidator()
+    public CreateProjectCommandValidator()
     {
         RuleFor(v => v.ProjectDto)
             .NotNull();

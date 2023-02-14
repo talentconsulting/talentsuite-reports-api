@@ -51,7 +51,7 @@ public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand,
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred creating referral. {exceptionMessage}", ex.Message);
+            _logger.LogError(ex, "An error occurred creating project. {exceptionMessage}", ex.Message);
             throw new Exception(ex.Message, ex);
         }
 

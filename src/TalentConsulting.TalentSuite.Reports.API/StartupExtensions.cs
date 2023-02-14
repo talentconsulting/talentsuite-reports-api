@@ -98,7 +98,7 @@ public static class StartupExtensions
         //            c.Password(rabbitMqSettings.Password);
         //        });
 
-        //        cfg.ReceiveEndpoint("referralqueue", (c) => { c.Consumer<CommandMessageConsumer>(); });
+        //        cfg.ReceiveEndpoint("projectqueue", (c) => { c.Consumer<CommandMessageConsumer>(); });
         //    }));
     }
 
@@ -133,8 +133,8 @@ public static class StartupExtensions
         var genapi = scope.ServiceProvider.GetService<MinimalGeneralEndPoints>();
         genapi?.RegisterMinimalGeneralEndPoints(app);
 
-        var referralApi = scope.ServiceProvider.GetService<MinimalProjectEndPoints>();
-        referralApi?.RegisterReferralEndPoints(app);
+        var reportsApi = scope.ServiceProvider.GetService<MinimalProjectEndPoints>();
+        reportsApi?.RegisterProjectEndPoints(app);
 
         try
         {
