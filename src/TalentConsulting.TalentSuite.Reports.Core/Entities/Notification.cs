@@ -17,8 +17,6 @@ public class Notification : EntityBase<string>, IAggregateRoot
         Status = status;
     }
 
-    public string Id { get; init; } = default!;
-    public DateTime Created { get; init; } = default!;
     public DateTime NextRetryDate { get; init; } = default!;
     public string Content { get; init; } = default!;
     public string Title { get; init; } = default!;

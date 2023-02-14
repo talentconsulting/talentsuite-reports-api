@@ -18,8 +18,6 @@ public class Report : EntityBase<string>, IAggregateRoot
         UserId = userid;
     }
 
-    public string Id { get; init; } = default!;
-    public DateTime Created { get; init; } = default!;
     public string PlannedTasks { get; init; } = default!;
     public string CompletedTasks { get; init; } = default!;
     public int Weeknumber { get; init; } = default!;

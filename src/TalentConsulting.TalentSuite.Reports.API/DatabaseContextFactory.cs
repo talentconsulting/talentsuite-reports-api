@@ -28,7 +28,7 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
 
             case "UseSqlServerDatabase":
                 {
-                    var connectionString = configuration.GetConnectionString("ReferralConnection");
+                    var connectionString = configuration.GetConnectionString("DefaultConnection");
                     if (connectionString != null)
                         builder.UseSqlServer(connectionString, b => b.MigrationsAssembly("FamilyHubs.ReferralApi.Api"));
 
@@ -37,7 +37,7 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
 
             case "UsePostgresDatabase":
                 {
-                    var connectionString = configuration.GetConnectionString("ReferralConnection");
+                    var connectionString = configuration.GetConnectionString("DefaultConnection");
                     if (connectionString != null)
                         builder.UseNpgsql(connectionString, b => b.MigrationsAssembly("FamilyHubs.ReferralApi.Api"));
 

@@ -24,22 +24,22 @@ public static class ConfigureServices
         {
             case "UseInMemoryDatabase":
                 services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("ReferralDb"));
+                options.UseInMemoryDatabase("TalentDb"));
                 break;
 
             case "UseSqlServerDatabase":
                 services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("ReferralConnection") ?? String.Empty));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
                 break;
 
             case "UsePostgresDatabase":
                 services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("ReferralConnection") ?? String.Empty));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
                 break;
 
             default:
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("ReferralDb"));
+                    options.UseInMemoryDatabase("TalentDb"));
                 break;
         }
 
