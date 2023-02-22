@@ -26,14 +26,21 @@ Configuration should be added to resemble the following:
 
 ```
 {
-  "ReportsApi": {
-    "ConnectionString": "<local db connection string>"
+  "UseDbType": "UseInMemoryDatabase",
+  //"UseDbType": "UsePostgresDatabase",
+  "LogLevel": "Verbose",
+  "ConnectionStrings": {
+    //"ReferralConnection": "Server={Your Server};Database={Your Database};Trusted_Connection=True;MultipleActiveResultSets=true;"
   },
-  "AzureAd": {
-    "tenant": "<tenant>",
-    "identifier": "<service identifier>"
-  }
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
 }
+
 ```
 
 
