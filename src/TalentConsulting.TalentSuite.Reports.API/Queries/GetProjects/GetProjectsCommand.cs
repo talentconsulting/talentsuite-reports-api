@@ -39,7 +39,7 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
             throw new NotFoundException(nameof(Project), "Projects");
         }
 
-        var filteredReferrals = await entities.Select(x => new ProjectDto(
+        var filteredProjects = await entities.Select(x => new ProjectDto(
             x.Id,
             x.ClId,
             x.Name,
@@ -50,12 +50,12 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
 
         if (request != null)
         {
-            var pagelist = filteredReferrals.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ProjectDto>(filteredReferrals, pagelist.Count, request.PageNumber, request.PageSize);
+            var pagelist = filteredProjects.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var result = new PaginatedList<ProjectDto>(filteredProjects, pagelist.Count, request.PageNumber, request.PageSize);
             return result;
         }
 
-        return new PaginatedList<ProjectDto>(filteredReferrals, filteredReferrals.Count, 1, 10);
+        return new PaginatedList<ProjectDto>(filteredProjects, filteredProjects.Count, 1, 10);
 
 
     }

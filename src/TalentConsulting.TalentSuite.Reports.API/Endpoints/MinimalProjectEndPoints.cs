@@ -12,7 +12,7 @@ namespace TalentConsulting.TalentSuite.Reports.API.Endpoints;
 
 public class MinimalProjectEndPoints
 {
-    public void RegisterReferralEndPoints(WebApplication app)
+    public void RegisterProjectEndPoints(WebApplication app)
     {
         app.MapPost("api/projects", [Authorize(Policy = "TalentConsultingUser")] async ([FromBody] ProjectDto request, CancellationToken cancellationToken, ISender _mediator) =>
         {

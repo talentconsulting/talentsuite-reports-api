@@ -13,8 +13,6 @@ public class Client : EntityBase<string>, IAggregateRoot
         ContactName = contactname;
         ContactEmail = contactemail;
     }
-
-    public string Id { get; init; } = default!;
     public string FullName { get; init; } = default!;
     public string ContactName { get; init; } = default!;
     public string ContactEmail { get; init; } = default!;

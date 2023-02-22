@@ -17,8 +17,6 @@ public class Sow : EntityBase<string>, IAggregateRoot
         ProjectId = projectid;
     }
 
-    public string Id { get; init; } = default!;
-    public DateTime Created { get; init; } = default!;
     public string Blob { get; init; } = default!;
     public bool IsChangeRequest { get; init; } = default!;
     public DateTime StartDate { get; init; } = default!;

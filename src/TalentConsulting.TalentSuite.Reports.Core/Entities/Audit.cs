@@ -15,7 +15,6 @@ public class Audit : EntityBase<string>, IAggregateRoot
         UserId = userid;
     }
 
-    public string Id { get; init; } = default!;
     public DateTime CreatedDate { get; init; } = default!;
     public string Detail { get; init; } = default!;
     public string UserId { get; init; } = default!;

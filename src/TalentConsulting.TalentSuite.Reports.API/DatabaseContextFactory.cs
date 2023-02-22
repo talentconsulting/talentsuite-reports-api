@@ -5,7 +5,7 @@ using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Intercepto
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Service;
 
-namespace FamilyHubs.ReferralApi.Api;
+namespace TalentConsulting.TalentSuite.Reports.API;
 
 public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
@@ -28,18 +28,18 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
 
             case "UseSqlServerDatabase":
                 {
-                    var connectionString = configuration.GetConnectionString("ReferralConnection");
+                    var connectionString = configuration.GetConnectionString("DefaultConnection");
                     if (connectionString != null)
-                        builder.UseSqlServer(connectionString, b => b.MigrationsAssembly("FamilyHubs.ReferralApi.Api"));
+                        builder.UseSqlServer(connectionString, b => b.MigrationsAssembly("TalentConsulting.TalentSuite.Reports.API"));
 
                 }
                 break;
 
             case "UsePostgresDatabase":
                 {
-                    var connectionString = configuration.GetConnectionString("ReferralConnection");
+                    var connectionString = configuration.GetConnectionString("DefaultConnection");
                     if (connectionString != null)
-                        builder.UseNpgsql(connectionString, b => b.MigrationsAssembly("FamilyHubs.ReferralApi.Api"));
+                        builder.UseNpgsql(connectionString, b => b.MigrationsAssembly("TalentConsulting.TalentSuite.Reports.API"));
 
                 }
                 break;

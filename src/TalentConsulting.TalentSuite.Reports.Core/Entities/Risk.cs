@@ -16,7 +16,6 @@ public class Risk : EntityBase<string>, IAggregateRoot
         RagStatus = ragstatus;
     }
 
-    public string Id { get; init; } = default!;
     public int ReportId { get; init; } = default!;
     public string RiskDetails { get; init; } = default!;
     public string RiskMitigation { get; init; } = default!;

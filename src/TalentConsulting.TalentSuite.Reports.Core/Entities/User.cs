@@ -17,7 +17,6 @@ public class User : EntityBase<string>, IAggregateRoot
         UserGroupId = usergroupid;
     }
 
-    public string Id { get; init; } = default!;
     public string Firstname { get; init; } = default!;
     public string Lastname { get; init; } = default!;
     public string Email { get; init; } = default!;

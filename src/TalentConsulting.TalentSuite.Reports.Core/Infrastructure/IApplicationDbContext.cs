@@ -5,6 +5,18 @@ namespace TalentConsulting.TalentSuite.Reports.Core.Infrastructure;
 
 public interface IApplicationDbContext
 {
-    DbSet<Project> Projects { get; }
+    public DbSet<Audit> Audits { get; }
+    public DbSet<Client> Clients { get; }
+    public DbSet<ClientProject> ClientProjects { get; }
+    public DbSet<Contact> Contacts { get; }
+    public DbSet<Notification> Notifications { get; }
+    public DbSet<Project> Projects { get; }
+    public DbSet<Recipient> Recipients { get; }
+    public DbSet<Report> Reports { get; }
+    public DbSet<Risk> Risks { get; }
+    public DbSet<Sow> Sows { get; }
+    public DbSet<User> Users { get; }
+    public DbSet<UserGroup> UserGroups { get; }
+    public DbSet<UserProjectRole> UserProjectRoles { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

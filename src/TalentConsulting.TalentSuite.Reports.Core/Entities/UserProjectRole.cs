@@ -14,7 +14,6 @@ public class UserProjectRole : EntityBase<string>, IAggregateRoot
         ProjectId = projectid;
     }
 
-    public string Id { get; init; } = default!;
     public string UserId { get; init; } = default!;
     public string ProjectId { get; init; } = default!;
 

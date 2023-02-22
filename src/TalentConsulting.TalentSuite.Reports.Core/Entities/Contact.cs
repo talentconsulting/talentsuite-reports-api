@@ -16,7 +16,6 @@ public class Contact : EntityBase<string>, IAggregateRoot
         ProjectId = startdate;
     }
 
-    public string Id { get; init; } = default!;
     public string Firstname { get; init; } = default!;
     public string Email { get; init; } = default!;
     public bool ReceivesReport { get; init; } = default!;
