@@ -7,7 +7,11 @@ public class Project : EntityBase<string>, IAggregateRoot
 {
     private Project() { }
 
-    public Project(string id, string contractNumber, string name, string reference, DateTime startDate, DateTime endDate)
+    public Project(string id, string contractNumber, string name, string reference, DateTime startDate, DateTime endDate,
+        ICollection<ClientProject> ClientProjects,
+        ICollection<Contact> Contacts,
+        ICollection<Report> Reports,
+        ICollection<Sow> Sows)
     {
         Id = id;
         ContractNumber = contractNumber;

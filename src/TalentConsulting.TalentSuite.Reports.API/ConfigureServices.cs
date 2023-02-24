@@ -17,6 +17,7 @@ public static class ConfigureServices
 
         var config = new MapperConfiguration(cfg =>
         {
+            cfg.ShouldMapMethod = (m => false);
             cfg.AddProfile(new AutoMappingProfiles());
         });
 

@@ -3,20 +3,22 @@ using Serilog;
 
 namespace TalentConsulting.TalentSuite.Reports.API;
 
-public static class Program
+public class Program
 {
     public static IServiceProvider ServiceProvider { get; private set; } = default!;
 
     public static async Task Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .CreateBootstrapLogger();
-
-        Log.Information("Starting up");
+        
 
         try
         {
+            Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateBootstrapLogger();
+
+            Log.Information("Starting up");
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.ConfigureHost();
