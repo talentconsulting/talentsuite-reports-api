@@ -41,7 +41,7 @@ public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand,
 
         try
         {
-            entity.ClId = request.ProjectDto.ClId;
+            entity.ContractNumber = request.ProjectDto.ContractNumber;
             entity.Name = request.ProjectDto.Name;
             entity.Reference = request.ProjectDto.Reference;
             entity.StartDate = request.ProjectDto.StartDate;

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
 using System.Text;
 using TalentConsulting.TalentSuite.Reports.API.Endpoints;
-using Microsoft.ApplicationInsights.Extensibility;
 using TalentConsulting.TalentSuite.Reports.Infrastructure;
+using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 
 namespace TalentConsulting.TalentSuite.Reports.API;
 
@@ -83,26 +84,12 @@ public static class StartupExtensions
 
         services.AddTransient<MinimalGeneralEndPoints>();
         services.AddTransient<MinimalProjectEndPoints>();
+        services.AddTransient<ApplicationDbContextInitialiser>();
 
         services.AddSwaggerGen();
-
-        if (!configuration.GetValue<bool>("UseRabbitMQ")) return;
-
-        //var rabbitMqSettings = configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
-        //services.AddMassTransit(mt =>
-        //    mt.UsingRabbitMq((_, cfg) =>
-        //    {
-        //        cfg.Host(rabbitMqSettings.Uri, "/", c =>
-        //        {
-        //            c.Username(rabbitMqSettings.UserName);
-        //            c.Password(rabbitMqSettings.Password);
-        //        });
-
-        //        cfg.ReceiveEndpoint("projectqueue", (c) => { c.Consumer<CommandMessageConsumer>(); });
-        //    }));
     }
 
-    public static IServiceProvider ConfigureWebApplication(this WebApplication app)
+    public static async Task<IServiceProvider> ConfigureWebApplication(this WebApplication app)
     {
         app.UseSerilogRequestLogging();
 
@@ -120,13 +107,13 @@ public static class StartupExtensions
 
         app.MapControllers();
 
-        app.RegisterEndPoints();
+        await app.RegisterEndPoints();
 
         return app.Services;
     }
 
     //private static async Task RegisterEndPoints(this WebApplication app)
-    private static void RegisterEndPoints(this WebApplication app)
+    private static async Task RegisterEndPoints(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
 
@@ -138,13 +125,13 @@ public static class StartupExtensions
 
         try
         {
-            //if (!app.Environment.IsProduction())
-            //{
-            //    // Seed Database
-            //    var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-            //    await initialiser.InitialiseAsync(app.Configuration);
-            //    await initialiser.SeedAsync();
-            //}
+            if (!app.Environment.IsProduction())
+            {
+                // Seed Database
+                var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+                await initialiser.InitialiseAsync(app.Environment.IsProduction());
+                await initialiser.SeedAsync();
+            }
         }
         catch (Exception ex)
         {

@@ -10,7 +10,7 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     {
         builder.Property(t => t.Id)
             .IsRequired();
-        builder.Property(t => t.ClId)
+        builder.Property(t => t.ContractNumber)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();

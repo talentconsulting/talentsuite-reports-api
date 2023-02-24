@@ -6,7 +6,7 @@ public record NotificationDto
 {
     private NotificationDto() { }
 
-    public NotificationDto(string id, DateTime created, String content, DateTime nextretrydate, string title, int status)
+    public NotificationDto(string id, DateTime created, String content, DateTime nextretrydate, string title, string status, ICollection<RecipientDto> recipients)
     {
         Id = id;
         Created = created;
@@ -14,6 +14,7 @@ public record NotificationDto
         Content = content;
         Title = title;
         Status = status;
+        Recipients = recipients;
     }
 
     public string Id { get; init; } = default!;
@@ -21,6 +22,7 @@ public record NotificationDto
     public DateTime NextRetryDate { get; init; } = default!;
     public string Content { get; init; } = default!;
     public string Title { get; init; } = default!;
-    public int Status { get; init; } = default!;
+    public string Status { get; init; } = default!;
+    public ICollection<RecipientDto> Recipients { get; } = new List<RecipientDto>();
 }
 

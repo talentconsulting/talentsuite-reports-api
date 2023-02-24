@@ -13,7 +13,8 @@ public class UserGroup : EntityBase<string>, IAggregateRoot
         Name = name;
         ReceivesReports = receivesreports;
     }
-    public string Name { get; init; } = default!;
-    public bool ReceivesReports { get; init; } = default!;
+    public string Name { get; init; } = null!;
+    public bool? ReceivesReports { get; init; } = null!;
+    public virtual ICollection<User> Users { get; } = new List<User>();
 
 }

@@ -6,10 +6,9 @@ public class Report : EntityBase<string>, IAggregateRoot
 {
     private Report() { }
 
-    public Report(string id, DateTime created, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, int projectid, string userid)
+    public Report(string id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectid, string userid)
     {
         Id = id;
-        Created = created;
         PlannedTasks = plannedtasks;
         CompletedTasks = completedtasks;
         Weeknumber = weeknumber;
@@ -22,7 +21,13 @@ public class Report : EntityBase<string>, IAggregateRoot
     public string CompletedTasks { get; init; } = default!;
     public int Weeknumber { get; init; } = default!;
     public DateTime SubmissionDate { get; init; } = default!;
-    public int ProjectId { get; init; } = default!;
-    public string UserId { get; init; } = default!;
+    public string ProjectId { get; init; } = default!;
+    public string UserId { get; init; } = default!;    
+    public virtual ICollection<Risk> Risks { get; } = new List<Risk>();
+
+#if ADD_ENTITY_NAV
+    public virtual Project Project { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
+#endif
 
 }
