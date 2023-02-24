@@ -6,7 +6,7 @@ public class Report : EntityBase<string>, IAggregateRoot
 {
     private Report() { }
 
-    public Report(string id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectid, string userid)
+    public Report(string id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectid, string userid, ICollection<Risk> risks)
     {
         Id = id;
         PlannedTasks = plannedtasks;
@@ -15,6 +15,7 @@ public class Report : EntityBase<string>, IAggregateRoot
         SubmissionDate = submissiondate;
         ProjectId = projectid;
         UserId = userid;
+        Risks = risks;
     }
 
     public string PlannedTasks { get; init; } = default!;

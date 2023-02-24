@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Threading;
 using TalentConsulting.TalentSuite.Reports.API.Commands.CreateProject;
 using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateProject;
 using TalentConsulting.TalentSuite.Reports.API.Queries.GetProjects;
