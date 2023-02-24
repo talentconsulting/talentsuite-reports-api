@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
+using TalentConsulting.TalentSuite.Reports.Core.Helpers;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 
 namespace TalentConsulting.TalentSuite.Reports.API.Queries.GetProjects;
@@ -39,14 +40,7 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
             throw new NotFoundException(nameof(Project), "Projects");
         }
 
-        var filteredProjects = await entities.Select(x => new ProjectDto(
-            x.Id,
-            x.ClId,
-            x.Name,
-            x.Reference,
-            x.StartDate,
-            x.EndDate
-            )).ToListAsync();
+        var filteredProjects = await entities.Select(x => EntityToDtoHelper.ProjectDtoToProjectDto(x)).ToListAsync();
 
         if (request != null)
         {

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
+using TalentConsulting.TalentSuite.Reports.Core.Helpers;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 
 namespace TalentConsulting.TalentSuite.Reports.API.Queries.GetProjects;
@@ -36,13 +37,7 @@ public class GetProjectByIdCommandHandler : IRequestHandler<GetProjectByIdComman
             throw new NotFoundException(nameof(Project), request.Id);
         }
 
-        var result = new ProjectDto(
-            id: entity.Id,
-           clId: entity.ClId,
-           name: entity.Name,
-           reference: entity.Reference,
-           startDate: entity.StartDate,
-           endDate: entity.EndDate);
+        var result = EntityToDtoHelper.ProjectDtoToProjectDto(entity);
 
         return result;
     }

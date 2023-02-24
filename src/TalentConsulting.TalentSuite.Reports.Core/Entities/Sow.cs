@@ -6,20 +6,24 @@ public class Sow : EntityBase<string>, IAggregateRoot
 {
     private Sow() { }
 
-    public Sow(string id, DateTime created, string blob, bool ischangerequest, DateTime startdate, DateTime enddate, int projectid)
+    public Sow(string id, DateTime created, byte[] file, bool ischangerequest, DateTime sowstartdate, DateTime sowenddate, string projectid)
     {
         Id = id;
         Created = created;
-        Blob = blob;
+        File = file;
         IsChangeRequest = ischangerequest;
-        StartDate = startdate;
-        EndDate = enddate;
+        SowStartDate = sowstartdate;
+        SowEndDate = sowenddate;
         ProjectId = projectid;
     }
 
-    public string Blob { get; init; } = default!;
-    public bool IsChangeRequest { get; init; } = default!;
-    public DateTime StartDate { get; init; } = default!;
-    public DateTime EndDate { get; init; } = default!;
-    public int ProjectId { get; init; } = default!;
+    public byte[] File { get; init; } = null!;
+    public bool IsChangeRequest { get; init; }
+    public DateTime SowStartDate { get; init; }
+    public DateTime SowEndDate { get; init; }
+    public string ProjectId { get; init; } = null!;
+#if ADD_ENTITY_NAV
+    public virtual Project Project { get; set; } = null!;
+#endif
+
 }

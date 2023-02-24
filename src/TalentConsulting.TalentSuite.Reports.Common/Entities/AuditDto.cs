@@ -7,13 +7,13 @@ public record AuditDto
     public AuditDto(string id, DateTime created, string detail, string userid)
     {
         Id = id;
-        CreatedDate = created;
+        Created = created;
         Detail = detail;
         UserId = userid;
     }
 
     public string Id { get; init; } = default!;
-    public DateTime CreatedDate { get; init; } = default!;
+    public DateTime Created { get; init; } = default!;
     public string Detail { get; init; } = default!;
     public string UserId { get; init; } = default!;
 }

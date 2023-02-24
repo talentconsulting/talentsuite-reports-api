@@ -4,7 +4,7 @@ public record ReportDto
 {
     private ReportDto() { }
 
-    public ReportDto(string id, DateTime created, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, int projectid, string userid)
+    public ReportDto(string id, DateTime created, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectId, string userId)
     {
         Id = id;
         Created = created;
@@ -12,8 +12,8 @@ public record ReportDto
         CompletedTasks = completedtasks;
         Weeknumber = weeknumber;
         SubmissionDate = submissiondate;
-        ProjectId = projectid;
-        UserId = userid;
+        ProjectId = projectId;
+        UserId = userId;
     }
 
     public string Id { get; init; } = default!;
@@ -22,7 +22,14 @@ public record ReportDto
     public string CompletedTasks { get; init; } = default!;
     public int Weeknumber { get; init; } = default!;
     public DateTime SubmissionDate { get; init; } = default!;
-    public int ProjectId { get; init; } = default!;
+    public string ProjectId { get; init; } = default!;
+    //public ProjectDto Project { get; set; } = null!;
     public string UserId { get; init; } = default!;
+    //public UserDto User { get; set; } = null!;
+    public virtual ICollection<RiskDto> Risks { get; } = new List<RiskDto>();
+
+#if ADD_ENTITY_NAV
+    
+#endif
 
 }

@@ -11,6 +11,7 @@ public interface IApplicationDbContext
     public DbSet<Contact> Contacts { get; }
     public DbSet<Notification> Notifications { get; }
     public DbSet<Project> Projects { get; }
+    DbSet<ProjectRole> ProjectRoles { get; }
     public DbSet<Recipient> Recipients { get; }
     public DbSet<Report> Reports { get; }
     public DbSet<Risk> Risks { get; }

@@ -6,22 +6,27 @@ public record SowDto
 {
     private SowDto() { }
 
-    public SowDto(string id, DateTime created, string blob, bool ischangerequest, DateTime startdate, DateTime enddate, int projectid)
+    public SowDto(string id, DateTime created, byte[] file, bool ischangerequest, DateTime startdate, DateTime enddate, string projectId)
     {
         Id = id;
         Created = created;
-        Blob = blob;
+        File = file;
         IsChangeRequest = ischangerequest;
         StartDate = startdate;
         EndDate = enddate;
-        ProjectId = projectid;
+        ProjectId = projectId;
     }
 
     public string Id { get; init; } = default!;
     public DateTime Created { get; init; } = default!;
-    public string Blob { get; init; } = default!;
+    public byte[] File { get; init; } = default!;
     public bool IsChangeRequest { get; init; } = default!;
     public DateTime StartDate { get; init; } = default!;
     public DateTime EndDate { get; init; } = default!;
-    public int ProjectId { get; init; } = default!;
+    public string ProjectId { get; init; } = default!;
+
+#if ADD_ENTITY_NAV
+    public ProjectDto Project { get; set; } = default!;
+#endif
+
 }

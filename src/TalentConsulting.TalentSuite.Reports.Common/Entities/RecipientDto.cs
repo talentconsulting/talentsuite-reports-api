@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using MediatR;
+using System.Globalization;
 
 namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
 
@@ -6,17 +7,19 @@ public record RecipientDto
 {
     private RecipientDto() { }
 
-    public RecipientDto(string id, string name, string email, int notificationid)
+    public RecipientDto(string id, string name, string email, string notificationId)
     {
         Id = id;
         Name = name;
         Email = email;
-        Notificationid = notificationid;
+        Notificationid = notificationId;
     }
 
     public string Id { get; init; } = default!;
     public string Name { get; init; } = default!;
     public string Email { get; init; } = default!;
-    public int Notificationid { get; init; } = default!;
-
+    public string Notificationid { get; init; } = default!;
+#if ADD_ENTITY_NAV
+    public NotificationDto Notification { get; set; } = null!;
+#endif
 }

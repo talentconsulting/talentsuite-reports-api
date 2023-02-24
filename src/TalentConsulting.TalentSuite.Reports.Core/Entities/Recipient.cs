@@ -6,7 +6,7 @@ public class Recipient : EntityBase<string>, IAggregateRoot
 {
     private Recipient() { }
 
-    public Recipient(string id, string name, string email, int notificationid)
+    public Recipient(string id, string name, string email, string notificationid)
     {
         Id = id;
         Name = name;
@@ -14,8 +14,12 @@ public class Recipient : EntityBase<string>, IAggregateRoot
         Notificationid = notificationid;
     }
 
-    public string Name { get; set; } = default!;
-    public string Email { get; set; } = default!;
-    public int Notificationid { get; set; } = default!;
+    public string Name { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string Notificationid { get; set; } = null!;
+#if ADD_ENTITY_NAV
+    public virtual Notification Notification { get; set; } = null!;
+#endif
+
 
 }

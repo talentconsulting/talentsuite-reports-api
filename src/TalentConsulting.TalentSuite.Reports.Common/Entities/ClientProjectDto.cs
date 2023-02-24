@@ -4,14 +4,18 @@ public record ClientProjectDto
 {
     private ClientProjectDto() { }
 
-    public ClientProjectDto(string id, int clientid, int projectid, string contactemail)
+    public ClientProjectDto(string id, string clientId, string projectId)
     {
         Id = id;
-        ClientId = clientid;
-        ProjectId = projectid;
+        ClientId = clientId;
+        ProjectId = projectId;
     }
 
     public string Id { get; init; } = default!;
-    public int ClientId { get; init; } = default!;
-    public int ProjectId { get; init; } = default!;
+    public string ClientId { get; init; } = default!;
+    public string ProjectId { get; init; } = default!;
+#if ADD_ENTITY_NAV
+    public virtual ClientDto Client { get; set; } = default!;
+    public virtual ProjectDto Project { get; set; } = default!;
+#endif
 }

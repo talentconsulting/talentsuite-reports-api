@@ -7,14 +7,21 @@ public class UserProjectRole : EntityBase<string>, IAggregateRoot
 {
     private UserProjectRole() { }
 
-    public UserProjectRole(string id, string userid, string projectid)
+    public UserProjectRole(string id, string userid, string projectid, bool recievesreports)
     {
         Id = id;
         UserId = userid;
         ProjectId = projectid;
+        Recievesreports = recievesreports;
     }
 
-    public string UserId { get; init; } = default!;
-    public string ProjectId { get; init; } = default!;
+    public string UserId { get; init; } = null!;
+    public string ProjectId { get; init; } = null!;
+    public bool Recievesreports { get; set; }
 
+#if ADD_ENTITY_NAV
+    public virtual Project Project { get; set; } = null!;
+    public virtual ProjectRole Projectrole { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
+#endif
 }

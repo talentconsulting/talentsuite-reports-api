@@ -19,8 +19,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         (
             DbContextOptions<ApplicationDbContext> options,
             IDomainEventDispatcher dispatcher,
-            AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
-            IConfiguration configuration
+            AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor
+            //IConfiguration configuration
         )
         : base(options)
     {
@@ -77,6 +77,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<Project> Projects => Set<Project>();
+    public DbSet<ProjectRole> ProjectRoles => Set<ProjectRole>();
     public DbSet<Recipient> Recipients => Set<Recipient>();
     public DbSet<Report> Reports => Set<Report>();
     public DbSet<Risk> Risks => Set<Risk>();

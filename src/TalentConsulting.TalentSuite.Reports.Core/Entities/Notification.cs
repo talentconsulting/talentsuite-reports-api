@@ -7,19 +7,19 @@ public class Notification : EntityBase<string>, IAggregateRoot
 {
     private Notification() { }
 
-    public Notification(string id, DateTime created, String content, DateTime nextretrydate, string title, int status)
+    public Notification(string id, string content, DateTime nextretrydate, string title, string status)
     {
         Id = id;
-        Created = created;
         NextRetryDate = nextretrydate;
         Content = content;
         Title = title;
         Status = status;
     }
 
-    public DateTime NextRetryDate { get; init; } = default!;
-    public string Content { get; init; } = default!;
-    public string Title { get; init; } = default!;
-    public int Status { get; init; } = default!;
+    public DateTime? NextRetryDate { get; init; } = null!;
+    public string Content { get; init; } = null!;
+    public string Title { get; init; } = null!;
+    public string Status { get; init; } = null!;
+    public virtual ICollection<Recipient> Recipients { get; } = new List<Recipient>();
 }
 

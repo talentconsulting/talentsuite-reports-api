@@ -6,14 +6,15 @@ public class Client : EntityBase<string>, IAggregateRoot
 {
     private Client() { }
 
-    public Client(string id, string fullname, string contactname, string contactemail)
+    public Client(string id, string name, string contactname, string contactemail)
     {
         Id = id;
-        FullName = fullname;
+        Name = name;
         ContactName = contactname;
         ContactEmail = contactemail;
     }
-    public string FullName { get; init; } = default!;
-    public string ContactName { get; init; } = default!;
-    public string ContactEmail { get; init; } = default!;
+    public string Name { get; init; } = null!;
+    public string ContactName { get; init; } = null!;
+    public string ContactEmail { get; init; } = null!;
+    public virtual ICollection<ClientProject> ClientProjects { get; } = new List<ClientProject>();
 }

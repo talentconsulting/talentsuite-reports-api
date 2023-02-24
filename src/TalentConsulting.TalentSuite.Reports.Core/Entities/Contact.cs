@@ -7,18 +7,22 @@ public class Contact : EntityBase<string>, IAggregateRoot
 {
     private Contact() { }
 
-    public Contact(string id, string firstname, string email, bool receivesreport, int startdate)
+    public Contact(string id, string firstname, string email, bool receivesreport, string projectId)
     {
         Id = id;
         Firstname = firstname;
         Email = email;
         ReceivesReport = receivesreport;
-        ProjectId = startdate;
+        ProjectId = projectId;
     }
 
     public string Firstname { get; init; } = default!;
     public string Email { get; init; } = default!;
     public bool ReceivesReport { get; init; } = default!;
-    public int ProjectId { get; init; } = default!;
+    public string ProjectId { get; init; } = default!;
+#if ADD_ENTITY_NAV
+    public virtual Project Project { get; set; } = null!;
+#endif
+
 }
 

@@ -7,11 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4A31CEF8-61D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.Reports.API", "src\TalentConsulting.TalentSuite.Reports.API\TalentConsulting.TalentSuite.Reports.API.csproj", "{A7C7229C-F5B6-4C68-AA17-FEAAB5A5BD39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentConsulting.TalentSuite.Reports.Common", "src\TalentConsulting.TalentSuite.Reports.Common\TalentConsulting.TalentSuite.Reports.Common.csproj", "{FB1CC00F-31FA-4BC8-9EF4-7DE47BB6F323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.Reports.Common", "src\TalentConsulting.TalentSuite.Reports.Common\TalentConsulting.TalentSuite.Reports.Common.csproj", "{FB1CC00F-31FA-4BC8-9EF4-7DE47BB6F323}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.Reports.Core", "src\TalentConsulting.TalentSuite.Reports.Core\TalentConsulting.TalentSuite.Reports.Core.csproj", "{1651F8C7-8DDC-43E4-A5E0-A09960EC194D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.Reports.Infrastructure", "src\TalentConsulting.TalentSuite.Reports.Infrastructure\TalentConsulting.TalentSuite.Reports.Infrastructure.csproj", "{CB081750-7264-48BC-BCC3-308EC4628D1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9F1F1892-372C-41D4-A4A2-714788169A4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentConsulting.TalentSuite.Reports.FunctionalTests", "tests\TalentConsulting.TalentSuite.Reports.FunctionalTests\TalentConsulting.TalentSuite.Reports.FunctionalTests.csproj", "{DB55C902-6698-403F-AB31-A15E2412569F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.Reports.UnitTests", "tests\TalentConsulting.TalentSuite.Reports.UnitTests\TalentConsulting.TalentSuite.Reports.UnitTests.csproj", "{B69F190B-3F4D-495F-BB7F-3A52A8B4865E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +41,14 @@ Global
 		{CB081750-7264-48BC-BCC3-308EC4628D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB081750-7264-48BC-BCC3-308EC4628D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB081750-7264-48BC-BCC3-308EC4628D1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB55C902-6698-403F-AB31-A15E2412569F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB55C902-6698-403F-AB31-A15E2412569F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB55C902-6698-403F-AB31-A15E2412569F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB55C902-6698-403F-AB31-A15E2412569F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69F190B-3F4D-495F-BB7F-3A52A8B4865E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69F190B-3F4D-495F-BB7F-3A52A8B4865E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69F190B-3F4D-495F-BB7F-3A52A8B4865E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69F190B-3F4D-495F-BB7F-3A52A8B4865E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +58,8 @@ Global
 		{FB1CC00F-31FA-4BC8-9EF4-7DE47BB6F323} = {4A31CEF8-61D0-46C0-8CBE-1DC8C0FD17F5}
 		{1651F8C7-8DDC-43E4-A5E0-A09960EC194D} = {4A31CEF8-61D0-46C0-8CBE-1DC8C0FD17F5}
 		{CB081750-7264-48BC-BCC3-308EC4628D1D} = {4A31CEF8-61D0-46C0-8CBE-1DC8C0FD17F5}
+		{DB55C902-6698-403F-AB31-A15E2412569F} = {9F1F1892-372C-41D4-A4A2-714788169A4F}
+		{B69F190B-3F4D-495F-BB7F-3A52A8B4865E} = {9F1F1892-372C-41D4-A4A2-714788169A4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7CDE7C1-D84D-46DE-B86F-42011B7E2C0F}
