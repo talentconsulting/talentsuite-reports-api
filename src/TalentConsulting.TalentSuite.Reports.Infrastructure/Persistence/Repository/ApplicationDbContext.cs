@@ -19,8 +19,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         (
             DbContextOptions<ApplicationDbContext> options,
             IDomainEventDispatcher dispatcher,
-            AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
-            IConfiguration configuration
+            AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor
+            //IConfiguration configuration
         )
         : base(options)
     {

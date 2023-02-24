@@ -14,7 +14,7 @@ public class CreateProjectCommandValidator : AbstractValidator<CreateProjectComm
             .NotNull()
             .NotEmpty();
 
-        RuleFor(v => v.ProjectDto.ContractNumber)
+        RuleFor(v => v.ProjectDto.ContactNumber)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();

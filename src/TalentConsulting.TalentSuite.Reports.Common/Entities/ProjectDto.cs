@@ -4,14 +4,14 @@ public record ProjectDto
 {
     private ProjectDto() { }
 
-    public ProjectDto(string id, string contractNumber, string name, string reference, DateTime startDate, DateTime endDate, 
+    public ProjectDto(string id, string contactNumber, string name, string reference, DateTime startDate, DateTime endDate, 
         ICollection<ClientProjectDto> clientProjects,
         ICollection<ContactDto> contacts,
         ICollection<ReportDto> reports,
         ICollection<SowDto> sows)
     {
         Id = id;
-        ContractNumber = contractNumber;
+        ContactNumber = contactNumber;
         Name = name;
         Reference = reference;
         StartDate = startDate;
@@ -22,7 +22,7 @@ public record ProjectDto
     }
 
     public string Id { get; init; } = default!;
-    public string ContractNumber { get; init; } = default!;
+    public string ContactNumber { get; init; } = default!;
     public string Name { get; init; } = default!;
     public string Reference { get; init; } = default!;
     public DateTime StartDate { get; init; } = default!;
