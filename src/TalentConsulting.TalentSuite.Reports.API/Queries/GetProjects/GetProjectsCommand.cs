@@ -32,8 +32,12 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
     }
     public async Task<PaginatedList<ProjectDto>> Handle(GetProjectsCommand request, CancellationToken cancellationToken)
     {
-        var entities = _context.Projects;
-            
+        var entities = _context.Projects
+            .Include(x => x.ClientProjects)
+            .Include(x => x.Contacts)
+            .Include(x => x.Reports)
+            .ThenInclude(x => x.Risks)
+            .Include(x => x.Sows);
 
         if (entities == null)
         {

@@ -69,7 +69,7 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
 
         // Act
         //Assert
-        await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, CancellationToken.None));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => handler.Handle(command, CancellationToken.None));
     }
 
     [Fact]
@@ -115,7 +115,7 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
 
         // Act
         //Assert
-        await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, CancellationToken.None));
+        await Assert.ThrowsAsync<NullReferenceException>(() => handler.Handle(command, CancellationToken.None));
 
     }
 

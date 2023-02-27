@@ -30,6 +30,11 @@ public class GetProjectByIdCommandHandler : IRequestHandler<GetProjectByIdComman
     public async Task<ProjectDto> Handle(GetProjectByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Projects
+            .Include(x => x.ClientProjects)
+            .Include(x => x.Contacts)
+            .Include(x => x.Reports)
+            .ThenInclude(x => x.Risks)
+            .Include(x => x.Sows)
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)

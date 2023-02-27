@@ -17,11 +17,11 @@ public class Sow : EntityBase<string>, IAggregateRoot
         ProjectId = projectid;
     }
 
-    public byte[] File { get; init; } = null!;
-    public bool IsChangeRequest { get; init; }
-    public DateTime SowStartDate { get; init; }
-    public DateTime SowEndDate { get; init; }
-    public string ProjectId { get; init; } = null!;
+    public byte[] File { get; set; } = null!;
+    public bool IsChangeRequest { get; set; }
+    public DateTime SowStartDate { get; set; }
+    public DateTime SowEndDate { get; set; }
+    public string ProjectId { get; set; } = null!;
 #if ADD_ENTITY_NAV
     public virtual Project Project { get; set; } = null!;
 #endif

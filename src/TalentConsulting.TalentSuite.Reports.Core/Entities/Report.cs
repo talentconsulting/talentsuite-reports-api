@@ -1,4 +1,5 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.Collections.ObjectModel;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
@@ -18,13 +19,13 @@ public class Report : EntityBase<string>, IAggregateRoot
         Risks = risks;
     }
 
-    public string PlannedTasks { get; init; } = default!;
-    public string CompletedTasks { get; init; } = default!;
-    public int Weeknumber { get; init; } = default!;
-    public DateTime SubmissionDate { get; init; } = default!;
-    public string ProjectId { get; init; } = default!;
-    public string UserId { get; init; } = default!;    
-    public virtual ICollection<Risk> Risks { get; } = new List<Risk>();
+    public string PlannedTasks { get; set; } = default!;
+    public string CompletedTasks { get; set; } = default!;
+    public int Weeknumber { get; set; } = default!;
+    public DateTime SubmissionDate { get; set; } = default!;
+    public string ProjectId { get; set; } = default!;
+    public string UserId { get; set; } = default!;    
+    public virtual ICollection<Risk> Risks { get; set;  } = new Collection<Risk>();
 
 #if ADD_ENTITY_NAV
     public virtual Project Project { get; set; } = null!;
