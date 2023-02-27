@@ -11,14 +11,24 @@ public static class EntityToDtoHelper
         return new ProjectDto(
              id: entity.Id,
           contactNumber: entity.ContactNumber,
-        name: entity.Name,
+          name: entity.Name,
           reference: entity.Reference,
           startDate: entity.StartDate,
           endDate: entity.EndDate,
           clientProjects: entity.ClientProjects.Select(clientProject => new ClientProjectDto(clientProject.Id, clientProject.ClientId, clientProject.ProjectId)).ToList(),
           contacts: entity.Contacts.Select(contact => new ContactDto(contact.Id, contact.Firstname, contact.Email, contact.ReceivesReport, contact.ProjectId)).ToList(),
-          reports: entity.Reports.Select(report => new ReportDto(report.Id, (report.Created != null) ? report.Created.Value : DateTime.UtcNow, report.PlannedTasks, report.CompletedTasks, report.Weeknumber, report.SubmissionDate, report.ProjectId, report.UserId)).ToList(),
+          reports: entity.Reports.Select(report => new ReportDto(report.Id, (report.Created != null) ? report.Created.Value : DateTime.UtcNow, report.PlannedTasks, report.CompletedTasks, report.Weeknumber, report.SubmissionDate, report.ProjectId, report.UserId, AddRisks(report))).ToList(),
           sows: entity.Sows.Select(sow => new SowDto(sow.Id, (sow.Created != null) ? sow.Created.Value : DateTime.UtcNow, sow.File, sow.IsChangeRequest, sow.SowStartDate, sow.SowEndDate, sow.ProjectId)).ToList()
           );
+    }
+
+    public static ICollection<RiskDto> AddRisks(Report report)
+    {
+        var risks = new List<RiskDto>();
+        foreach (var risk in report.Risks) 
+        {
+            risks.Add(new RiskDto(risk.Id, risk.ReportId, risk.RiskDetails, risk.RiskMitigation, risk.RagStatus));
+        }
+        return risks;
     }
 }

@@ -112,6 +112,26 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         for (var i = 0; i < unSavedEntities.Count; i++)
         {
             var unSavedItem = unSavedEntities.ElementAt(i);
+            unSavedItem.Risks = AttachExistingRisks(unSavedItem.Risks);
+            var savedItem = existing.FirstOrDefault(x => x.Id == unSavedItem.Id);
+            returnList.Add(savedItem ?? unSavedItem);
+        }
+
+        return returnList;
+    }
+
+    private ICollection<Risk> AttachExistingRisks(ICollection<Risk>? unSavedEntities)
+    {
+        var returnList = new List<Risk>();
+
+        if (unSavedEntities is null || !unSavedEntities.Any())
+            return returnList;
+
+        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();
+
+        for (var i = 0; i < unSavedEntities.Count; i++)
+        {
+            var unSavedItem = unSavedEntities.ElementAt(i);
             var savedItem = existing.FirstOrDefault(x => x.Id == unSavedItem.Id);
             returnList.Add(savedItem ?? unSavedItem);
         }

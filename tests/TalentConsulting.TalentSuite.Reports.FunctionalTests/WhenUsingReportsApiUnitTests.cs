@@ -27,6 +27,8 @@ public class WhenUsingReportsApiUnitTests : BaseWhenUsingApiUnitTests
 
         response.EnsureSuccessStatusCode();
 
+        var r1 = await response.Content.ReadAsStringAsync();
+
         var retVal = await JsonSerializer.DeserializeAsync<PaginatedList<ReportDto>>(await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);

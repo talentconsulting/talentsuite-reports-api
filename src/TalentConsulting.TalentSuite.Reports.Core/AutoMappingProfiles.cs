@@ -9,6 +9,7 @@ public class AutoMappingProfiles : Profile
     public AutoMappingProfiles()
     {
         CreateMap<AuditDto, Audit>();
+        CreateMap<ContactDto, Contact>();
         CreateMap<ClientDto, Client>();
         CreateMap<ClientProjectDto, ClientProject>();
         CreateMap<ProjectDto, Project>();

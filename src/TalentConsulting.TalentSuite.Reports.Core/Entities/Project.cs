@@ -9,10 +9,10 @@ public class Project : EntityBase<string>, IAggregateRoot
     private Project() { }
 
     public Project(string id, string contactNumber, string name, string reference, DateTime startDate, DateTime endDate,
-        ICollection<ClientProject> ClientProjects,
-        ICollection<Contact> Contacts,
-        ICollection<Report> Reports,
-        ICollection<Sow> Sows)
+        ICollection<ClientProject> clientProjects,
+        ICollection<Contact> contacts,
+        ICollection<Report> reports,
+        ICollection<Sow> sows)
     {
         Id = id;
         ContactNumber = contactNumber;
@@ -20,6 +20,11 @@ public class Project : EntityBase<string>, IAggregateRoot
         Reference = reference;
         StartDate = startDate;
         EndDate = endDate;
+        ClientProjects = clientProjects;
+        Contacts = contacts;
+        Reports = reports;
+        Sows = sows;
+        
     }
 
     public string ContactNumber { get; set; } = null!;
