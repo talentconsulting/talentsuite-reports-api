@@ -25,5 +25,29 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(t => t.CreatedBy)
             .HasMaxLength(255)
             .IsRequired();
+
+        builder.HasMany(s => s.ClientProjects)
+            .WithOne()
+            .HasForeignKey(lc => lc.ProjectId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(s => s.Contacts)
+            .WithOne()
+            .HasForeignKey(lc => lc.ProjectId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(s => s.Reports)
+            .WithOne()
+            .HasForeignKey(lc => lc.ProjectId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(s => s.Sows)
+            .WithOne()
+            .HasForeignKey(lc => lc.ProjectId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
