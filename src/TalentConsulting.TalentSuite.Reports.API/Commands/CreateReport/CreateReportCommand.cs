@@ -20,12 +20,12 @@ public class CreateReportCommand : IRequest<string>, ICreateReportCommand
     public ReportDto ReportDto { get; }
 }
 
-public class CreateProjectCommandHandler : IRequestHandler<CreateReportCommand, string>
+public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, string>
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
-    private readonly ILogger<CreateProjectCommandHandler> _logger;
-    public CreateProjectCommandHandler(ApplicationDbContext context, IMapper mapper, ILogger<CreateProjectCommandHandler> logger)
+    private readonly ILogger<CreateReportCommandHandler> _logger;
+    public CreateReportCommandHandler(ApplicationDbContext context, IMapper mapper, ILogger<CreateReportCommandHandler> logger)
     {
         _logger = logger;
         _context = context;
