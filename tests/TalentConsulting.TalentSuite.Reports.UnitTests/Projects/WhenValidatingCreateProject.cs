@@ -4,14 +4,14 @@ using TalentConsulting.TalentSuite.Reports.Common.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.UnitTests.Projects;
 
-public class WhenValidatingCreateProject
+public class WhenValidatingCreateProject : BaseTestValidation
 {
     [Fact]
     public void ThenShouldNotErrorWhenModelIsValid()
     {
         //Arrange
         var validator = new CreateProjectCommandValidator();
-        var testModel = new CreateProjectCommand(new ProjectDto("a3226044-5c89-4257-8b07-f29745a22e2c", "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
+        var testModel = new CreateProjectCommand(new ProjectDto(_projectId, "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
             new List<ClientProjectDto>(),
             new List<ContactDto>(),
             new List<ReportDto>(),
@@ -24,12 +24,14 @@ public class WhenValidatingCreateProject
         result.Errors.Any().Should().BeFalse();
     }
 
-    [Fact]
-    public void ThenShouldErrorWhenModelHasNoId()
+    [Theory]
+    [InlineData(default!)]
+    [InlineData("")]
+    public void ThenShouldErrorWhenModelHasNoId(string id)
     {
         //Arrange
         var validator = new CreateProjectCommandValidator();
-        var testModel = new CreateProjectCommand(new ProjectDto("", "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
+        var testModel = new CreateProjectCommand(new ProjectDto(id, "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
             new List<ClientProjectDto>(),
             new List<ContactDto>(),
             new List<ReportDto>(),
@@ -47,7 +49,7 @@ public class WhenValidatingCreateProject
     {
         //Arrange
         var validator = new CreateProjectCommandValidator();
-        var testModel = new CreateProjectCommand(new ProjectDto("a3226044-5c89-4257-8b07-f29745a22e2c", "0121 111 2222", default!, "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
+        var testModel = new CreateProjectCommand(new ProjectDto(_projectId, "0121 111 2222", default!, "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
             new List<ClientProjectDto>(),
             new List<ContactDto>(),
             new List<ReportDto>(),
@@ -65,7 +67,7 @@ public class WhenValidatingCreateProject
     {
         //Arrange
         var validator = new CreateProjectCommandValidator();
-        var testModel = new CreateProjectCommand(new ProjectDto("a3226044-5c89-4257-8b07-f29745a22e2c", default!, "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
+        var testModel = new CreateProjectCommand(new ProjectDto(_projectId, default!, "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
             new List<ClientProjectDto>(),
             new List<ContactDto>(),
             new List<ReportDto>(),
@@ -82,7 +84,7 @@ public class WhenValidatingCreateProject
     {
         //Arrange
         var validator = new CreateProjectCommandValidator();
-        var testModel = new CreateProjectCommand(new ProjectDto("a3226044-5c89-4257-8b07-f29745a22e2c", "0121 111 2222", "Social work CPD", default!, new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
+        var testModel = new CreateProjectCommand(new ProjectDto(_projectId, "0121 111 2222", "Social work CPD", default!, new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
             new List<ClientProjectDto>(),
             new List<ContactDto>(),
             new List<ReportDto>(),

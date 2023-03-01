@@ -41,7 +41,7 @@ public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, Pagin
             throw new NotFoundException(nameof(Report), "Reports");
         }
 
-        var filteredReports = await entities.Select(x => new ReportDto(x.Id, (x.Created != null) ? x.Created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.AddRisks(x))).ToListAsync();
+        var filteredReports = await entities.Select(x => new ReportDto(x.Id, (x.Created != null) ? x.Created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
 
         if (request != null)
         {

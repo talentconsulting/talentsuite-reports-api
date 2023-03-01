@@ -12,19 +12,25 @@ namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Reposi
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
+#if USE_DISPATCHER
     private readonly IDomainEventDispatcher _dispatcher;
+#endif
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
 
     public ApplicationDbContext
         (
             DbContextOptions<ApplicationDbContext> options,
+#if USE_DISPATCHER
             IDomainEventDispatcher dispatcher,
+#endif
             AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor
             //IConfiguration configuration
         )
         : base(options)
     {
+#if USE_DISPATCHER
         _dispatcher = dispatcher;
+#endif
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
     }
 
@@ -45,6 +51,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
+#if USE_DISPATCHER
         // ignore events if no dispatcher provided
         var entitiesWithEvents = ChangeTracker
             .Entries()
@@ -55,19 +62,19 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
         if (entitiesWithEvents != null && entitiesWithEvents.Any())
-        {
-            //var entitiesWithEventsGuids = new List<EntityBase<Guid>>();
-            //foreach (var entityWithEvents in entitiesWithEvents)
-            //{
-            //    var t = entityWithEvents?.ToString();
-            //    entitiesWithEventsGuids.Add(Guid.Parse(t);
-            //}
+        
+            var entitiesWithEventsGuids = new List<EntityBase<Guid>>();
+            foreach (var entityWithEvents in entitiesWithEvents)
+            {
+                var t = entityWithEvents?.ToString();
+                entitiesWithEventsGuids.Add(Guid.Parse(t);
+            }
 
-            //await _dispatcher.DispatchAndClearEvents(entitiesWithEvents);
+            await _dispatcher.DispatchAndClearEvents(entitiesWithEvents);
         }
 
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
-
+#endif
         return result;
     }
 

@@ -1,59 +1,27 @@
 ﻿using Ardalis.GuardClauses;
-using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TalentConsulting.TalentSuite.Reports.API.Commands.CreateProject;
 using TalentConsulting.TalentSuite.Reports.API.Commands.CreateReport;
 using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateProject;
 using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateReport;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
-using TalentConsulting.TalentSuite.Reports.Core;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.UnitTests.Reports;
 
 public class WhenUsingReportCommands : BaseCreateDbUnitTest
 {
-    private IMapper _mapper { get; }
-
-    const string _projectId = "a3226044-5c89-4257-8b07-f29745a22e2c";
-    const string _reportId = "5698dbc0-a10c-43e5-9074-4ce6d6637778";
-    const string _userId = "ce6edc11-3477-4b88-946d-598d5a7aa68a";
-    const string _riskId = "41fef4ce-c85f-4273-8572-0222e471db63";
-
-    public WhenUsingReportCommands()
-    {
-        var myProfile = new AutoMappingProfiles();
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.ShouldMapMethod = (m => false);
-            cfg.AddProfile(myProfile);
-        });
-        _mapper = new Mapper(configuration);
-    }
 
     [Fact]
     public async Task ThenCreateReport()
     {
         //Arrange
-        var myProfile = new AutoMappingProfiles();
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.ShouldMapMethod = (m => false);
-            cfg.AddProfile(myProfile);
-        });
-        var mapper = new Mapper(configuration);
         var logger = new Mock<ILogger<CreateReportCommandHandler>>();
         var mockApplicationDbContext = GetApplicationDbContext();
         ReportDto testProject = GetTestReportDto();
         var command = new CreateReportCommand(testProject);
-        var handler = new CreateReportCommandHandler(mockApplicationDbContext, mapper, logger.Object);
+        var handler = new CreateReportCommandHandler(mockApplicationDbContext, _mapper, logger.Object);
 
         //Act
         var result = await handler.Handle(command, new CancellationToken());
@@ -67,16 +35,8 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
     public async Task ThenHandle_ShouldThrowArgumentNullException_WhenEntityIsNull()
     {
         // Arrange
-        var context = GetApplicationDbContext();
-        var myProfile = new AutoMappingProfiles();
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.ShouldMapMethod = (m => false);
-            cfg.AddProfile(myProfile);
-        });
-        var mapper = new Mapper(configuration);
         var logger = new Logger<CreateReportCommandHandler>(new LoggerFactory());
-        var handler = new CreateReportCommandHandler(context, mapper, logger);
+        var handler = new CreateReportCommandHandler(GetApplicationDbContext(), _mapper, logger);
         var command = new CreateReportCommand(default!);
 
         // Act
@@ -121,7 +81,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
         await dbContext.SaveChangesAsync();
         var logger = new Mock<ILogger<UpdateProjectCommandHandler>>();
         var handler = new UpdateProjectCommandHandler(dbContext, _mapper, logger.Object);
-        var command = new UpdateProjectCommand("a3226044-5c89-4257-8b07-f29745a22e2c", default!);
+        var command = new UpdateProjectCommand("someotherid", default!);
 
         // Act
         //Assert
@@ -137,7 +97,5 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
         };
 
         return new ReportDto(_reportId, DateTime.UtcNow.AddDays(-1), "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId, _userId, risks);
-
-       
     }
 }

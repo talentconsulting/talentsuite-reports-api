@@ -5,12 +5,8 @@ using TalentConsulting.TalentSuite.Reports.Common.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.UnitTests.Reports;
 
-public class WhenValidatingUpdateReport
+public class WhenValidatingUpdateReport : BaseTestValidation
 {
-    const string _projectId = "a3226044-5c89-4257-8b07-f29745a22e2c";
-    const string _reportId = "5698dbc0-a10c-43e5-9074-4ce6d6637778";
-    const string _userId = "ce6edc11-3477-4b88-946d-598d5a7aa68a";
-
     [Fact]
     public void ThenShouldNotErrorWhenModelIsValid()
     {
@@ -39,12 +35,14 @@ public class WhenValidatingUpdateReport
         result.Errors.Any(x => x.PropertyName == "ReportDto.Id").Should().BeTrue();
     }
 
-    [Fact]
-    public void ThenShouldErrorWhenModelHasNoId()
+    [Theory]
+    [InlineData(default!)]
+    [InlineData("")]
+    public void ThenShouldErrorWhenModelHasNoId(string id)
     {
         //Arrange
         var validator = new UpdateReportCommandValidator();
-        var testModel = new UpdateReportCommand(string.Empty, new ReportDto(_reportId, DateTime.UtcNow, "Planned tasks 1", "Completed tasks 1", 1, DateTime.UtcNow, _projectId, _userId, new List<RiskDto>()));
+        var testModel = new UpdateReportCommand(id, new ReportDto(_reportId, DateTime.UtcNow, "Planned tasks 1", "Completed tasks 1", 1, DateTime.UtcNow, _projectId, _userId, new List<RiskDto>()));
 
         //Act
         var result = validator.Validate(testModel);

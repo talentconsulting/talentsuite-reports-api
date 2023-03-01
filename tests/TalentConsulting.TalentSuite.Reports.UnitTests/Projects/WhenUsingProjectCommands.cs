@@ -1,5 +1,4 @@
 ﻿using Ardalis.GuardClauses;
-using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -7,30 +6,12 @@ using TalentConsulting.TalentSuite.Reports.API.Commands.CreateProject;
 using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateProject;
 using TalentConsulting.TalentSuite.Reports.API.Queries.GetProjects;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
-using TalentConsulting.TalentSuite.Reports.Core;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.UnitTests.Projects;
 
 public class WhenUsingProjectCommands : BaseCreateDbUnitTest
 {
-    private IMapper _mapper { get; }
-
-    const string _projectId = "a3226044-5c89-4257-8b07-f29745a22e2c";
-    const string _reportId = "5698dbc0-a10c-43e5-9074-4ce6d6637778";
-    const string _userId = "ce6edc11-3477-4b88-946d-598d5a7aa68a";
-    const string _clientId = "1e68f5cd-2347-4b09-820e-3297605e3743";
-    const string _riskId = "41fef4ce-c85f-4273-8572-0222e471db63";
-    public WhenUsingProjectCommands()
-    {
-        var myProfile = new AutoMappingProfiles();
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.ShouldMapMethod = (m => false);
-            cfg.AddProfile(myProfile);
-        });
-        _mapper = new Mapper(configuration);
-    }
 
     [Theory]
     [InlineData(false)]
@@ -38,13 +19,6 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
     public async Task ThenCreateProject(bool newProjectId)
     {
         //Arrange
-        var myProfile = new AutoMappingProfiles();
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.ShouldMapMethod = (m => false);
-            cfg.AddProfile(myProfile);
-        });
-        var mapper = new Mapper(configuration);
         var logger = new Mock<ILogger<CreateProjectCommandHandler>>();
         var mockApplicationDbContext = GetApplicationDbContext();
         if (newProjectId)
@@ -55,7 +29,7 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
         }
         var testProject = GetTestProjectDto(newProjectId);
         var command = new CreateProjectCommand(testProject);
-        var handler = new CreateProjectCommandHandler(mockApplicationDbContext, mapper, logger.Object);
+        var handler = new CreateProjectCommandHandler(mockApplicationDbContext, _mapper, logger.Object);
 
         //Act
         var result = await handler.Handle(command, new CancellationToken());
@@ -71,16 +45,8 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
     public async Task ThenHandle_ShouldThrowArgumentNullException_WhenEntityIsNull()
     {
         // Arrange
-        var context = GetApplicationDbContext();
-        var myProfile = new AutoMappingProfiles();
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.ShouldMapMethod = (m => false);
-            cfg.AddProfile(myProfile);
-        });
-        var mapper = new Mapper(configuration);
         var logger = new Logger<CreateProjectCommandHandler>(new LoggerFactory());
-        var handler = new CreateProjectCommandHandler(context, mapper, logger);
+        var handler = new CreateProjectCommandHandler(GetApplicationDbContext(), _mapper, logger);
         var command = new CreateProjectCommand(default!);
 
         // Act
@@ -218,7 +184,7 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
 
     }
 
-    public static Project GetTestProject()
+    public Project GetTestProject()
     {
         return new Project(_projectId, "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
             new List<ClientProject>()

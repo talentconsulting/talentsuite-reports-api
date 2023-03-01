@@ -65,7 +65,6 @@ public class ApplicationDbContextInitialiser
         _context.UserGroups.AddRange(UserGroups().ToArray());
         _context.Users.AddRange(Users().ToArray());
         _context.Contacts.Add(new Contact("03a33a03-a98d-4946-8e8f-05cbc7a949b6", "Ron Weasley", "ron@weasley.com", true, "86b610ee-e866-4749-9f10-4a5c59e96f2f"));
-        _context.Reports.AddRange(Reports().ToArray());
 
         await _context.SaveChangesAsync();
     }
@@ -104,8 +103,8 @@ public class ApplicationDbContextInitialiser
     {
         return new List<User>
         {
-            new User("93e0f88c-691f-4373-8abf-3f895bddec60", "Joe", "Blogs", "joe.blogs@email.com", "768aa546-ec03-4663-b7f4-26569932b2af"),
-            new User("8ed672f0-5146-4ecc-89a0-6a36c1f5db71", "John", "Brown", "john.brown@email.com", "768aa546-ec03-4663-b7f4-26569932b2af"),
+            new User("93e0f88c-691f-4373-8abf-3f895bddec60", "Joe", "Blogs", "joe.blogs@email.com", "768aa546-ec03-4663-b7f4-26569932b2af", Reports().Where(x => x.UserId == "93e0f88c-691f-4373-8abf-3f895bddec60").ToList()),
+            new User("8ed672f0-5146-4ecc-89a0-6a36c1f5db71", "John", "Brown", "john.brown@email.com", "768aa546-ec03-4663-b7f4-26569932b2af", Reports().Where(x => x.UserId == "8ed672f0-5146-4ecc-89a0-6a36c1f5db71").ToList()),
         };
     }
 

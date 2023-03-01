@@ -2,10 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Interfaces.Commands;
 
-
-public interface IUpdateReportCommand
+public interface ICreateUserCommand
 {
-    string Id { get; }
-    ReportDto ReportDto { get; }
+    UserDto UserDto { get; }
 }
-
