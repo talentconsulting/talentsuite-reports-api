@@ -182,6 +182,42 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
         result.Items[0].Name.Should().Be(dbProject.Name);
     }
 
+    [Fact]
+    public async Task ThenGetProjectById()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbProject = GetTestProject();
+        mockApplicationDbContext.Projects.Add(dbProject);
+        await mockApplicationDbContext.SaveChangesAsync();
+
+
+        var command = new GetProjectByIdCommand(dbProject.Id);
+        var handler = new GetProjectByIdCommandHandler(mockApplicationDbContext);
+
+        //Act
+        var result = await handler.Handle(command, new CancellationToken());
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Id.Should().Be("a3226044-5c89-4257-8b07-f29745a22e2c");
+        result.Name.Should().Be(dbProject.Name);
+
+    }
+
+    [Fact]
+    public async Task ThenGetProjectById_ThatDoesNotExist()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        
+        var command = new GetProjectByIdCommand("8f145d0c-2b07-4beb-8a7f-d66055b88dc0");
+        var handler = new GetProjectByIdCommandHandler(mockApplicationDbContext);
+
+        // Act
+        //Assert
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(command, CancellationToken.None));
+
+    }
+
     public static Project GetTestProject()
     {
         return new Project(_projectId, "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
