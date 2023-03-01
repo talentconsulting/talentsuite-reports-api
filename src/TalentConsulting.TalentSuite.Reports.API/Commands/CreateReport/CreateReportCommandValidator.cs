@@ -21,12 +21,10 @@ public class CreateReportCommandValidator : AbstractValidator<CreateReportComman
 
         RuleFor(v => v.ReportDto.ProjectId)
             .MinimumLength(1)
-            .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
         RuleFor(v => v.ReportDto.UserId)
-            .MinimumLength(1)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();

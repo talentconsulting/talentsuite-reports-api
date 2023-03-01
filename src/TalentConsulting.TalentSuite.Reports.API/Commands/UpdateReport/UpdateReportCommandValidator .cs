@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using TalentConsulting.TalentSuite.Reports.API.Commands.CreateReport;
 
 namespace TalentConsulting.TalentSuite.Reports.API.Commands.UpdateReport;
 
@@ -27,12 +26,10 @@ public class UpdateReportCommandValidator : AbstractValidator<UpdateReportComman
 
         RuleFor(v => v.ReportDto.ProjectId)
             .MinimumLength(1)
-            .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
         RuleFor(v => v.ReportDto.UserId)
-            .MinimumLength(1)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();

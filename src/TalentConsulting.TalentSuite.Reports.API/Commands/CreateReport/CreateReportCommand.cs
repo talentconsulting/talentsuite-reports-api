@@ -8,8 +8,6 @@ using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository
 
 namespace TalentConsulting.TalentSuite.Reports.API.Commands.CreateReport;
 
-
-
 public class CreateReportCommand : IRequest<string>, ICreateReportCommand
 {
     public CreateReportCommand(ReportDto reportDto)

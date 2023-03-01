@@ -1,35 +1,35 @@
 ﻿using FluentValidation;
 
-namespace TalentConsulting.TalentSuite.Reports.API.Commands.CreateUser;
+namespace TalentConsulting.TalentSuite.Reports.API.Commands.UpdateClient;
 
-public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+public class UpdateClientCommandValidator : AbstractValidator<UpdateClientCommand>
 {
-    public CreateUserCommandValidator()
+    public UpdateClientCommandValidator()
     {
-        RuleFor(v => v.UserDto)
+        RuleFor(v => v.ClientDto)
             .NotNull();
 
-        RuleFor(v => v.UserDto.Id)
+        RuleFor(v => v.Id)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
-        RuleFor(v => v.UserDto.Firstname)
+        RuleFor(v => v.ClientDto.Id)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
-        RuleFor(v => v.UserDto.Lastname)
+        RuleFor(v => v.ClientDto.Name)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
-        RuleFor(v => v.UserDto.Email)
+        RuleFor(v => v.ClientDto.ContactName)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
-        RuleFor(v => v.UserDto.UserGroupId)
+        RuleFor(v => v.ClientDto.ContactEmail)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();

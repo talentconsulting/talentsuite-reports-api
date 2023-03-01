@@ -17,6 +17,7 @@ public class BaseCreateDbUnitTest
     protected const string _riskId = "41fef4ce-c85f-4273-8572-0222e471db63";
     protected const string _clientId = "1e68f5cd-2347-4b09-820e-3297605e3743";
     protected const string _usergroupId = "2a91939a-57fd-4049-afa9-88e547c5bd92";
+    protected const string _clientProjectId = "519df403-0e0d-4c25-b240-8d9ca21132b8";
 
     protected IMapper _mapper { get; }
 

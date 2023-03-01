@@ -3,8 +3,8 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using TalentConsulting.TalentSuite.Reports.API.Commands.CreateReport;
-using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateProject;
 using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateReport;
+using TalentConsulting.TalentSuite.Reports.API.Queries.GetReports;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
@@ -73,20 +73,64 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
     {
         // Arrange
         var dbContext = GetApplicationDbContext();
-        var dbReport = new Report(_reportId, "Planned tasks 1", "Completed tasks 1", 1, DateTime.UtcNow, _projectId, _userId, new List<Risk>()
-        {
-            new Risk(_riskId, _reportId, "Risk Details 1", "Risk Mitigation 1", "Risk Status 1" )
-        });
-        dbContext.Reports.Add(dbReport);
-        await dbContext.SaveChangesAsync();
-        var logger = new Mock<ILogger<UpdateProjectCommandHandler>>();
-        var handler = new UpdateProjectCommandHandler(dbContext, _mapper, logger.Object);
-        var command = new UpdateProjectCommand("someotherid", default!);
+        var logger = new Mock<ILogger<UpdateReportCommandHandler>>();
+        var handler = new UpdateReportCommandHandler(dbContext, _mapper, logger.Object);
+        var command = new UpdateReportCommand("someotherid", default!);
 
         // Act
         //Assert
         await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(command, CancellationToken.None));
 
+    }
+
+    [Fact]
+    public async Task ThenGetReport()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbReport = GetTestReport();
+        mockApplicationDbContext.Reports.Add(dbReport);
+        await mockApplicationDbContext.SaveChangesAsync();
+
+
+        var command = new GetReportsCommand(1, 99);
+        var handler = new GetReportsCommandHandler(mockApplicationDbContext);
+
+        //Act
+        var result = await handler.Handle(command, new CancellationToken());
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Items[0].Id.Should().Be(dbReport.Id);
+        result.Items[0].PlannedTasks.Should().Be(dbReport.PlannedTasks);
+
+    }
+
+    [Fact]
+    public async Task ThenGetReportWithNullRequest()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbReport = GetTestReport();
+        mockApplicationDbContext.Reports.Add(dbReport);
+        await mockApplicationDbContext.SaveChangesAsync();
+        var handler = new GetReportsCommandHandler(mockApplicationDbContext);
+
+        //Act
+        var result = await handler.Handle(new GetReportsCommand(1, 99), new CancellationToken());
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Items[0].Id.Should().Be(dbReport.Id);
+        result.Items[0].PlannedTasks.Should().Be(dbReport.PlannedTasks);
+    }
+
+    public static Report GetTestReport()
+    {
+        var risks = new List<Risk>()
+        {
+            new Risk(_riskId, _reportId, "Risk Details", "Risk Mitigation", "Risk Status" )
+        };
+
+        return new Report(_reportId, "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId, _userId, risks);
     }
 
     public static ReportDto GetTestReportDto()

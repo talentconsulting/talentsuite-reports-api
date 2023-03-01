@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using TalentConsulting.TalentSuite.Reports.API.Commands.CreateUser;
 
 namespace TalentConsulting.TalentSuite.Reports.API.Commands.UpdateUser;
 
@@ -32,12 +31,10 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
         RuleFor(v => v.UserDto.Email)
             .MinimumLength(1)
-            .MinimumLength(1)
             .NotNull()
             .NotEmpty();
 
         RuleFor(v => v.UserDto.UserGroupId)
-            .MinimumLength(1)
             .MinimumLength(1)
             .NotNull()
             .NotEmpty();

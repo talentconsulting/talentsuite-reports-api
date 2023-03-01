@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using TalentConsulting.TalentSuite.Reports.API.Commands.CreateUser;
 using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateUser;
+using TalentConsulting.TalentSuite.Reports.API.Queries.GetUsers;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 using TalentConsulting.TalentSuite.Reports.UnitTests.Reports;
@@ -92,6 +93,51 @@ public class WhenUsingUserCommands : BaseCreateDbUnitTest
         //Assert
         await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(command, CancellationToken.None));
 
+    }
+
+    [Fact]
+    public async Task ThenGetUser()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbUser = GetTestUser();
+        mockApplicationDbContext.Users.Add(dbUser);
+        await mockApplicationDbContext.SaveChangesAsync();
+
+
+        var command = new GetUsersCommand(1, 99);
+        var handler = new GetUsersCommandHandler(mockApplicationDbContext);
+
+        //Act
+        var result = await handler.Handle(command, new CancellationToken());
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Items[0].Id.Should().Be(dbUser.Id);
+        result.Items[0].Firstname.Should().Be(dbUser.Firstname);
+
+    }
+
+    [Fact]
+    public async Task ThenGetUserWithNullRequest()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbUser = GetTestUser();
+        mockApplicationDbContext.Users.Add(dbUser);
+        await mockApplicationDbContext.SaveChangesAsync();
+        var handler = new GetUsersCommandHandler(mockApplicationDbContext);
+
+        //Act
+        var result = await handler.Handle(new GetUsersCommand(1, 99), new CancellationToken());
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Items[0].Id.Should().Be(dbUser.Id);
+        result.Items[0].Firstname.Should().Be(dbUser.Firstname);
+    }
+
+    public static User GetTestUser()
+    {
+        return new User(_userId, "First Name", "Last Name", "email@email.com", _usergroupId, new List<Report>() { WhenUsingReportCommands.GetTestReport() });
     }
 
     public static UserDto GetTestUserDto()

@@ -31,4 +31,9 @@ public static class EntityToDtoHelper
     {
         return risks.Select(x => new RiskDto(x.Id, x.ReportId, x.RiskDetails, x.RiskMitigation, x.RagStatus)).ToList();
     }
+
+    public static List<ClientProjectDto> GetClientProjects(ICollection<ClientProject> clientProjects)
+    {
+        return clientProjects.Select(x => new ClientProjectDto(x.Id, x.ClientId, x.ProjectId)).ToList();
+    }
 }
