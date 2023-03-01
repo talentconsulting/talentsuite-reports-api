@@ -1,12 +1,5 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TalentConsulting.TalentSuite.Reports.API.Commands.CreateProject;
 using TalentConsulting.TalentSuite.Reports.API.Queries.GetProjects;
-using TalentConsulting.TalentSuite.Reports.Common.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.UnitTests.Projects;
 
