@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using TalentConsulting.TalentSuite.Reports.API;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Interceptors;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Service;
 
 namespace TalentConsulting.TalentSuite.Reports.API;
 
+[ExcludeFromCodeCoverage]
 public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
     public ApplicationDbContext CreateDbContext(string[] args)
