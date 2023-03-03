@@ -48,8 +48,9 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
 
         if (request != null)
         {
-            var pagelist = filteredProjects.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ProjectDto>(filteredProjects, pagelist.Count, request.PageNumber, request.PageSize);
+            var pageList = filteredProjects.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var result = new PaginatedList<ProjectDto>(pageList, filteredProjects.Count, request.PageNumber, request.PageSize);
+
             return result;
         }
 

@@ -43,8 +43,9 @@ public class GetClientsCommandHandler : IRequestHandler<GetClientsCommand, Pagin
 
         if (request != null)
         {
-            var pagelist = filteredClients.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ClientDto>(filteredClients, pagelist.Count, request.PageNumber, request.PageSize);
+            var pageList = filteredClients.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var result = new PaginatedList<ClientDto>(pageList, filteredClients.Count, request.PageNumber, request.PageSize);
+
             return result;
         }
 

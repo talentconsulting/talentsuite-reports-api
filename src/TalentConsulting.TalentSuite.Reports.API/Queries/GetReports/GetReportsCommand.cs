@@ -45,8 +45,9 @@ public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, Pagin
 
         if (request != null)
         {
-            var pagelist = filteredReports.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ReportDto>(filteredReports, pagelist.Count, request.PageNumber, request.PageSize);
+            var pageList = filteredReports.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var result = new PaginatedList<ReportDto>(pageList, filteredReports.Count, request.PageNumber, request.PageSize);
+
             return result;
         }
 

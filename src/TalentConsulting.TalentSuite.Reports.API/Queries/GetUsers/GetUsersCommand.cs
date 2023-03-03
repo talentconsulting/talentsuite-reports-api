@@ -46,8 +46,9 @@ public class GetUsersCommandHandler : IRequestHandler<GetUsersCommand, Paginated
 
         if (request != null)
         {
-            var pagelist = filteredUsers.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<UserDto>(filteredUsers, pagelist.Count, request.PageNumber, request.PageSize);
+            var pageList = filteredUsers.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var result = new PaginatedList<UserDto>(pageList, filteredUsers.Count, request.PageNumber, request.PageSize);
+
             return result;
         }
 
