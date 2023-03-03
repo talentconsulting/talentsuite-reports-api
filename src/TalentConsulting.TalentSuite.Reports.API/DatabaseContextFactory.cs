@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using TalentConsulting.TalentSuite.Reports.API;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Interceptors;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Service;
 
 namespace TalentConsulting.TalentSuite.Reports.API;
 
+[ExcludeFromCodeCoverage]
 public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
     public ApplicationDbContext CreateDbContext(string[] args)
@@ -48,7 +49,11 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
         AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor = new(new CurrentUserService(new HttpContextAccessor()), new DateTimeService());
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-        return new ApplicationDbContext(builder.Options, null, auditableEntitySaveChangesInterceptor); //, configuration);
+        return new ApplicationDbContext(builder.Options,
+#if USE_DISPATCHER
+            null, 
+#endif
+            auditableEntitySaveChangesInterceptor);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
     }
 }

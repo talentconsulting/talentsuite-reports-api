@@ -4,7 +4,7 @@ public record RiskDto
 {
     private RiskDto() { }
 
-    public RiskDto(string id, int reportid, string riskdetails, string riskmitigation, int ragstatus)
+    public RiskDto(string id, string reportid, string riskdetails, string riskmitigation, string ragstatus)
     {
         Id = id;
         ReportId = reportid;
@@ -14,8 +14,8 @@ public record RiskDto
     }
 
     public string Id { get; init; } = default!;
-    public int ReportId { get; init; } = default!;
+    public string ReportId { get; init; } = default!;
     public string RiskDetails { get; init; } = default!;
     public string RiskMitigation { get; init; } = default!;
-    public int RagStatus { get; init; } = default!;
+    public string RagStatus { get; init; } = default!;
 }

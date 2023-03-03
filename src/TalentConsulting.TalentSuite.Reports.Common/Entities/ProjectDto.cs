@@ -17,6 +17,7 @@ public record ProjectDto
         StartDate = startDate;
         EndDate = endDate;
         ClientProjects = clientProjects;
+        Contacts = contacts;
         Reports = reports;
         Sows = sows;
     }
@@ -28,12 +29,12 @@ public record ProjectDto
     public DateTime StartDate { get; init; } = default!;
     public DateTime EndDate { get; init; } = default!;
 
-    public ICollection<ClientProjectDto> ClientProjects { get; } = new List<ClientProjectDto>();
+    public ICollection<ClientProjectDto> ClientProjects { get; init; } = new List<ClientProjectDto>();
 
-    public ICollection<ContactDto> Contacts { get; } = new List<ContactDto>();
+    public ICollection<ContactDto> Contacts { get; init; } = new List<ContactDto>();
 
-    public ICollection<ReportDto> Reports { get; } = new List<ReportDto>();
+    public ICollection<ReportDto> Reports { get; init; } = new List<ReportDto>();
 
-    public ICollection<SowDto> Sows { get; } = new List<SowDto>();
+    public ICollection<SowDto> Sows { get; init; } = new List<SowDto>();
 }
 

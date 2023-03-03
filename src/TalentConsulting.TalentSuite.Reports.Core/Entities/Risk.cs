@@ -16,10 +16,10 @@ public class Risk : EntityBase<string>, IAggregateRoot
         RagStatus = ragstatus;
     }
 
-    public string ReportId { get; init; } = default!;
-    public string RiskDetails { get; init; } = default!;
-    public string RiskMitigation { get; init; } = default!;
-    public string RagStatus { get; init; } = default!;
+    public string ReportId { get; set; } = default!;
+    public string RiskDetails { get; set; } = default!;
+    public string RiskMitigation { get; set; } = default!;
+    public string RagStatus { get; set; } = default!;
 #if ADD_ENTITY_NAV
     public virtual Report Report { get; set; } = null!;
 #endif

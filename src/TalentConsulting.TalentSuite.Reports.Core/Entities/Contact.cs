@@ -16,10 +16,10 @@ public class Contact : EntityBase<string>, IAggregateRoot
         ProjectId = projectId;
     }
 
-    public string Firstname { get; init; } = default!;
-    public string Email { get; init; } = default!;
-    public bool ReceivesReport { get; init; } = default!;
-    public string ProjectId { get; init; } = default!;
+    public string Firstname { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public bool ReceivesReport { get; set; } = default!;
+    public string ProjectId { get; set; } = default!;
 #if ADD_ENTITY_NAV
     public virtual Project Project { get; set; } = null!;
 #endif

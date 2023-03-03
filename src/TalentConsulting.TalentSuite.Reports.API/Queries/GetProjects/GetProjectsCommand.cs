@@ -32,8 +32,12 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
     }
     public async Task<PaginatedList<ProjectDto>> Handle(GetProjectsCommand request, CancellationToken cancellationToken)
     {
-        var entities = _context.Projects;
-            
+        var entities = _context.Projects
+            .Include(x => x.ClientProjects)
+            .Include(x => x.Contacts)
+            .Include(x => x.Reports)
+            .ThenInclude(x => x.Risks)
+            .Include(x => x.Sows);
 
         if (entities == null)
         {
@@ -44,8 +48,9 @@ public class GetProjectsCommandHandler : IRequestHandler<GetProjectsCommand, Pag
 
         if (request != null)
         {
-            var pagelist = filteredProjects.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ProjectDto>(filteredProjects, pagelist.Count, request.PageNumber, request.PageSize);
+            var pageList = filteredProjects.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var result = new PaginatedList<ProjectDto>(pageList, filteredProjects.Count, request.PageNumber, request.PageSize);
+
             return result;
         }
 
