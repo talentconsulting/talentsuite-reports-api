@@ -96,7 +96,7 @@ public class WhenUsingClientCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbClient.id);
+        result.Items[0].Id.Should().Be(dbClient.Id);
         result.Items[0].Name.Should().Be(dbClient.Name);
 
     }
@@ -115,7 +115,7 @@ public class WhenUsingClientCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbClient.id);
+        result.Items[0].Id.Should().Be(dbClient.Id);
         result.Items[0].Name.Should().Be(dbClient.Name);
     }
 

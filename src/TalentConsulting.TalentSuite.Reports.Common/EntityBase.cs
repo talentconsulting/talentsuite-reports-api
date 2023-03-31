@@ -7,9 +7,9 @@ namespace TalentConsulting.TalentSuite.Reports.Common;
 /// </summary>
 public abstract class EntityBase<Tid>
 {
-    public string id { get; set; } = default!;
+    public string Id { get; set; } = default!;
 
-    public DateTime? created { get; set; } = default;
+    public DateTime? Created { get; set; } = default;
 
     private readonly List<DomainEventBase> _domainEvents = new();
 

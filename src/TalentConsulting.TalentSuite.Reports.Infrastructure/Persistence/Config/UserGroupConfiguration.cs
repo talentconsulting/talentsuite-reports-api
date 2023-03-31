@@ -8,14 +8,14 @@ public class UserGroupConfiguration
 {
     public void Configure(EntityTypeBuilder<UserGroup> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();
         builder.Property(t => t.ReceivesReports)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
 

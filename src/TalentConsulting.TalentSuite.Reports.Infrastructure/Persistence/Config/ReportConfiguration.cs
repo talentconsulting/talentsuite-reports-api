@@ -8,7 +8,7 @@ public class ReportConfiguration
 {
     public void Configure(EntityTypeBuilder<Report> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.PlannedTasks)
             .IsRequired();
@@ -20,7 +20,7 @@ public class ReportConfiguration
             .IsRequired();
         builder.Property(t => t.ProjectId)
             .IsRequired();
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
 

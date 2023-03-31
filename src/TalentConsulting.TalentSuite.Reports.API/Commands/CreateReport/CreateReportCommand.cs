@@ -36,10 +36,10 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, s
             var unsavedEntity = _mapper.Map<Report>(request.ReportDto);
             ArgumentNullException.ThrowIfNull(unsavedEntity);
 
-            var existing = _context.Reports.FirstOrDefault(e => unsavedEntity.id == e.id);
+            var existing = _context.Reports.FirstOrDefault(e => unsavedEntity.Id == e.Id);
 
             if (existing is not null)
-                throw new InvalidOperationException($"Report with Id: {unsavedEntity.id} already exists, Please use Update command");
+                throw new InvalidOperationException($"Report with Id: {unsavedEntity.Id} already exists, Please use Update command");
 
             unsavedEntity.Risks = AttachExistingRisk(unsavedEntity.Risks);
 
@@ -66,12 +66,12 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, s
         if (unSavedEntities is null || !unSavedEntities.Any())
             return returnList;
 
-        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.id).Contains(e.id)).ToList();
+        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();
 
         for (var i = 0; i < unSavedEntities.Count; i++)
         {
             var unSavedItem = unSavedEntities.ElementAt(i);
-            var savedItem = existing.FirstOrDefault(x => x.id == unSavedItem.id);
+            var savedItem = existing.FirstOrDefault(x => x.Id == unSavedItem.Id);
             returnList.Add(savedItem ?? unSavedItem);
         }
 

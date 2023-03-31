@@ -100,7 +100,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbReport.id);
+        result.Items[0].Id.Should().Be(dbReport.Id);
         result.Items[0].PlannedTasks.Should().Be(dbReport.PlannedTasks);
 
     }
@@ -119,7 +119,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbReport.id);
+        result.Items[0].Id.Should().Be(dbReport.Id);
         result.Items[0].PlannedTasks.Should().Be(dbReport.PlannedTasks);
     }
 

@@ -11,7 +11,7 @@ public class Recipient : EntityBase<string>, IAggregateRoot
 
     public Recipient(string id, string name, string email, string notificationid)
     {
-        base.id = id;
+        base.Id = id;
         Name = name;
         Email = email;
         Notificationid = notificationid;

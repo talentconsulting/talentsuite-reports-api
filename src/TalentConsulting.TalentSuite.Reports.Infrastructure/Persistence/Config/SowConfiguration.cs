@@ -7,7 +7,7 @@ public class SowConfiguration
 {
     public void Configure(EntityTypeBuilder<Sow> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.File)
             .IsRequired();
@@ -19,7 +19,7 @@ public class SowConfiguration
             .IsRequired();
         builder.Property(t => t.ProjectId)
             .IsRequired();
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
     }
 }

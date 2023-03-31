@@ -7,7 +7,7 @@ public class ContactConfiguration
 {
     public void Configure(EntityTypeBuilder<Contact> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.Firstname)
             .IsRequired();
@@ -18,7 +18,7 @@ public class ContactConfiguration
         builder.Property(t => t.ProjectId)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
     }

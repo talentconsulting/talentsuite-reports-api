@@ -8,7 +8,7 @@ public class UserConfiguration
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.Firstname)
             .IsRequired();
@@ -19,7 +19,7 @@ public class UserConfiguration
         builder.Property(t => t.UserGroupId)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
         builder.HasMany(s => s.Reports)

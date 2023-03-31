@@ -32,7 +32,7 @@ public class GetReportCommandHandler : IRequestHandler<GetReportCommand, Paginat
     {
         var entities = _context.Reports
             .Include(x => x.Risks)
-            .Where(x => x.id == request.Id);
+            .Where(x => x.Id == request.Id);
 
 
         if (entities == null)
@@ -40,7 +40,7 @@ public class GetReportCommandHandler : IRequestHandler<GetReportCommand, Paginat
             throw new NotFoundException(nameof(Report), "Reports");
         }
 
-        var filteredReports = await entities.Select(x => new ReportDto(x.id, (x.created != null) ? x.created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
+        var filteredReports = await entities.Select(x => new ReportDto(x.Id, (x.Created != null) ? x.Created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
 
         if (request != null)
         {

@@ -7,14 +7,14 @@ public class ClientProjectConfiguration
 {
     public void Configure(EntityTypeBuilder<ClientProject> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.ClientId)
             .IsRequired();
         builder.Property(t => t.ProjectId)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
     }

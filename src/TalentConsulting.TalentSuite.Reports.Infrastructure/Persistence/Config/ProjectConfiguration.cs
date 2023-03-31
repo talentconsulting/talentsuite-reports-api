@@ -8,7 +8,7 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {
     public void Configure(EntityTypeBuilder<Project> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.ContactNumber)
             .IsRequired();
@@ -20,7 +20,7 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .IsRequired();
         builder.Property(t => t.EndDate)
             .IsRequired();
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
         builder.HasMany(s => s.ClientProjects)

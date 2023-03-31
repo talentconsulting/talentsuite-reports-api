@@ -7,7 +7,7 @@ public class ProjectRoleConfiguration
 {
     public void Configure(EntityTypeBuilder<ProjectRole> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();
@@ -16,7 +16,7 @@ public class ProjectRoleConfiguration
         builder.Property(t => t.Description)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
     }
 }

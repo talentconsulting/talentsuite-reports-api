@@ -8,7 +8,7 @@ public class ClientConfiguration
 {
     public void Configure(EntityTypeBuilder<Client> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();
@@ -17,7 +17,7 @@ public class ClientConfiguration
         builder.Property(t => t.ContactEmail)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
 

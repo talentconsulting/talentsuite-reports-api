@@ -7,7 +7,7 @@ public class RiskConfiguration
 {
     public void Configure(EntityTypeBuilder<Risk> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.ReportId)
             .IsRequired();
@@ -18,7 +18,7 @@ public class RiskConfiguration
         builder.Property(t => t.RagStatus)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
     }
 }

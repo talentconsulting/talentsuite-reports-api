@@ -11,7 +11,7 @@ public class User : EntityBase<string>, IAggregateRoot
 
     public User(string id, string firstname, string lastname, string email, string usergroupid, ICollection<Report> reports)
     {
-        base.id = id;
+        base.Id = id;
         Firstname = firstname;
         Lastname = lastname;
         Email = email;

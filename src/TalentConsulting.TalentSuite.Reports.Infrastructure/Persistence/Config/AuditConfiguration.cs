@@ -7,14 +7,14 @@ public class AuditConfiguration
 {
     public void Configure(EntityTypeBuilder<Audit> builder)
     {
-        builder.Property(t => t.id)
+        builder.Property(t => t.Id)
             .IsRequired();
         builder.Property(t => t.Detail)
             .IsRequired();
         builder.Property(t => t.UserId)
             .IsRequired();
 
-        builder.Property(t => t.created)
+        builder.Property(t => t.Created)
             .IsRequired();
 
     }
