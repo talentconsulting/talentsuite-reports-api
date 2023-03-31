@@ -83,10 +83,7 @@ public static class StartupExtensions
             .AddApplicationServices();
 
         services.AddTransient<MinimalGeneralEndPoints>();
-        services.AddTransient<MinimalProjectEndPoints>();
         services.AddTransient<MinimalReportEndPoints>();
-        services.AddTransient<MinimalUserEndPoints>();
-        services.AddTransient<MinimalClientEndPoints>();
         services.AddTransient<ApplicationDbContextInitialiser>();
 
         services.AddSwaggerGen();
@@ -122,17 +119,8 @@ public static class StartupExtensions
         var genapi = scope.ServiceProvider.GetService<MinimalGeneralEndPoints>();
         genapi?.RegisterMinimalGeneralEndPoints(app);
 
-        var projectsApi = scope.ServiceProvider.GetService<MinimalProjectEndPoints>();
-        projectsApi?.RegisterProjectEndPoints(app);
-
         var reportsApi = scope.ServiceProvider.GetService<MinimalReportEndPoints>();
         reportsApi?.RegisterReportEndPoints(app);
-
-        var usersApi = scope.ServiceProvider.GetService<MinimalUserEndPoints>();
-        usersApi?.RegisterUserEndPoints(app);
-
-        var clientsApi = scope.ServiceProvider.GetService<MinimalClientEndPoints>();
-        clientsApi?.RegisterClientEndPoints(app);
 
         try
         {
