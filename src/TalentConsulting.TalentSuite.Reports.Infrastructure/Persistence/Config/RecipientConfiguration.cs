@@ -7,7 +7,7 @@ public class RecipientConfiguration
 {
     public void Configure(EntityTypeBuilder<Recipient> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();
@@ -16,10 +16,7 @@ public class RecipientConfiguration
         builder.Property(t => t.Notificationid)
             .IsRequired();
 
-        builder.Property(t => t.Created)
-            .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
+        builder.Property(t => t.created)
             .IsRequired();
     }
 }

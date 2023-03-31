@@ -7,17 +7,15 @@ public class ClientProjectConfiguration
 {
     public void Configure(EntityTypeBuilder<ClientProject> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.ClientId)
             .IsRequired();
         builder.Property(t => t.ProjectId)
             .IsRequired();
 
-        builder.Property(t => t.Created)
+        builder.Property(t => t.created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
     }
 }

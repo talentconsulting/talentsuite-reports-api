@@ -7,7 +7,7 @@ public class SowConfiguration
 {
     public void Configure(EntityTypeBuilder<Sow> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.File)
             .IsRequired();
@@ -19,10 +19,7 @@ public class SowConfiguration
             .IsRequired();
         builder.Property(t => t.ProjectId)
             .IsRequired();
-        builder.Property(t => t.Created)
-            .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
+        builder.Property(t => t.created)
             .IsRequired();
     }
 }

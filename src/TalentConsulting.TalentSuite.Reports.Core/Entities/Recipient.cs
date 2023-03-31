@@ -1,14 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
+
+[Table("recipients")]
 public class Recipient : EntityBase<string>, IAggregateRoot
 {
     private Recipient() { }
 
     public Recipient(string id, string name, string email, string notificationid)
     {
-        Id = id;
+        base.id = id;
         Name = name;
         Email = email;
         Notificationid = notificationid;

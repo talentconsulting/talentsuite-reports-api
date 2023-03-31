@@ -7,7 +7,7 @@ public class UserProjectRoleConfiguration
 {
     public void Configure(EntityTypeBuilder<UserProjectRole> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.UserId)
             .IsRequired();
@@ -16,11 +16,9 @@ public class UserProjectRoleConfiguration
         builder.Property(t => t.Recievesreports)
             .IsRequired();
 
-        builder.Property(t => t.Created)
+        builder.Property(t => t.created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
 
     }
 }

@@ -33,7 +33,7 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
     }
     public async Task<string> Handle(UpdateReportCommand request, CancellationToken cancellationToken)
     {
-        var entity = _context.Reports.FirstOrDefault(x => x.Id == request.Id);
+        var entity = _context.Reports.FirstOrDefault(x => x.id == request.Id);
         if (entity == null)
         {
             throw new NotFoundException(nameof(Report), request.Id);
@@ -70,12 +70,12 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
         if (unSavedEntities is null || !unSavedEntities.Any())
             return returnList;
 
-        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();
+        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.id)).ToList();
 
         for (var i = 0; i < unSavedEntities.Count; i++)
         {
             var unSavedItem = unSavedEntities.ElementAt(i);
-            var savedItem = existing.FirstOrDefault(x => x.Id == unSavedItem.Id);
+            var savedItem = existing.FirstOrDefault(x => x.id == unSavedItem.Id);
 
             if (savedItem is not null)
             {

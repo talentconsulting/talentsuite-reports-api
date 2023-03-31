@@ -42,22 +42,11 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
         {
             if (entry.State == EntityState.Added)
             {
-                if (entry.Entity.CreatedBy == null)
-                {
-                    if (_currentUserService.UserId != null)
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
-                    else
-                        entry.Entity.CreatedBy = "System";
 
-                }
-                entry.Entity.Created = _dateTime.Now;
+                entry.Entity.created = _dateTime.Now;
             }
 
-            if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
-            {
-                entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                entry.Entity.LastModified = _dateTime.Now;
-            }
+
         }
     }
 }

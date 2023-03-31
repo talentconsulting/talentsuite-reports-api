@@ -1,15 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
+[Table("risks")]
 public class Risk : EntityBase<string>, IAggregateRoot
 {
     private Risk() { }
 
     public Risk(string id, string reportid, string riskdetails, string riskmitigation, string ragstatus)
     {
-        Id = id;
+        base.id = id;
         ReportId = reportid;
         RiskDetails = riskdetails;
         RiskMitigation = riskmitigation;

@@ -1,15 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
+[Table("contacts")]
 public class Contact : EntityBase<string>, IAggregateRoot
 {
     private Contact() { }
 
     public Contact(string id, string firstname, string email, bool receivesreport, string projectId)
     {
-        Id = id;
+        base.id = id;
         Firstname = firstname;
         Email = email;
         ReceivesReport = receivesreport;

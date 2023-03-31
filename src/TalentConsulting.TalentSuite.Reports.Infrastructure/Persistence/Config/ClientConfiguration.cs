@@ -8,7 +8,7 @@ public class ClientConfiguration
 {
     public void Configure(EntityTypeBuilder<Client> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();
@@ -17,11 +17,9 @@ public class ClientConfiguration
         builder.Property(t => t.ContactEmail)
             .IsRequired();
 
-        builder.Property(t => t.Created)
+        builder.Property(t => t.created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
 
         builder.HasMany(s => s.ClientProjects)
             .WithOne()

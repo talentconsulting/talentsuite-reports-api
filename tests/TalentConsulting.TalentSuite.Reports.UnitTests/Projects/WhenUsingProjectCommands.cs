@@ -157,7 +157,7 @@ public class WhenUsingProjectCommands : BaseCreateDbUnitTest
         await mockApplicationDbContext.SaveChangesAsync();
 
 
-        var command = new GetProjectByIdCommand(dbProject.Id);
+        var command = new GetProjectByIdCommand(dbProject.id);
         var handler = new GetProjectByIdCommandHandler(mockApplicationDbContext);
 
         //Act

@@ -8,18 +8,16 @@ public class UserGroupConfiguration
 {
     public void Configure(EntityTypeBuilder<UserGroup> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.Name)
             .IsRequired();
         builder.Property(t => t.ReceivesReports)
             .IsRequired();
 
-        builder.Property(t => t.Created)
+        builder.Property(t => t.created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
 
         builder.HasMany(s => s.Users)
             .WithOne()

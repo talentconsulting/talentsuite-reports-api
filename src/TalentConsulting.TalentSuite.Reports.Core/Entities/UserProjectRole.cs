@@ -1,15 +1,18 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
+
+[Table("userprojectroles")]
 public class UserProjectRole : EntityBase<string>, IAggregateRoot
 {
     private UserProjectRole() { }
 
     public UserProjectRole(string id, string userid, string projectid, bool recievesreports)
     {
-        Id = id;
+        base.id = id;
         UserId = userid;
         ProjectId = projectid;
         Recievesreports = recievesreports;

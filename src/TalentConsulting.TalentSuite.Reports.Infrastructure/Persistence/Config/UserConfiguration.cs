@@ -8,7 +8,7 @@ public class UserConfiguration
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.Firstname)
             .IsRequired();
@@ -19,10 +19,7 @@ public class UserConfiguration
         builder.Property(t => t.UserGroupId)
             .IsRequired();
 
-        builder.Property(t => t.Created)
-            .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
+        builder.Property(t => t.created)
             .IsRequired();
 
         builder.HasMany(s => s.Reports)

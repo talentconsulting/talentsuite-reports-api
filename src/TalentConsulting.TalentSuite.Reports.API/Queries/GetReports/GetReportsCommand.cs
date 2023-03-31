@@ -32,8 +32,8 @@ public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, Pagin
     }
     public async Task<PaginatedList<ReportDto>> Handle(GetReportsCommand request, CancellationToken cancellationToken)
     {
-        var entities = _context.Reports
-            .Include(x => x.Risks);
+        var entities = _context.Reports;
+          //  .Include(x => x.Risks);
 
 
         if (entities == null)
@@ -41,7 +41,9 @@ public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, Pagin
             throw new NotFoundException(nameof(Report), "Reports");
         }
 
-        var filteredReports = await entities.Select(x => new ReportDto(x.Id, (x.Created != null) ? x.Created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
+        var stuff = entities.ToList();
+
+        var filteredReports = await entities.Select(x => new ReportDto(x.id, (x.created != null) ? x.created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
 
         if (request != null)
         {

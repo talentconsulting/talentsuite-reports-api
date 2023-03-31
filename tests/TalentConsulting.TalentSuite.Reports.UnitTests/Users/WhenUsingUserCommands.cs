@@ -112,7 +112,7 @@ public class WhenUsingUserCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbUser.Id);
+        result.Items[0].Id.Should().Be(dbUser.id);
         result.Items[0].Firstname.Should().Be(dbUser.Firstname);
 
     }
@@ -131,7 +131,7 @@ public class WhenUsingUserCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbUser.Id);
+        result.Items[0].Id.Should().Be(dbUser.id);
         result.Items[0].Firstname.Should().Be(dbUser.Firstname);
     }
 

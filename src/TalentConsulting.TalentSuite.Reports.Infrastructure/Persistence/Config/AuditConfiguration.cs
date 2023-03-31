@@ -7,17 +7,15 @@ public class AuditConfiguration
 {
     public void Configure(EntityTypeBuilder<Audit> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.Detail)
             .IsRequired();
         builder.Property(t => t.UserId)
             .IsRequired();
 
-        builder.Property(t => t.Created)
+        builder.Property(t => t.created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
     }
 }

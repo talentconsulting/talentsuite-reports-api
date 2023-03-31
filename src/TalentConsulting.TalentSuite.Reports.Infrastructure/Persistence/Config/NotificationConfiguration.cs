@@ -8,7 +8,7 @@ public class NotificationConfiguration
 {
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
-        builder.Property(t => t.Id)
+        builder.Property(t => t.id)
             .IsRequired();
         builder.Property(t => t.NextRetryDate)
             .IsRequired();
@@ -19,11 +19,9 @@ public class NotificationConfiguration
         builder.Property(t => t.Status)
             .IsRequired();
 
-        builder.Property(t => t.Created)
+        builder.Property(t => t.created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
 
         builder.HasMany(s => s.Recipients)
             .WithOne()
