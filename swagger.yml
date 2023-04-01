@@ -1,0 +1,124 @@
+swagger: "2.0"
+info:
+  title: Reports service API
+  description: This service contains the API for creating reports
+  version: 1.0.0
+host: api.reports.talentsuite.uk
+schemes:
+  - https
+paths:
+  /health:
+    get:
+      summary: Health endpoint which tests all integrations for connectivity.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Information json returned
+          schema:
+            $ref: "#/definitions/healthArray"
+      
+  /info:
+    get:
+      summary: information endpoint.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Information json returned
+          schema:
+            $ref: "#/definitions/info"
+
+  /readiness:
+    get:
+      summary: Returns whether the service is ready
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+  /reports:
+    get:
+      summary: Return a paged view of audits
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          type: number
+          name: page
+          description: "page to get"
+          required: false
+          default: 1
+        - in: query
+          type: number
+          name: pageSize
+          description: "pagesize to return"
+          required: false
+        - in: query
+          type: string
+          name: userId
+          description: "user to filter on"
+          required: false
+        - in: query
+          type: string
+          name: projectId
+          description: "project to filter on"
+          required: false
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items: 
+              "$ref": "#/definitions/report"
+
+definitions:
+  info:
+    type: object
+    properties: 
+      version:
+        type: string
+  healthArray:
+    type: array
+    items: 
+      type: object
+      properties: 
+        name: 
+          type: string
+        healthy:
+          type: boolean
+  auditLog:
+    type: object
+    properties: 
+      pageDetail:
+        type: object
+        $ref: "#/definitions/pageInfo"
+      user:
+        type: string
+      description:
+        type: string
+        description: "This description contains the detail of the action"
+        example: "Report added to project blah"
+  pageInfo:
+    type: object
+    properties: 
+      totalCount:
+        type: number
+      page: 
+        type: number
+      pageSize: 
+        type: number
+      first:
+        type: boolean
+      last:
+        type: boolean
+  
+    items: 
+      type: object
+      properties: 
+        name: 
+          type: string
+        healthy:
+          type: boolean
