@@ -16,7 +16,9 @@ paths:
         200:
           description: Information json returned
           schema:
-            $ref: "#/definitions/healthArray"
+            type: array
+            items:
+              $ref: "#/definitions/health"
       
   /info:
     get:
@@ -39,6 +41,23 @@ paths:
           description: OK
 
   /reports:
+    post:
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: The report to create.
+          schema:
+            $ref: "#/definitions/reportRequest"
+      responses:
+        201:
+          description: Created
+          headers:
+            location:
+              description: location of the resource created
+              type: string
+              format: uri
     get:
       summary: Return a paged view of audits
       produces:
@@ -72,7 +91,7 @@ paths:
           schema:
             type: array
             items: 
-              "$ref": "#/definitions/report"
+              "$ref": "#/definitions/response"
 
 definitions:
   info:
@@ -80,27 +99,98 @@ definitions:
     properties: 
       version:
         type: string
-  healthArray:
-    type: array
-    items: 
-      type: object
-      properties: 
-        name: 
-          type: string
-        healthy:
-          type: boolean
-  auditLog:
+  
+  health:
+    type: object
+    properties: 
+      name: 
+        type: string
+      healthy:
+        type: boolean
+
+  response:
     type: object
     properties: 
       pageDetail:
         type: object
         $ref: "#/definitions/pageInfo"
-      user:
+      report:
+        type: array
+        items:
+          $ref: "#/definitions/reportResponse"
+
+  reportRequest:
+    type: object
+    properties: 
+      completed:
+        type: string
+      planned:
+        type: string      
+      client:
+        type: string
+      projectId:
+        type: string
+      sow:
+        type: string
+      risks:
+        type: array
+        items:
+          $ref: "#/definitions/risk"
+
+  reportResponse:
+    type: object
+    properties: 
+      id:
+        type: string
+      created:
+        type: string
+        format: date-time
+      completed:
+        type: string
+      planned:
+        type: string      
+      client:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      project:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      sow:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      risks:
+        type: array
+        items:
+          $ref: "#/definitions/risk"  
+ 
+  risk:
+    type: object
+    properties: 
+      id:
         type: string
       description:
         type: string
-        description: "This description contains the detail of the action"
-        example: "Report added to project blah"
+      mitigation:
+        type: string
+      status:
+        type: string
+        enum:
+        - R
+        - A
+        - G
+
   pageInfo:
     type: object
     properties: 
@@ -114,11 +204,3 @@ definitions:
         type: boolean
       last:
         type: boolean
-  
-    items: 
-      type: object
-      properties: 
-        name: 
-          type: string
-        healthy:
-          type: boolean
