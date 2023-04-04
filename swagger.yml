@@ -40,7 +40,7 @@ paths:
         200:
           description: OK
 
-  /reports/ui:
+  /ui/reports:
     get:
       summary: Return a paged view of reports in normalised form
       produces:
