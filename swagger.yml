@@ -42,7 +42,7 @@ paths:
 
   /reports/ui:
     get:
-      summary: Return a paged view of audits
+      summary: Return a paged view of reports in normalised form
       produces:
         - application/json
       parameters:
@@ -89,7 +89,7 @@ paths:
           description: The report is not found
         200:
           description: Report submitted
-          
+
   /reports/{id}/retract:
     put:
       produces:
