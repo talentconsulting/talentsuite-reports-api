@@ -40,7 +40,57 @@ paths:
         200:
           description: OK
 
+  /reports/ui:
+    get:
+      summary: Return a paged view of audits
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          type: number
+          name: page
+          description: "page to get"
+          required: false
+          default: 1
+        - in: query
+          type: number
+          name: pageSize
+          description: "pagesize to return"
+          required: false
+        - in: query
+          type: string
+          name: userId
+          description: "user to filter on"
+          required: false
+        - in: query
+          type: string
+          name: projectId
+          description: "project to filter on"
+          required: false
+
+      responses:
+        200:
+          description: OK
+          schema:
+            "$ref": "#/definitions/searchReportResponse"
+
   /reports/{id}:
+    get:
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: The report to create.
+          type: string
+          required: true
+      responses:
+        404:
+          description: The report is not found
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/reportResponse"
     put:
       produces:
         - application/json
@@ -97,41 +147,7 @@ paths:
               description: location of the resource created
               type: string
               format: uri
-    get:
-      summary: Return a paged view of audits
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          type: number
-          name: page
-          description: "page to get"
-          required: false
-          default: 1
-        - in: query
-          type: number
-          name: pageSize
-          description: "pagesize to return"
-          required: false
-        - in: query
-          type: string
-          name: userId
-          description: "user to filter on"
-          required: false
-        - in: query
-          type: string
-          name: projectId
-          description: "project to filter on"
-          required: false
-
-      responses:
-        200:
-          description: OK
-          schema:
-            type: array
-            items: 
-              "$ref": "#/definitions/response"
-
+    
 definitions:
   info:
     type: object
@@ -147,16 +163,15 @@ definitions:
       healthy:
         type: boolean
 
-  response:
+  searchReportResponse:
     type: object
     properties: 
       pageDetail:
-        type: object
         $ref: "#/definitions/pageInfo"
-      report:
+      reports:
         type: array
         items:
-          $ref: "#/definitions/reportResponse"
+          $ref: "#/definitions/uiReport"
 
   reportRequest:
     type: object
@@ -188,27 +203,14 @@ definitions:
         type: string
       planned:
         type: string      
-      client:
-        type: object
-        properties: 
-          id:
-            type: string
-          name: 
-            type: string
-      project:
-        type: object
-        properties: 
-          id:
-            type: string
-          name: 
-            type: string
-      sow:
-        type: object
-        properties: 
-          id:
-            type: string
-          name: 
-            type: string
+      clientId:
+        type: string
+      projectId:
+        type: string
+      sowId:
+        type: string
+      userId:
+        type: string
       risks:
         type: array
         items:
@@ -243,3 +245,43 @@ definitions:
         type: boolean
       last:
         type: boolean
+
+  uiReport:
+    type: object
+    properties: 
+      id:
+        type: string
+      created:
+        type: string
+        format: date-time
+      completed:
+        type: string
+      planned:
+        type: string      
+      client:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      ragStatus:
+        type: string
+      project:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      sow:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      risks:
+        type: array
+        items:
+          $ref: "#/definitions/risk"
