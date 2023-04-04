@@ -74,6 +74,38 @@ paths:
           schema:
             "$ref": "#/definitions/searchReportResponse"
 
+  /reports/{id}/submit:
+    put:
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: The id of the report to be submitted
+          type: string
+          required: true
+      responses:
+        404:
+          description: The report is not found
+        200:
+          description: Report submitted
+          
+  /reports/{id}/retract:
+    put:
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: The id of the report to be retracted
+          type: string
+          required: true
+      responses:
+        404:
+          description: The report is not found
+        200:
+          description: Report retracted
+
   /reports/{id}:
     get:
       produces:
@@ -115,6 +147,8 @@ paths:
               description: location of the resource created
               type: string
               format: uri
+        400:
+          description: The report is already submitted
     delete:
       produces:
         - application/json
@@ -147,7 +181,6 @@ paths:
               description: location of the resource created
               type: string
               format: uri
-    
 definitions:
   info:
     type: object
@@ -190,6 +223,8 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/risk"
+      status:
+        $ref: "#/definitions/reportStatus"
 
   reportResponse:
     type: object
@@ -215,7 +250,8 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/risk"  
- 
+      status:
+        $ref: "#/definitions/reportStatus"
   risk:
     type: object
     properties: 
@@ -285,3 +321,12 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/risk"
+      status:
+        $ref: "#/definitions/reportStatus"
+        
+  reportStatus:
+    type: string
+    enum:
+      - saved
+      - submitted
+      - retracted
