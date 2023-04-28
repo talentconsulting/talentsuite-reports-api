@@ -40,40 +40,6 @@ paths:
         200:
           description: OK
 
-  /ui/reports:
-    get:
-      summary: Return a paged view of reports in normalised form
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          type: number
-          name: page
-          description: "page to get"
-          required: false
-          default: 1
-        - in: query
-          type: number
-          name: pageSize
-          description: "pagesize to return"
-          required: false
-        - in: query
-          type: string
-          name: userId
-          description: "user to filter on"
-          required: false
-        - in: query
-          type: string
-          name: projectId
-          description: "project to filter on"
-          required: false
-
-      responses:
-        200:
-          description: OK
-          schema:
-            "$ref": "#/definitions/reportResponse"
-
   /reports/{id}:
     get:
       produces:
@@ -90,7 +56,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/report"
+            $ref: "#/definitions/reportResponse"
     put:
       produces:
         - application/json
@@ -99,7 +65,7 @@ paths:
           name: body
           description: The report to create.
           schema:
-            $ref: "#/definitions/report"
+            $ref: "#/definitions/reportResponse"
         - in: path
           name: id
           description: The id of the report to update
@@ -133,6 +99,38 @@ paths:
           description: Deleted
   
   /reports:
+    get:
+      summary: Return a paged view of reports in normalised form
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          type: number
+          name: page
+          description: "page to get"
+          required: false
+          default: 1
+        - in: query
+          type: number
+          name: pageSize
+          description: "pagesize to return"
+          required: false
+        - in: query
+          type: string
+          name: userId
+          description: "user to filter on"
+          required: false
+        - in: query
+          type: string
+          name: projectId
+          description: "project to filter on"
+          required: false
+
+      responses:
+        200:
+          description: OK
+          schema:
+            "$ref": "#/definitions/reportListResponse"
     post:
       produces:
         - application/json
@@ -141,7 +139,7 @@ paths:
           name: body
           description: The report to create.
           schema:
-            $ref: "#/definitions/report"
+            $ref: "#/definitions/reportRequest"
       responses:
         201:
           description: Created
@@ -166,7 +164,7 @@ definitions:
       healthy:
         type: boolean
 
-  reportResponse:
+  reportListResponse:
     type: object
     properties: 
       pageDetail:
@@ -174,23 +172,21 @@ definitions:
       reports:
         type: array
         items:
-          $ref: "#/definitions/uiReport"
+          $ref: "#/definitions/reportResponse"
 
-  report:
+  reportRequest:
     type: object
     properties: 
-      id:
+      clientId:
+        type: string
+      projectId:
+        type: string
+      sowId:
         type: string
       completed:
         type: string
       planned:
         type: string      
-      client:
-        type: string
-      projectId:
-        type: string
-      sow:
-        type: string
       risks:
         type: array
         items:
@@ -198,6 +194,28 @@ definitions:
       status:
         $ref: "#/definitions/reportStatus"
 
+  reportResponse:
+      type: object
+      properties: 
+        id:
+          type: string
+        clientId:
+          type: string
+        projectId:
+          type: string
+        sowId:
+          type: string
+        completed:
+          type: string
+        planned:
+          type: string      
+        risks:
+          type: array
+          items:
+            $ref: "#/definitions/risk"
+        status:
+          $ref: "#/definitions/reportStatus"
+  
   risk:
     type: object
     properties: 
@@ -228,48 +246,6 @@ definitions:
       last:
         type: boolean
 
-  uiReport:
-    type: object
-    properties: 
-      id:
-        type: string
-      created:
-        type: string
-        format: date-time
-      completed:
-        type: string
-      planned:
-        type: string      
-      client:
-        type: object
-        properties: 
-          id:
-            type: string
-          name: 
-            type: string
-      ragStatus:
-        type: string
-      project:
-        type: object
-        properties: 
-          id:
-            type: string
-          name: 
-            type: string
-      sow:
-        type: object
-        properties: 
-          id:
-            type: string
-          name: 
-            type: string
-      risks:
-        type: array
-        items:
-          $ref: "#/definitions/risk"
-      status:
-        $ref: "#/definitions/reportStatus"
-        
   reportStatus:
     type: string
     enum:
