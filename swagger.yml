@@ -1,0 +1,278 @@
+swagger: "2.0"
+info:
+  title: Reports service API
+  description: This service contains the API for creating reports
+  version: 1.0.0
+host: api.reports.talentsuite.uk
+schemes:
+  - https
+paths:
+  /health:
+    get:
+      summary: Health endpoint which tests all integrations for connectivity.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Information json returned
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/health"
+      
+  /info:
+    get:
+      summary: information endpoint.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Information json returned
+          schema:
+            $ref: "#/definitions/info"
+
+  /readiness:
+    get:
+      summary: Returns whether the service is ready
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+  /ui/reports:
+    get:
+      summary: Return a paged view of reports in normalised form
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          type: number
+          name: page
+          description: "page to get"
+          required: false
+          default: 1
+        - in: query
+          type: number
+          name: pageSize
+          description: "pagesize to return"
+          required: false
+        - in: query
+          type: string
+          name: userId
+          description: "user to filter on"
+          required: false
+        - in: query
+          type: string
+          name: projectId
+          description: "project to filter on"
+          required: false
+
+      responses:
+        200:
+          description: OK
+          schema:
+            "$ref": "#/definitions/reportResponse"
+
+  /reports/{id}:
+    get:
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: The report to create.
+          type: string
+          required: true
+      responses:
+        404:
+          description: The report is not found
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/report"
+    put:
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: The report to create.
+          schema:
+            $ref: "#/definitions/report"
+        - in: path
+          name: id
+          description: The id of the report to update
+          type: string
+          required: true
+      responses:
+        404:
+          description: The report is not found
+        200:
+          description: Updated
+          headers:
+            location:
+              description: location of the resource created
+              type: string
+              format: uri
+        400:
+          description: The report is already submitted
+    delete:
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: The id of the report to update
+          type: string
+          required: true
+      responses:
+        404:
+          description: The report is not found
+        200:
+          description: Deleted
+  
+  /reports:
+    post:
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: The report to create.
+          schema:
+            $ref: "#/definitions/report"
+      responses:
+        201:
+          description: Created
+          headers:
+            location:
+              description: location of the resource created
+              type: string
+              format: uri
+
+definitions:
+  info:
+    type: object
+    properties: 
+      version:
+        type: string
+  
+  health:
+    type: object
+    properties: 
+      name: 
+        type: string
+      healthy:
+        type: boolean
+
+  reportResponse:
+    type: object
+    properties: 
+      pageDetail:
+        $ref: "#/definitions/pageInfo"
+      reports:
+        type: array
+        items:
+          $ref: "#/definitions/uiReport"
+
+  report:
+    type: object
+    properties: 
+      id:
+        type: string
+      completed:
+        type: string
+      planned:
+        type: string      
+      client:
+        type: string
+      projectId:
+        type: string
+      sow:
+        type: string
+      risks:
+        type: array
+        items:
+          $ref: "#/definitions/risk"
+      status:
+        $ref: "#/definitions/reportStatus"
+
+  risk:
+    type: object
+    properties: 
+      id:
+        type: string
+      description:
+        type: string
+      mitigation:
+        type: string
+      status:
+        type: string
+        enum:
+        - R
+        - A
+        - G
+
+  pageInfo:
+    type: object
+    properties: 
+      totalCount:
+        type: number
+      page: 
+        type: number
+      pageSize: 
+        type: number
+      first:
+        type: boolean
+      last:
+        type: boolean
+
+  uiReport:
+    type: object
+    properties: 
+      id:
+        type: string
+      created:
+        type: string
+        format: date-time
+      completed:
+        type: string
+      planned:
+        type: string      
+      client:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      ragStatus:
+        type: string
+      project:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      sow:
+        type: object
+        properties: 
+          id:
+            type: string
+          name: 
+            type: string
+      risks:
+        type: array
+        items:
+          $ref: "#/definitions/risk"
+      status:
+        $ref: "#/definitions/reportStatus"
+        
+  reportStatus:
+    type: string
+    enum:
+      - saved
+      - submitted
+      - retracted
