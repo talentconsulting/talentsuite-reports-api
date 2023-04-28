@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - ts-core-report-api
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to registry
+      uses: docker/login-action@v1
+      with:
+        registry: https://tscorecr.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_f3d778cd90d24928be9b8f7d23467274 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_8924ee3fc0b343279e0375e99bd0fd10 }}
+
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: tscorecr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f3d778cd90d24928be9b8f7d23467274 }}/tsreportsapi:${{ github.sha }}
+        file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'ts-core-report-api'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b4e8d97daf074eaeafa77851da943b69 }}
+        images: 'tscorecr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f3d778cd90d24928be9b8f7d23467274 }}/tsreportsapi:${{ github.sha }}'
