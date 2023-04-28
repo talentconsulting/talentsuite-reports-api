@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
@@ -15,13 +14,23 @@ public class ApplicationDbContextInitialiser
         _context = context;
     }
 
-    public async Task InitialiseAsync(bool isProduction)
+    public async Task InitialiseAsync(bool isProduction, bool restartDatabase)
     {
         try
         {
+            if (restartDatabase)
+            {
+                await _context.Database.EnsureDeletedAsync();
+            }
+
             if (_context.Database.IsInMemory())
             {
                 await _context.Database.EnsureDeletedAsync();
+                await _context.Database.EnsureCreatedAsync();
+            }
+
+            if (_context.Database.IsSqlite())
+            {
                 await _context.Database.EnsureCreatedAsync();
             }
 

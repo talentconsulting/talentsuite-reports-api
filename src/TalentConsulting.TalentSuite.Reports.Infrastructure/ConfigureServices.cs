@@ -35,10 +35,14 @@ public static class ConfigureServices
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
                 break;
 
+            case "UseSqlLite":
+                services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
+                break;
+
             case "UsePostgresDatabase":
                 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
-                //.ReplaceService<ISqlGenerationHelper, NpgsqlSqlGenerationLowercasingHelper>());
                 break;
 
             default:
