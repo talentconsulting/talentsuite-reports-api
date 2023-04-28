@@ -93,7 +93,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
 
 
         var command = new GetReportsCommand(1, 99);
-        var handler = new GetReportsCommandHandler(mockApplicationDbContext);
+        var handler = new GetReportsCommandHandler(mockApplicationDbContext, _mapper);
 
         //Act
         var result = await handler.Handle(command, new CancellationToken());
@@ -112,7 +112,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
         var dbReport = GetTestReport();
         mockApplicationDbContext.Reports.Add(dbReport);
         await mockApplicationDbContext.SaveChangesAsync();
-        var handler = new GetReportsCommandHandler(mockApplicationDbContext);
+        var handler = new GetReportsCommandHandler(mockApplicationDbContext, _mapper);
 
         //Act
         var result = await handler.Handle(new GetReportsCommand(1, 99), new CancellationToken());

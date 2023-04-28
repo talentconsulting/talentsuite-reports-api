@@ -5,6 +5,7 @@ namespace TalentConsulting.TalentSuite.Reports.API;
 
 public class Program
 {
+    protected Program() { }
     public static IServiceProvider ServiceProvider { get; private set; } = default!;
 
     public static async Task Main(string[] args)

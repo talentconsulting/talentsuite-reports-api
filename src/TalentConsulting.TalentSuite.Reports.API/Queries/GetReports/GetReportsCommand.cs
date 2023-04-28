@@ -1,6 +1,9 @@
 ﻿using Ardalis.GuardClauses;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
@@ -25,32 +28,36 @@ public class GetReportsCommand : IRequest<PaginatedList<ReportDto>>
 public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, PaginatedList<ReportDto>>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public GetReportsCommandHandler(ApplicationDbContext context)
+    public GetReportsCommandHandler(ApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     public async Task<PaginatedList<ReportDto>> Handle(GetReportsCommand request, CancellationToken cancellationToken)
     {
         var entities = _context.Reports
           .Include(x => x.Risks);
+          
 
         if (entities == null)
         {
             throw new NotFoundException(nameof(Report), "Reports");
         }
 
-        var filteredReports = await entities.Select(x => new ReportDto(x.Id, (x.Created != null) ? x.Created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
-
+        List<ReportDto> pagelist;
         if (request != null)
         {
-            var pageList = filteredReports.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ReportDto>(pageList, filteredReports.Count, request.PageNumber, request.PageSize);
-
-            return result;
+            pagelist = await entities.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize)
+                 .ProjectTo<ReportDto>(_mapper.ConfigurationProvider)
+                 .ToListAsync();
+            return new PaginatedList<ReportDto>(pagelist, pagelist.Count, request.PageNumber, request.PageSize);
         }
 
-        return new PaginatedList<ReportDto>(filteredReports, filteredReports.Count, 1, 10);
+        pagelist = _mapper.Map<List<ReportDto>>(entities);
+        var result = new PaginatedList<ReportDto>(pagelist.ToList(), pagelist.Count, 1, 10);
+        return result;
     }
 }
 
