@@ -43,6 +43,19 @@ Configuration should be added to resemble the following:
 
 ```
 
+## Migrations
+
+To Add Migration
+
+<br />
+ dotnet ef migrations add CreateIntialSchema 
+<br />
+
+To Apply Latest Schema Manually
+
+<br />
+ dotnet ef database update 
+<br />
 
 
 ## 🔗 External Dependencies

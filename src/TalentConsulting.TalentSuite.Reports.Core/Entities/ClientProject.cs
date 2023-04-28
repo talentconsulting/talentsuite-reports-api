@@ -11,7 +11,7 @@ public class ClientProject : EntityBase<string>, IAggregateRoot
 
     public ClientProject(string id, string clientid, string projectid)
     {
-        base.Id = id;
+        Id = id;
         ClientId = clientid;
         ProjectId = projectid;
     }

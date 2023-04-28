@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
@@ -15,13 +14,23 @@ public class ApplicationDbContextInitialiser
         _context = context;
     }
 
-    public async Task InitialiseAsync(bool isProduction)
+    public async Task InitialiseAsync(bool isProduction, bool restartDatabase)
     {
         try
         {
+            if (restartDatabase)
+            {
+                await _context.Database.EnsureDeletedAsync();
+            }
+
             if (_context.Database.IsInMemory())
             {
                 await _context.Database.EnsureDeletedAsync();
+                await _context.Database.EnsureCreatedAsync();
+            }
+
+            if (_context.Database.IsSqlite())
+            {
                 await _context.Database.EnsureCreatedAsync();
             }
 
@@ -55,17 +64,21 @@ public class ApplicationDbContextInitialiser
         if (_context.Projects.Any())
             return;
 
-        _context.Clients.AddRange(Clients().ToArray());
-        _context.ProjectRoles.AddRange(ProjectRoles().ToArray());
-        _context.Projects.Add(new Project("86b610ee-e866-4749-9f10-4a5c59e96f2f", "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 01), new DateTime(2023, 03, 31),
+        _context.Projects.Add(new Project("86b610ee-e866-4749-9f10-4a5c59e96f2f", "0121 111 2222", "Social work CPD", "con_23sds", new DateTime(2023, 10, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2023, 03, 31, 0, 0, 0, DateTimeKind.Utc),
             new List<ClientProject>(),
             new List<Contact>(),
             new List<Report>(),
             new List<Sow>()));
-        _context.UserGroups.AddRange(UserGroups().ToArray());
-        _context.Users.AddRange(Users().ToArray());
+
         _context.Contacts.Add(new Contact("03a33a03-a98d-4946-8e8f-05cbc7a949b6", "Ron Weasley", "ron@weasley.com", true, "86b610ee-e866-4749-9f10-4a5c59e96f2f"));
 
+        _context.Clients.AddRange(Clients().ToArray());
+
+        _context.ProjectRoles.AddRange(ProjectRoles().ToArray());
+        _context.UserGroups.AddRange(UserGroups().ToArray());
+        _context.Users.AddRange(Users().ToArray());
+        
+        
         await _context.SaveChangesAsync();
     }
 
@@ -117,7 +130,7 @@ public class ApplicationDbContextInitialiser
                 plannedtasks: "Task 2, Task 3",
                 completedtasks: "Task 1",
                 weeknumber: 1,
-                submissiondate: new DateTime(2023,4,1),
+                submissiondate: new DateTime(2023,4,1, 0,0,0, DateTimeKind.Utc),
                 projectid: "86b610ee-e866-4749-9f10-4a5c59e96f2f",
                 userid: "93e0f88c-691f-4373-8abf-3f895bddec60", new List<Risk>()
                 {
@@ -133,7 +146,7 @@ public class ApplicationDbContextInitialiser
                 plannedtasks: "Task 2, Task 3",
                 completedtasks: "Task 1",
                 weeknumber: 1,
-                submissiondate: new DateTime(2023,4,1),
+                submissiondate: new DateTime(2023,4,1, 0,0,0, DateTimeKind.Utc),
                 projectid: "86b610ee-e866-4749-9f10-4a5c59e96f2f",
                 userid: "8ed672f0-5146-4ecc-89a0-6a36c1f5db71", new List<Risk>()
                 {

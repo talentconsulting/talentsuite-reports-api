@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Interceptors;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Service;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TalentConsulting.TalentSuite.Reports.API;
 
@@ -27,6 +29,13 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
                 builder.UseInMemoryDatabase("FH-LAHubDb");
                 break;
 
+            case "UseSqlLite":
+                {
+                    var connectionString = configuration.GetConnectionString("DefaultConnection");
+                    if (connectionString != null)
+                        builder.UseSqlite(connectionString, b => b.MigrationsAssembly("TalentConsulting.TalentSuite.Reports.API"));
+                }
+                break;
             case "UseSqlServerDatabase":
                 {
                     var connectionString = configuration.GetConnectionString("DefaultConnection");

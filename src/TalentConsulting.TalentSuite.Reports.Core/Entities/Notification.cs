@@ -11,7 +11,7 @@ public class Notification : EntityBase<string>, IAggregateRoot
 
     public Notification(string id, string content, DateTime nextretrydate, string title, string status)
     {
-        base.Id = id;
+        Id = id;
         NextRetryDate = nextretrydate;
         Content = content;
         Title = title;

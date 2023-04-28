@@ -12,7 +12,7 @@ public class UserProjectRole : EntityBase<string>, IAggregateRoot
 
     public UserProjectRole(string id, string userid, string projectid, bool recievesreports)
     {
-        base.Id = id;
+        Id = id;
         UserId = userid;
         ProjectId = projectid;
         Recievesreports = recievesreports;

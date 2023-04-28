@@ -11,7 +11,7 @@ public class Risk : EntityBase<string>, IAggregateRoot
 
     public Risk(string id, string reportid, string riskdetails, string riskmitigation, string ragstatus)
     {
-        base.Id = id;
+        Id = id;
         ReportId = reportid;
         RiskDetails = riskdetails;
         RiskMitigation = riskmitigation;

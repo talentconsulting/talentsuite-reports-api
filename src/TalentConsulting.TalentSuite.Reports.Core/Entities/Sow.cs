@@ -11,8 +11,8 @@ public class Sow : EntityBase<string>, IAggregateRoot
 
     public Sow(string id, DateTime created, byte[] file, bool ischangerequest, DateTime sowstartdate, DateTime sowenddate, string projectid)
     {
-        base.Id = id;
-        base.Created = created;
+        Id = id;
+        Created = created;
         File = file;
         IsChangeRequest = ischangerequest;
         SowStartDate = sowstartdate;

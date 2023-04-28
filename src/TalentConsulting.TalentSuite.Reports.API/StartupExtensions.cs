@@ -1,5 +1,6 @@
 ﻿using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
@@ -128,7 +129,8 @@ public static class StartupExtensions
             {
                 // Seed Database
                 var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-                await initialiser.InitialiseAsync(app.Environment.IsProduction());
+                var shouldResetDatabase = app.Configuration.GetValue<bool>("RestartDatabase");
+                await initialiser.InitialiseAsync(app.Environment.IsProduction(), shouldResetDatabase);
                 await initialiser.SeedAsync();
             }
         }
