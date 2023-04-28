@@ -1,4 +1,6 @@
 ﻿using Ardalis.GuardClauses;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TalentConsulting.TalentSuite.Reports.Common;
@@ -10,7 +12,7 @@ using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository
 namespace TalentConsulting.TalentSuite.Reports.API.Queries.GetReports;
 
 
-public class GetReportCommand : IRequest<PaginatedList<ReportDto>>
+public class GetReportCommand : IRequest<ReportDto>
 {
     public GetReportCommand(string id)
     {
@@ -20,36 +22,30 @@ public class GetReportCommand : IRequest<PaginatedList<ReportDto>>
     public string Id { get; set; }
 }
 
-public class GetReportCommandHandler : IRequestHandler<GetReportCommand, PaginatedList<ReportDto>>
+public class GetReportCommandHandler : IRequestHandler<GetReportCommand,ReportDto>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public GetReportCommandHandler(ApplicationDbContext context)
+    public GetReportCommandHandler(ApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
-    public async Task<PaginatedList<ReportDto>> Handle(GetReportCommand request, CancellationToken cancellationToken)
+    public async Task<ReportDto> Handle(GetReportCommand request, CancellationToken cancellationToken)
     {
-        var entities = _context.Reports
+        var entity = await _context.Reports
             .Include(x => x.Risks)
-            .Where(x => x.Id == request.Id);
+            .ProjectTo<ReportDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
 
-        if (entities == null)
+        if (entity == null)
         {
-            throw new NotFoundException(nameof(Report), "Reports");
+            throw new NotFoundException(nameof(ReportDto), request.Id.ToString());
         }
 
-        var filteredReports = await entities.Select(x => new ReportDto(x.Id, (x.Created != null) ? x.Created.Value : DateTime.UtcNow, x.PlannedTasks, x.CompletedTasks, x.Weeknumber, x.SubmissionDate, x.ProjectId, x.UserId, EntityToDtoHelper.GetRisks(x.Risks))).ToListAsync();
+        return entity;
 
-        if (request != null)
-        {
-            var pageList = filteredReports.Skip((0 - 1) * 1).Take(1).ToList();
-            var result = new PaginatedList<ReportDto>(pageList, filteredReports.Count, 1, 1);
-
-            return result;
-        }
-
-        return new PaginatedList<ReportDto>(filteredReports, filteredReports.Count, 1, 10);
     }
 }

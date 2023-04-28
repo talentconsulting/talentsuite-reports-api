@@ -9,14 +9,12 @@ namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Interc
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
-    private readonly ICurrentUserService _currentUserService;
     private readonly IDateTime _dateTime;
 
     public AuditableEntitySaveChangesInterceptor(
         ICurrentUserService currentUserService,
         IDateTime dateTime)
     {
-        _currentUserService = currentUserService;
         _dateTime = dateTime;
     }
 
@@ -45,8 +43,6 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 
                 entry.Entity.Created = _dateTime.Now;
             }
-
-
         }
     }
 }
