@@ -207,6 +207,12 @@ definitions:
           type: string
         completed:
           type: string
+        created: 
+          type: string
+          format: date-time
+        submitted: 
+          type: string
+          format: date-time
         planned:
           type: string      
         risks:
