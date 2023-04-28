@@ -210,6 +210,8 @@ definitions:
         created: 
           type: string
           format: date-time
+        weekNumber:
+          type: integer
         submitted: 
           type: string
           format: date-time
