@@ -9,7 +9,7 @@ public class Audit : EntityBase<string>, IAggregateRoot
 
     public Audit(string id, string detail, string userid)
     {
-        Id = id;
+        base.Id = id;
         Detail = detail;
         UserId = userid;
     }

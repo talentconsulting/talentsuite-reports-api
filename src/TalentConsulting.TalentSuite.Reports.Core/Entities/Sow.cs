@@ -1,15 +1,18 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
+
+[Table("sows")]
 public class Sow : EntityBase<string>, IAggregateRoot
 {
     private Sow() { }
 
     public Sow(string id, DateTime created, byte[] file, bool ischangerequest, DateTime sowstartdate, DateTime sowenddate, string projectid)
     {
-        Id = id;
-        Created = created;
+        base.Id = id;
+        base.Created = created;
         File = file;
         IsChangeRequest = ischangerequest;
         SowStartDate = sowstartdate;

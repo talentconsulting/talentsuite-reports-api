@@ -16,8 +16,6 @@ public class ClientProjectConfiguration
 
         builder.Property(t => t.Created)
             .IsRequired();
-        builder.Property(t => t.CreatedBy)
-            .HasMaxLength(255)
-            .IsRequired();
+
     }
 }

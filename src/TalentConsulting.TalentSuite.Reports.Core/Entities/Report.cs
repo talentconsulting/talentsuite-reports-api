@@ -1,15 +1,19 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
+
+
+[Table("reports")]
 public class Report : EntityBase<string>, IAggregateRoot
 {
     private Report() { }
 
     public Report(string id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectid, string userid, ICollection<Risk> risks)
     {
-        Id = id;
+        base.Id = id;
         PlannedTasks = plannedtasks;
         CompletedTasks = completedtasks;
         Weeknumber = weeknumber;

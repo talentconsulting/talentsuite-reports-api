@@ -1,14 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
+
+[Table("cients")]
 public class Client : EntityBase<string>, IAggregateRoot
 {
     private Client() { }
 
     public Client(string id, string name, string contactname, string contactemail, ICollection<ClientProject> clientProjects)
     {
-        Id = id;
+        base.Id = id;
         Name = name;
         ContactName = contactname;
         ContactEmail = contactemail;

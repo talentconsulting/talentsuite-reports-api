@@ -10,30 +10,30 @@ using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository
 namespace TalentConsulting.TalentSuite.Reports.API.Queries.GetReports;
 
 
-public class GetReportsCommand : IRequest<PaginatedList<ReportDto>>
+public class GetReportCommand : IRequest<PaginatedList<ReportDto>>
 {
-    public GetReportsCommand(int? pageNumber, int? pageSize)
+    public GetReportCommand(string id)
     {
-        PageNumber = pageNumber != null ? pageNumber.Value : 1;
-        PageSize = pageSize != null ? pageSize.Value : 1;
+        Id = id;
     }
 
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
+    public string Id { get; set; }
 }
 
-public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, PaginatedList<ReportDto>>
+public class GetReportCommandHandler : IRequestHandler<GetReportCommand, PaginatedList<ReportDto>>
 {
     private readonly ApplicationDbContext _context;
 
-    public GetReportsCommandHandler(ApplicationDbContext context)
+    public GetReportCommandHandler(ApplicationDbContext context)
     {
         _context = context;
     }
-    public async Task<PaginatedList<ReportDto>> Handle(GetReportsCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ReportDto>> Handle(GetReportCommand request, CancellationToken cancellationToken)
     {
         var entities = _context.Reports
-          .Include(x => x.Risks);
+            .Include(x => x.Risks)
+            .Where(x => x.Id == request.Id);
+
 
         if (entities == null)
         {
@@ -44,8 +44,8 @@ public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, Pagin
 
         if (request != null)
         {
-            var pageList = filteredReports.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
-            var result = new PaginatedList<ReportDto>(pageList, filteredReports.Count, request.PageNumber, request.PageSize);
+            var pageList = filteredReports.Skip((0 - 1) * 1).Take(1).ToList();
+            var result = new PaginatedList<ReportDto>(pageList, filteredReports.Count, 1, 1);
 
             return result;
         }
@@ -53,5 +53,3 @@ public class GetReportsCommandHandler : IRequestHandler<GetReportsCommand, Pagin
         return new PaginatedList<ReportDto>(filteredReports, filteredReports.Count, 1, 10);
     }
 }
-
-

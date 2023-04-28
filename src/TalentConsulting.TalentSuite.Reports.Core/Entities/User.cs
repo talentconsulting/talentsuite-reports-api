@@ -1,15 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
+[Table("users")]
 public class User : EntityBase<string>, IAggregateRoot
 {
     private User() { }
 
     public User(string id, string firstname, string lastname, string email, string usergroupid, ICollection<Report> reports)
     {
-        Id = id;
+        base.Id = id;
         Firstname = firstname;
         Lastname = lastname;
         Email = email;

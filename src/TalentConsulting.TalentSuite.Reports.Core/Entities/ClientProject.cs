@@ -1,14 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
+
+[Table("clientprojects")]
 public class ClientProject : EntityBase<string>, IAggregateRoot
 {
     private ClientProject() { }
 
     public ClientProject(string id, string clientid, string projectid)
     {
-        Id = id;
+        base.Id = id;
         ClientId = clientid;
         ProjectId = projectid;
     }

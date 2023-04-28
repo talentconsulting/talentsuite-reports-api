@@ -1,15 +1,17 @@
-﻿using TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
+[Table("notifications")]
 public class Notification : EntityBase<string>, IAggregateRoot
 {
     private Notification() { }
 
     public Notification(string id, string content, DateTime nextretrydate, string title, string status)
     {
-        Id = id;
+        base.Id = id;
         NextRetryDate = nextretrydate;
         Content = content;
         Title = title;

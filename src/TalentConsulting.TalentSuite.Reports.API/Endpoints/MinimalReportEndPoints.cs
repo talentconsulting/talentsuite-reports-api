@@ -13,6 +13,23 @@ public class MinimalReportEndPoints
 {
     public void RegisterReportEndPoints(WebApplication app)
     {
+
+        app.MapGet("api/reports/{id}", [Authorize(Policy = "TalentConsultingUser")] async (string id, CancellationToken cancellationToken, ISender _mediator) =>
+        {
+            try
+            {
+                GetReportCommand request = new(id);
+                var result = await _mediator.Send(request, cancellationToken);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }).WithMetadata(new SwaggerOperationAttribute("Get Reports", "Get Reports Paginated") { Tags = new[] { "Reports" } });
+
+
         app.MapPost("api/reports", [Authorize(Policy = "TalentConsultingUser")] async ([FromBody] ReportDto request, CancellationToken cancellationToken, ISender _mediator) =>
         {
             try
@@ -26,9 +43,10 @@ public class MinimalReportEndPoints
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 throw;
             }
-        }).WithMetadata(new SwaggerOperationAttribute("Reports", "Create report") { Tags = new[] { "Reports" } });
+        }).WithMetadata(new SwaggerOperationAttribute("Reports", "Get report") { Tags = new[] { "Reports" } });
 
-        app.MapPut("api/reports/{id}", [Authorize(Policy = "TalentConsultingUser")] async (string id, [FromBody] ReportDto request, CancellationToken cancellationToken, ISender _mediator, ILogger<MinimalProjectEndPoints> logger) =>
+
+        app.MapPut("api/reports/{id}", [Authorize(Policy = "TalentConsultingUser")] async (string id, [FromBody] ReportDto request, CancellationToken cancellationToken, ISender _mediator, ILogger<MinimalReportEndPoints> logger) =>
         {
             try
             {
@@ -43,6 +61,7 @@ public class MinimalReportEndPoints
                 throw;
             }
         }).WithMetadata(new SwaggerOperationAttribute("Update Report", "Update Report By Id") { Tags = new[] { "Reports" } });
+
 
         app.MapGet("api/reports", [Authorize(Policy = "TalentConsultingUser")] async (int? pageNumber, int? pageSize, CancellationToken cancellationToken, ISender _mediator) =>
         {
