@@ -195,35 +195,12 @@ definitions:
         $ref: "#/definitions/reportStatus"
 
   reportResponse:
-      type: object
+      allOf:
+        - $ref: "#/definitions/reportRequest"
       properties: 
         id:
           type: string
-        clientId:
-          type: string
-        projectId:
-          type: string
-        sowId:
-          type: string
-        completed:
-          type: string
-        created: 
-          type: string
-          format: date-time
-        weekNumber:
-          type: integer
-        submitted: 
-          type: string
-          format: date-time
-        planned:
-          type: string      
-        risks:
-          type: array
-          items:
-            $ref: "#/definitions/risk"
-        status:
-          $ref: "#/definitions/reportStatus"
-  
+      
   risk:
     type: object
     properties: 
