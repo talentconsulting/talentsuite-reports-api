@@ -33,6 +33,12 @@ public class Program
         }
         catch (Exception e)
         {
+            string type = e.GetType().Name;
+            if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+            {
+                throw;
+            }
+
             Log.Fatal(e, "An unhandled exception occurred during bootstrapping");
         }
         finally

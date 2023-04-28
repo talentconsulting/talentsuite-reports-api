@@ -11,7 +11,7 @@ public class UserGroup : EntityBase<string>, IAggregateRoot
 
     public UserGroup(string id, string name, bool receivesreports)
     {
-        base.Id = id;
+        Id = id;
         Name = name;
         ReceivesReports = receivesreports;
     }

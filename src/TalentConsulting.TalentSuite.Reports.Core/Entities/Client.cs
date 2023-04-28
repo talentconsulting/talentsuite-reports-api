@@ -11,7 +11,7 @@ public class Client : EntityBase<string>, IAggregateRoot
 
     public Client(string id, string name, string contactname, string contactemail, ICollection<ClientProject> clientProjects)
     {
-        base.Id = id;
+        Id = id;
         Name = name;
         ContactName = contactname;
         ContactEmail = contactemail;

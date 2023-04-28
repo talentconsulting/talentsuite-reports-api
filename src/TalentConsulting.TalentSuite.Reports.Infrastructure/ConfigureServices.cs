@@ -37,8 +37,8 @@ public static class ConfigureServices
 
             case "UsePostgresDatabase":
                 services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? String.Empty)
-                .ReplaceService<ISqlGenerationHelper, NpgsqlSqlGenerationLowercasingHelper>());
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
+                //.ReplaceService<ISqlGenerationHelper, NpgsqlSqlGenerationLowercasingHelper>());
                 break;
 
             default:

@@ -16,7 +16,7 @@ public class Project : EntityBase<string>, IAggregateRoot
         ICollection<Report> reports,
         ICollection<Sow> sows)
     {
-        base.Id = id;
+        Id = id;
         ContactNumber = contactNumber;
         Name = name;
         Reference = reference;

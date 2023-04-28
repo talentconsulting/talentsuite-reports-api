@@ -11,7 +11,7 @@ public class ProjectRole : EntityBase<string>, IAggregateRoot
 
     public ProjectRole(string id, string name, bool technical, string description)
     {
-        base.Id = id;
+        Id = id;
         Name = name;
         Technical = technical;
         Description = description;

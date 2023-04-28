@@ -11,7 +11,7 @@ public class Contact : EntityBase<string>, IAggregateRoot
 
     public Contact(string id, string firstname, string email, bool receivesreport, string projectId)
     {
-        base.Id = id;
+        Id = id;
         Firstname = firstname;
         Email = email;
         ReceivesReport = receivesreport;

@@ -13,7 +13,7 @@ public class Report : EntityBase<string>, IAggregateRoot
 
     public Report(string id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectid, string userid, ICollection<Risk> risks)
     {
-        base.Id = id;
+        Id = id;
         PlannedTasks = plannedtasks;
         CompletedTasks = completedtasks;
         Weeknumber = weeknumber;
