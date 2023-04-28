@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'ts-core-report-api'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b4e8d97daf074eaeafa77851da943b69 }}
+        publish-profile: ${{ AZURE_WEBAPP_PUBLISH_PROFILE }}
         images: 'tscorecr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f3d778cd90d24928be9b8f7d23467274 }}/tsreportsapi:${{ github.sha }}'
