@@ -6,7 +6,7 @@ EXPOSE 80 443
 
 # Copy Solution File to support Multi-Project
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
+WORKDIR /
 COPY TalentConsulting.TalentSuite.Reports.API.sln ./
 
 # Copy Dependencies
@@ -22,12 +22,12 @@ RUN dotnet restore "src/TalentConsulting.TalentSuite.Reports.API/TalentConsultin
 COPY . .
 
 # Build
-WORKDIR "/src/src/TalentConsulting.TalentSuite.Reports.API"
+WORKDIR "/src/TalentConsulting.TalentSuite.Reports.API"
 RUN dotnet build "TalentConsulting.TalentSuite.Reports.API.csproj" -c Release -o /app/build
 
 # publish
 FROM build AS publish
-WORKDIR "/src/src/TalentConsulting.TalentSuite.Reports.API"
+WORKDIR "/src/TalentConsulting.TalentSuite.Reports.API"
 RUN dotnet publish "TalentConsulting.TalentSuite.Reports.API.csproj" -c Release -o /app/publish
 
 # Build runtime image
