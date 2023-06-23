@@ -39,14 +39,6 @@ public abstract class BaseWhenUsingApiUnitTests : IDisposable
 
             _configuration = config;
 
-            //var config = new ConfigurationBuilder()
-            //.AddInMemoryCollection(new List<KeyValuePair<string, string?>>()
-            //{
-            //    new KeyValuePair<string, string?>("UseDbType", "UseInMemoryDatabase"),
-            //    new KeyValuePair<string, string?>("JWT:Secret", "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr")
-            //})
-            //.Build();
-
             List<Claim> authClaims = new List<Claim> { new Claim(ClaimTypes.Role, "TalentConsultingUser") };
             _token = CreateToken(authClaims, config);
 
