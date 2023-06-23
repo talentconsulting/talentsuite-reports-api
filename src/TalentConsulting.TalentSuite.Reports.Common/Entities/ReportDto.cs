@@ -24,9 +24,7 @@ public record ReportDto
     public int Weeknumber { get; init; } = default!;
     public DateTime SubmissionDate { get; init; } = default!;
     public string ProjectId { get; init; } = default!;
-    //public ProjectDto Project { get; set; } = null!;
     public string UserId { get; init; } = default!;
-    //public UserDto User { get; set; } = null!;
     public virtual ICollection<RiskDto> Risks { get; init; } = default!;
 #if ADD_ENTITY_NAV
     

@@ -33,4 +33,9 @@
     <ProjectReference Include="..\TalentConsulting.TalentSuite.Reports.Infrastructure\TalentConsulting.TalentSuite.Reports.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\UpdateClient\" />
+    <Folder Include="Queries\GetClients\" />
+  </ItemGroup>
+
 </Project>
