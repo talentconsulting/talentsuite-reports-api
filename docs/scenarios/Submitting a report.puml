@@ -1,0 +1,23 @@
+@startuml Report Submission
+Reporter->>UI: LogIn
+UI->>Reporter: Response
+UI->>ClientsAPI: Fetch project & client data
+ClientsAPI->>UI: 
+UI->>ReportAPI: GetListOfProjects()
+ReportAPI->>UI: 
+Reporter->>UI: SelectReport(id)
+UI->>ReportAPI: GetReport(id)
+ReportAPI->>UI: ReportDetail
+Reporter->>UI: SubmitReport()
+UI->>ReportAPI: PostData()
+ReportAPI->>ReportAPI: StoreReport
+ReportAPI->>MessagingPlatform: RaiseReportSubmittedEvent
+ReportAPI->>UI: 
+UI->>Reporter: 
+MessagingPlatform->>OrchestrationService: ReceivedReportSubmittedEvent()
+OrchestrationService->>OrchestrationService: SaveToAudit()
+OrchestrationService->>UserService: WhoWantsThisReport(highestRisk)
+UserService->>OrchestrationService: 
+OrchestrationService->>MessagingPlatform: SendNotification()    
+MessagingPlatform->>NotificationService: ReceivedSendNotification
+NotificationService->>EmailService: SendAnEmail()

@@ -1,0 +1,15 @@
+@startuml Report Creation
+Reporter->>UI: LogIn
+UI->>Reporter: Response
+UI->>ClientsAPI: Fetch project & client data
+ClientsAPI->>UI: 
+Reporter->>UI: CreateReport()
+UI->>ReportAPI: PostData()
+ReportAPI->>ReportAPI: StoreReport
+ReportAPI->>MessagingPlatform: RaiseReportCreatedEvent
+ReportAPI->>UI: 
+UI->>Reporter: 
+    MessagingPlatform->>OrchestrationService: ReceivedCreatedCreatedEvent()
+    OrchestrationService->>UserService: FetchUserDetails()
+    UserService->>OrchestrationService: 
+    OrchestrationService->>OrchestrationService: SaveToAudit()

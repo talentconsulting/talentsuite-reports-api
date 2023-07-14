@@ -1,0 +1,20 @@
+@startuml Report Update
+Reporter->>UI: LogIn
+UI->>Reporter: Response
+UI->>ClientsAPI: Fetch project & client data
+ClientsAPI->>UI: 
+UI->>ReportAPI: GetListOfProjects()
+ReportAPI->>UI: 
+Reporter->>UI: SelectReport(id)
+UI->>ReportAPI: GetReport(id)
+ReportAPI->>UI: ReportDetail
+Reporter->>UI: UpdateReport()
+UI->>ReportAPI: PostData()
+ReportAPI->>ReportAPI: StoreReport
+ReportAPI->>MessagingPlatform: RaiseReportUpdatedEvent
+ReportAPI->>UI: 
+UI->>Reporter: 
+    MessagingPlatform->>OrchestrationService: ReceivedUpdatedCreatedEvent()
+    OrchestrationService->>UserService: FetchUserDetails()
+    UserService->>OrchestrationService: 
+    OrchestrationService->>OrchestrationService: SaveToAudit()
