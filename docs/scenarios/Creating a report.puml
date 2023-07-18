@@ -9,7 +9,7 @@ ReportAPI->>ReportAPI: StoreReport
 ReportAPI->>MessagingPlatform: RaiseReportCreatedEvent
 ReportAPI->>UI: 
 UI->>Reporter: 
-MessagingPlatform->>OrchestrationService: ReceivedReportCreatedEvent()
-OrchestrationService->>UserService: FetchUserDetails()
-UserService->>OrchestrationService: 
-OrchestrationService->>OrchestrationService: SaveToAudit()
+MessagingPlatform->>AuditService: ReceivedReportCreatedEvent()
+AuditService->>UserService: FetchUserDetails()
+UserService->>AuditService: 
+AuditService->>AuditService: SaveToAudit()
