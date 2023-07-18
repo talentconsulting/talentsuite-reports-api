@@ -26,7 +26,12 @@
             }
         },
         "userId": { 
-            "type": "string"
+            "type": "object",
+            "properties": {
+                "id": { "type": "string" },
+                "firstname": { "type": "string" },
+                "surname": { "type": "string" }
+            }            
         },
         "projectId": {
             "type" : "string"
