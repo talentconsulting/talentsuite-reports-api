@@ -6,10 +6,10 @@ ClientsAPI->>UI:
 Reporter->>UI: CreateReport()
 UI->>ReportAPI: PostData()
 ReportAPI->>ReportAPI: StoreReport
+ReportAPI->>UserService: FetchUserDetails()
+UserService->>ReportAPI: 
 ReportAPI->>MessagingPlatform: RaiseReportCreatedEvent
 ReportAPI->>UI: 
 UI->>Reporter: 
 MessagingPlatform->>AuditService: ReceivedReportCreatedEvent()
-AuditService->>UserService: FetchUserDetails()
-UserService->>AuditService: 
 AuditService->>AuditService: SaveToAudit()

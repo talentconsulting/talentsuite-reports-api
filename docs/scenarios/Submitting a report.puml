@@ -11,6 +11,8 @@ ReportAPI->>UI: ReportDetail
 Reporter->>UI: SubmitReport()
 UI->>ReportAPI: PostData()
 ReportAPI->>ReportAPI: StoreReport
+ReportAPI->>UserService: FetchUserDetails()
+UserService->>ReportAPI: 
 ReportAPI->>MessagingPlatform: RaiseReportSubmittedEvent
 ReportAPI->>UI: 
 UI->>Reporter: 
