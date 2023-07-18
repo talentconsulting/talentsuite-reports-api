@@ -21,4 +21,10 @@ ReportAPI->>MessagingPlatform: SendNotification()
 MessagingPlatform->>NotificationService: ReceivedSendNotification
 NotificationService->>EmailService: SendAnEmail()
 MessagingPlatform->>AuditService: ReceivedReportSubmittedEvent()
+AuditService->>UserService: FetchUserDetails()
+UserService->>AuditService: 
+AuditService->>AuditService: SaveToAudit()
+MessagingPlatform->>AuditService: ReceivedSendNotification
+AuditService->>UserService: FetchUserDetails()
+UserService->>AuditService: 
 AuditService->>AuditService: SaveToAudit()
