@@ -64,8 +64,12 @@ public class ApplicationDbContextInitialiser
         if (_context.Reports.Any())
             return;
 
-        //do nothing for the time being
-        
+        if (_context.Database.IsInMemory())
+        {
+            _context.Reports.AddRange(Reports());
+        }
+
+
         await _context.SaveChangesAsync();
     }
 
