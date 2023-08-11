@@ -1,11 +1,11 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
+﻿using System.Text;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
-using System.Text;
 using TalentConsulting.TalentSuite.Reports.API.Endpoints;
+using TalentConsulting.TalentSuite.Reports.Core.Azure;
 using TalentConsulting.TalentSuite.Reports.Infrastructure;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 
@@ -32,32 +32,46 @@ public static class StartupExtensions
         });
     }
 
-    public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration, bool isProduction)
+    public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration,
+        bool isProduction)
     {
+        var config = new ConfigurationBuilder()
+            .AddConfiguration(configuration)
+            .AddAzureTableStorage(options =>
+            {
+                options.ConfigurationKeys = configuration["ConfigNames"].Split(",");
+                options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
+                options.EnvironmentName = isProduction ? "Production" : "Development";
+                options.PreFixConfigurationKeys = false;
+            });
+#if DEBUG
+        config.AddJsonFile("appsettings.Development.json", true);
+#endif
+
         services.AddApplicationInsightsTelemetry();
 
         // Adding Authentication
         services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            // Adding Jwt Bearer
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new TokenValidationParameters()
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidAudience = configuration["JWT:ValidAudience"],
-                ValidIssuer = configuration["JWT:ValidIssuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                    configuration["JWT:Secret"] ?? "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr"))
-            };
-        });
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                // Adding Jwt Bearer
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = configuration["JWT:ValidAudience"],
+                    ValidIssuer = configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                        configuration["JWT:Secret"] ?? "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr"))
+                };
+            });
 
         //https://www.youtube.com/watch?v=cbtK3U2aOlg
         services.AddAuthorization(options =>
