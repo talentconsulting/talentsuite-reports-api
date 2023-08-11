@@ -64,7 +64,7 @@ public class ApplicationDbContextInitialiser
         if (_context.Reports.Any())
             return;
 
-        if (_context.Database.IsInMemory())
+        if (_context.Database.IsInMemory() || _context.Database.IsSqlite())
         {
             _context.Reports.AddRange(Reports());
         }
