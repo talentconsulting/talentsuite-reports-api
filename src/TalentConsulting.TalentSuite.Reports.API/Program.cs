@@ -28,20 +28,14 @@ public class Program
 
             builder.Services.ConfigureServices(builder.Configuration, builder.Environment.IsProduction());
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(name: AllowReactAppForLocalDev,
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
-                    });
-            });
+            if (builder.Environment.IsDevelopment())
+                builder.Services.AddCors(options => options.AddPolicy(name: AllowReactAppForLocalDev, policy => policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
 
             var app = builder.Build();
 
             ServiceProvider = await app.ConfigureWebApplication();
 
-            app.UseCors(AllowReactAppForLocalDev);
+            if (builder.Environment.IsDevelopment()) app.UseCors(AllowReactAppForLocalDev);
 
             await app.RunAsync();
         }
