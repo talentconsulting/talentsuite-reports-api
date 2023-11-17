@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Configuration;
 using System.Reflection;
-using TalentConsulting.TalentSuite.Reports.Common;
-using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Infrastructure;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Interceptors;
@@ -77,19 +73,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 #endif
         return result;
     }
-
-    public DbSet<Audit> Audits => Set<Audit>();
-    public DbSet<Client> Clients => Set<Client>();
-    public DbSet<ClientProject> ClientProjects => Set<ClientProject>();
-    public DbSet<Contact> Contacts => Set<Contact>();
-    public DbSet<Notification> Notifications => Set<Notification>();
-    public DbSet<Project> Projects => Set<Project>();
-    public DbSet<ProjectRole> ProjectRoles => Set<ProjectRole>();
-    public DbSet<Recipient> Recipients => Set<Recipient>();
+    
     public DbSet<Report> Reports => Set<Report>();
     public DbSet<Risk> Risks => Set<Risk>();
-    public DbSet<Sow> Sows => Set<Sow>();
-    public DbSet<User> Users => Set<User>();
-    public DbSet<UserGroup> UserGroups => Set<UserGroup>();
-    public DbSet<UserProjectRole> UserProjectRoles => Set<UserProjectRole>();
+    
 }
