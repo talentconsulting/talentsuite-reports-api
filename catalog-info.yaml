@@ -7,3 +7,5 @@ metadata:
 spec:
   type: other
   lifecycle: production
+  definition: 
+    $text: https://github.com/talentconsulting/talentsuite-reports-api/blob/main/swagger.yml
