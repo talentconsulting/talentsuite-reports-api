@@ -1,5 +1,5 @@
 apiVersion: backstage.io/v1alpha1
-kind: AAPI
+kind: API
 metadata:
   name: talentsuite-report-api
   annotations:
