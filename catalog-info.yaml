@@ -5,6 +5,7 @@ metadata:
   annotations:
     github.com/project-slug: talentconsulting/talentsuite-report-api
 spec:
+  owner: Talent Engineering Team
   type: other
   lifecycle: production
   definition: 
