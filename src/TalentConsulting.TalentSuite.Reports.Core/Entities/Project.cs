@@ -6,7 +6,7 @@ using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("projects")]
-public class Project : EntityBase<string>, IAggregateRoot
+public class Project : EntityBase<Guid>, IAggregateRoot
 {
     private Project() { }
 
@@ -16,7 +16,14 @@ public class Project : EntityBase<string>, IAggregateRoot
         ICollection<Report> reports,
         ICollection<Sow> sows)
     {
-        Id = id;
+        if (Guid.TryParse(id, out Guid guidId))
+        {
+            Id = guidId;
+        }
+        else
+        {
+            throw new ArgumentException("Invalid Guid", nameof(id));
+        }
         ContactNumber = contactNumber;
         Name = name;
         Reference = reference;

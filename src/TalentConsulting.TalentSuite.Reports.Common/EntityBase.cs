@@ -7,7 +7,7 @@ namespace TalentConsulting.TalentSuite.Reports.Common;
 /// </summary>
 public abstract class EntityBase<Tid>
 {
-    public string Id { get; set; } = default!;
+    public Tid Id { get; set; } = default!;
 
     public DateTime? Created { get; set; } = default;
 

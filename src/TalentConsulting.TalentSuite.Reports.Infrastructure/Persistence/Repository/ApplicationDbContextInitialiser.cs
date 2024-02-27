@@ -36,7 +36,7 @@ public class ApplicationDbContextInitialiser
 
             if (_context.Database.IsSqlServer() || _context.Database.IsNpgsql())
             {
-                await _context.Database.MigrateAsync();
+                //await _context.Database.MigrateAsync();
             }
         }
         catch (Exception ex)

@@ -17,8 +17,5 @@ public class RiskConfiguration
             .IsRequired();
         builder.Property(t => t.RagStatus)
             .IsRequired();
-
-        builder.Property(t => t.Created)
-            .IsRequired();
     }
 }

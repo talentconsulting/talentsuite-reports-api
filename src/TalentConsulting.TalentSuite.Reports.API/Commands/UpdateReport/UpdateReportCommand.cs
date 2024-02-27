@@ -33,7 +33,7 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
     }
     public async Task<string> Handle(UpdateReportCommand request, CancellationToken cancellationToken)
     {
-        var entity = _context.Reports.FirstOrDefault(x => x.Id == request.Id);
+        var entity = _context.Reports.FirstOrDefault(x => x.Id.ToString() == request.Id);
         if (entity == null)
         {
             throw new NotFoundException(nameof(Report), request.Id);
@@ -44,9 +44,24 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
             entity.PlannedTasks = request.ReportDto.PlannedTasks;
             entity.CompletedTasks = request.ReportDto.CompletedTasks;
             entity.Weeknumber = request.ReportDto.Weeknumber;
-            entity.ProjectId = request.ReportDto.ProjectId;
+            if (Guid.TryParse(request.ReportDto.ProjectId, out Guid projectId))
+            {
+                entity.ProjectId = projectId;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Guid", nameof(request.ReportDto.ProjectId));
+            }
             entity.SubmissionDate = request.ReportDto.SubmissionDate;
-            entity.UserId = request.ReportDto.UserId;
+            if (Guid.TryParse(request.ReportDto.UserId, out Guid userId))
+            {
+                entity.UserId = userId;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Guid", nameof(request.ReportDto.UserId));
+            }
+            
             entity.Risks = AttachExistingRisks(request.ReportDto.Risks);
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -70,16 +85,23 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
         if (unSavedEntities is null || !unSavedEntities.Any())
             return returnList;
 
-        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();
+        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id.ToString())).ToList();
 
         for (var i = 0; i < unSavedEntities.Count; i++)
         {
             var unSavedItem = unSavedEntities.ElementAt(i);
-            var savedItem = existing.FirstOrDefault(x => x.Id == unSavedItem.Id);
+            var savedItem = existing.FirstOrDefault(x => x.Id.ToString() == unSavedItem.Id);
 
             if (savedItem is not null)
             {
-                savedItem.ReportId = unSavedItem.ReportId;
+                if (Guid.TryParse(unSavedItem.ReportId, out Guid reportId))
+                {
+                    savedItem.ReportId = reportId;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid Guid", nameof(unSavedItem.ReportId));
+                }
                 savedItem.RiskDetails = unSavedItem.RiskDetails;
                 savedItem.RiskMitigation = unSavedItem.RiskMitigation;
                 savedItem.RagStatus = unSavedItem.RagStatus;
