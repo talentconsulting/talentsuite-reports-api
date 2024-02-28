@@ -46,6 +46,8 @@ namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Reposi
             }
         }
 
+        //Use this if using Migrations
+#pragma warning disable S1144
         private async Task MigrateDatabaseAsync()
         {
             if (_context.Database.IsSqlServer() || _context.Database.IsNpgsql())
@@ -55,7 +57,7 @@ namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Reposi
 
             }
         }
-
+#pragma warning restore S1144
         public async Task SeedAsync()
         {
             try

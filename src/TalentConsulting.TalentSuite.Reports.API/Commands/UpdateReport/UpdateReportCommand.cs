@@ -84,7 +84,7 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
         for (var i = 0; i < unSavedEntities.Count; i++)
         {
             var unSavedItem = unSavedEntities.ElementAt(i);
-            var savedItem = existing.FirstOrDefault(x => x.Id.ToString() == unSavedItem.Id);
+            var savedItem = existing.Find(x => x.Id.ToString() == unSavedItem.Id);
 
             if (savedItem is not null)
             {

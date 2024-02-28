@@ -20,7 +20,7 @@ public abstract class ValueObjectBase
 
         object[] components = GetEqualityComponents().ToArray();
         object[]? otherComponents = other?.GetEqualityComponents().ToArray();
-        ArgumentNullException.ThrowIfNull(otherComponents, nameof(otherComponents));
+        ArgumentNullException.ThrowIfNull(otherComponents);
 
         for (int i = 0; i < components.Length; i++)
         {
