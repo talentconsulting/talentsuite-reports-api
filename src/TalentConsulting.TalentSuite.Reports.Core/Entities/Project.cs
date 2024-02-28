@@ -31,6 +31,7 @@ public class Project : EntityBaseEx<Guid>, IAggregateRoot
         Sows = sows;
         
     }
+
 #pragma warning restore S107 // More than 7 arguements
 
     public string ContactNumber { get; set; } = null!;
