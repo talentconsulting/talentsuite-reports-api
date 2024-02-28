@@ -46,7 +46,7 @@ public abstract class ValueObjectBase
         return type;
     }
 
-    private int CompareComponents(object? object1, object? object2)
+    private static int CompareComponents(object? object1, object? object2)
     {
         if (object1 is null && object2 is null)
             return 0;

@@ -5,9 +5,9 @@ using TalentConsulting.TalentSuite.Reports.Core.Entities;
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Config;
 
 [ExcludeFromCodeCoverage]
-public class RiskConfiguration
+public static class RiskConfiguration
 {
-    public void Configure(EntityTypeBuilder<Risk> builder)
+    public static void Configure(EntityTypeBuilder<Risk> builder)
     {
         builder.Property(t => t.Id)
             .IsRequired();

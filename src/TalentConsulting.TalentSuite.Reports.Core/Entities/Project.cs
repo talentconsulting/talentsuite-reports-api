@@ -12,6 +12,7 @@ public class Project : EntityBaseEx<Guid>, IAggregateRoot
 {
     private Project() { }
 
+#pragma warning disable S107 // More than 7 arguements
     public Project(Guid id, string contactNumber, string name, string reference, DateTime startDate, DateTime endDate,
         ICollection<ClientProject> clientProjects,
         ICollection<Contact> contacts,
@@ -30,6 +31,7 @@ public class Project : EntityBaseEx<Guid>, IAggregateRoot
         Sows = sows;
         
     }
+#pragma warning restore S107 // More than 7 arguements
 
     public string ContactNumber { get; set; } = null!;
     public string Name { get; set; } = null!;

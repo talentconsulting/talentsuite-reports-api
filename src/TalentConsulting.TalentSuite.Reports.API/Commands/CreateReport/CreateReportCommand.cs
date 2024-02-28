@@ -63,7 +63,7 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, s
     {
         var returnList = new List<Risk>();
 
-        if (unSavedEntities is null || !unSavedEntities.Any())
+        if (unSavedEntities is null || unSavedEntities.Count == 0)
             return returnList;
 
         var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();

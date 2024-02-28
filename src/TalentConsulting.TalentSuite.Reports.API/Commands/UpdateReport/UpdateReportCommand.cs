@@ -72,11 +72,11 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
             return string.Empty;
     }
 
-    private ICollection<Risk> AttachExistingRisks(ICollection<RiskDto>? unSavedEntities)
+    private List<Risk> AttachExistingRisks(ICollection<RiskDto>? unSavedEntities)
     {
         var returnList = new List<Risk>();
 
-        if (unSavedEntities is null || !unSavedEntities.Any())
+        if (unSavedEntities is null || unSavedEntities.Count == 0)
             return returnList;
 
         var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id.ToString())).ToList();
