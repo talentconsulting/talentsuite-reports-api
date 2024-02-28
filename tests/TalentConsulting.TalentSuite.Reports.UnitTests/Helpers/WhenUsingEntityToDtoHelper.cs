@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Castle.Components.DictionaryAdapter;
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,11 @@ public class WhenUsingEntityToDtoHelper
         const string sowId = "24bce4f6-83f1-4b75-ab8c-6176d43c259d";
         var clientProjects = new List<ClientProject>
         {
-            new ClientProject(new Guid(clientProjectId),  userId, projectId)
+            new ClientProject(new Guid(clientProjectId), new Guid(userId), new Guid(projectId))
         };
         var contacts = new List<Contact>
         {
-            new Contact(new Guid(contactId), "Firstname", "Email", true, projectId)
+            new Contact(new Guid(contactId), "Firstname", "Email", true, new Guid(projectId))
         };
         var risks = new List<Risk>
         {
@@ -41,17 +42,19 @@ public class WhenUsingEntityToDtoHelper
         {
             new Report(new Guid(reportId), "Planned Tasks", "Completed Tasks", 1, dtStartDate, new Guid(projectId), new Guid(userId), risks)
         };
-        byte[] file = new byte[0];
+        SowFile file = new SowFile { Id = new Guid("c5fe11c4-c345-4ffd-99b3-1b3b2a65403e"), Mimetype = "Mimetype", Filename = "Filename", File = new byte[0], Size = 0, SowId = sowId };
         var sows = new List<Sow>
         {
-            new Sow(new Guid(sowId), dtStartDate, file, true, dtStartDate, dtEndDate, projectId)
+            new Sow(new Guid(sowId), dtStartDate, new List<SowFile>{ file }, true, dtStartDate, dtEndDate, new Guid(projectId))
         };
         var project = new Project(new Guid(projectId), "Contact Number", "Name", "Reference", dtStartDate, dtEndDate, clientProjects, contacts, reports, sows);
+
+        var sowFileDto = new SowFileDto { Id = "c5fe11c4-c345-4ffd-99b3-1b3b2a65403e", Mimetype = "Mimetype", Filename = "Filename", File = new byte[0], Size = 0, SowId = sowId };
 
         var expectedProjectDto = new ProjectDto(projectId, "Contact Number", "Name", "Reference", dtStartDate, dtEndDate, EntityToDtoHelper.GetClientProjects(clientProjects),
             new List<ContactDto> { new ContactDto(contactId, "Firstname", "Email", true, projectId) },
             EntityToDtoHelper.GetReports(reports),
-            new List<SowDto> { new SowDto(sowId, dtStartDate, file, true, dtStartDate, dtEndDate, projectId) });
+            new List<SowDto> { new SowDto(sowId, dtStartDate, new List<SowFileDto> { sowFileDto }, true, dtStartDate, dtEndDate, projectId) });
 
         var projectDto = EntityToDtoHelper.ProjectToProjectDto(project);
 

@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using System.Linq;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
@@ -15,10 +16,10 @@ public static class EntityToDtoHelper
           reference: entity.Reference,
           startDate: entity.StartDate,
           endDate: entity.EndDate,
-          clientProjects: entity.ClientProjects.Select(clientProject => new ClientProjectDto(clientProject.Id.ToString(), clientProject.ClientId, clientProject.ProjectId)).ToList(),
-          contacts: entity.Contacts.Select(contact => new ContactDto(contact.Id.ToString(), contact.Firstname, contact.Email, contact.ReceivesReport, contact.ProjectId)).ToList(),
+          clientProjects: entity.ClientProjects.Select(clientProject => new ClientProjectDto(clientProject.Id.ToString(), clientProject.ClientId.ToString(), clientProject.ProjectId.ToString())).ToList(),
+          contacts: entity.Contacts.Select(contact => new ContactDto(contact.Id.ToString(), contact.Firstname, contact.Email, contact.ReceivesReport, contact.ProjectId.ToString())).ToList(),
           reports: entity.Reports.Select(report => new ReportDto(report.Id.ToString(), (report.Created != null) ? report.Created.Value : DateTime.UtcNow, report.PlannedTasks, report.CompletedTasks, report.Weeknumber, report.SubmissionDate, report.ProjectId.ToString(), report.UserId.ToString(), GetRisks(report.Risks))).ToList(),
-          sows: entity.Sows.Select(sow => new SowDto(sow.Id.ToString(), (sow.Created != null) ? sow.Created.Value : DateTime.UtcNow, sow.File, sow.IsChangeRequest, sow.SowStartDate, sow.SowEndDate, sow.ProjectId)).ToList()
+          sows: entity.Sows.Select(sow => new SowDto(sow.Id.ToString(), (sow.Created != null) ? sow.Created.Value : DateTime.UtcNow, GetSowFiles(sow.Files), sow.IsChangeRequest, sow.SowStartDate, sow.SowEndDate, sow.ProjectId.ToString())).ToList()
           );
     }
 
@@ -34,6 +35,11 @@ public static class EntityToDtoHelper
 
     public static List<ClientProjectDto> GetClientProjects(ICollection<ClientProject> clientProjects)
     {
-        return clientProjects.Select(x => new ClientProjectDto(x.Id.ToString(), x.ClientId, x.ProjectId)).ToList();
+        return clientProjects.Select(x => new ClientProjectDto(x.Id.ToString(), x.ClientId.ToString(), x.ProjectId.ToString())).ToList();
+    }
+
+    public static List<SowFileDto> GetSowFiles(ICollection<SowFile> files)
+    {
+        return files.Select(x => new SowFileDto { Id = x.Id.ToString(), Mimetype = x.Mimetype, Filename = x.Filename, Size = x.Size, SowId = x.SowId, File = x.File }).ToList();
     }
 }
