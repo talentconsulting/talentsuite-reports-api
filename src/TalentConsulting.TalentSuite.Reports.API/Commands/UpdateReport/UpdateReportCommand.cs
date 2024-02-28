@@ -44,24 +44,18 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
             entity.PlannedTasks = request.ReportDto.PlannedTasks;
             entity.CompletedTasks = request.ReportDto.CompletedTasks;
             entity.Weeknumber = request.ReportDto.Weeknumber;
-            if (Guid.TryParse(request.ReportDto.ProjectId, out Guid projectId))
+            if (!Guid.TryParse(request.ReportDto.ProjectId, out Guid projectId))
             {
-                entity.ProjectId = projectId;
+                throw new ArgumentException("Invalid Guid for request.ReportDto.ProjectId");
             }
-            else
-            {
-                throw new ArgumentException("Invalid Guid", nameof(request.ReportDto.ProjectId));
-            }
+            entity.ProjectId = projectId;
             entity.SubmissionDate = request.ReportDto.SubmissionDate;
-            if (Guid.TryParse(request.ReportDto.UserId, out Guid userId))
+            if (!Guid.TryParse(request.ReportDto.UserId, out Guid userId))
             {
-                entity.UserId = userId;
-            }
-            else
-            {
-                throw new ArgumentException("Invalid Guid", nameof(request.ReportDto.UserId));
+                throw new ArgumentException("Invalid Guid for request.ReportDto.UserId");
             }
             
+            entity.UserId = userId;
             entity.Risks = AttachExistingRisks(request.ReportDto.Risks);
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -94,14 +88,12 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
 
             if (savedItem is not null)
             {
-                if (Guid.TryParse(unSavedItem.ReportId, out Guid reportId))
+                if (!Guid.TryParse(unSavedItem.ReportId, out Guid reportId))
                 {
-                    savedItem.ReportId = reportId;
+                    throw new ArgumentException("Invalid Guid for unSavedItem.ReportId");
                 }
-                else
-                {
-                    throw new ArgumentException("Invalid Guid", nameof(unSavedItem.ReportId));
-                }
+                
+                savedItem.ReportId = reportId;
                 savedItem.RiskDetails = unSavedItem.RiskDetails;
                 savedItem.RiskMitigation = unSavedItem.RiskMitigation;
                 savedItem.RagStatus = unSavedItem.RagStatus;

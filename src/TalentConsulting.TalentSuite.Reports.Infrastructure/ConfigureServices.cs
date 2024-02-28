@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
@@ -13,6 +14,7 @@ using TalentConsulting.TalentSuite.Reports.Infrastructure.Service;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure;
 
+[ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
