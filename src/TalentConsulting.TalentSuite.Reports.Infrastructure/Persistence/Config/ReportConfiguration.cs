@@ -6,9 +6,9 @@ using TalentConsulting.TalentSuite.Reports.Core.Entities;
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Config;
 
 [ExcludeFromCodeCoverage]
-public class ReportConfiguration
+public static class ReportConfiguration
 {
-    public void Configure(EntityTypeBuilder<Report> builder)
+    public static void Configure(EntityTypeBuilder<Report> builder)
     {
         builder.Property(t => t.Id)
             .IsRequired();

@@ -59,7 +59,7 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, s
             return string.Empty;
     }
 
-    private ICollection<Risk> AttachExistingRisk(ICollection<Risk>? unSavedEntities)
+    private List<Risk> AttachExistingRisk(ICollection<Risk>? unSavedEntities)
     {
         var returnList = new List<Risk>();
 
