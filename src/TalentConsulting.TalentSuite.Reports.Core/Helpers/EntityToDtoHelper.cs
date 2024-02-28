@@ -6,7 +6,7 @@ namespace TalentConsulting.TalentSuite.Reports.Core.Helpers;
 
 public static class EntityToDtoHelper
 {
-    public static ProjectDto ProjectDtoToProjectDto(Project entity)
+    public static ProjectDto ProjectToProjectDto(Project entity)
     {
         return new ProjectDto(
              id: entity.Id.ToString(),

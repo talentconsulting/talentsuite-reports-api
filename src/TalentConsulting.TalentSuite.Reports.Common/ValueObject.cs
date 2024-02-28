@@ -1,8 +1,11 @@
-﻿namespace TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace TalentConsulting.TalentSuite.Reports.Common;
 
 /// <summary>
 /// See: https://enterprisecraftsmanship.com/posts/value-object-better-implementation/
 /// </summary>
+[ExcludeFromCodeCoverage]
 [Serializable]
 public abstract class ValueObject : ValueObjectBase, IComparable, IComparable<ValueObject>
 {

@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Config;
 
+[ExcludeFromCodeCoverage]
 public class ReportConfiguration
 {
     public void Configure(EntityTypeBuilder<Report> builder)

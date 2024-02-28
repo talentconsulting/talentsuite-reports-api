@@ -1,5 +1,8 @@
-﻿namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
+
+[ExcludeFromCodeCoverage]
 public record ClientDto
 {
     private ClientDto() { }

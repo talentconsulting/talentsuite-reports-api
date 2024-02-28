@@ -1,7 +1,9 @@
 ﻿using Ardalis.GuardClauses;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TalentConsulting.TalentSuite.Reports.Common;
 
+[ExcludeFromCodeCoverage]
 public class DateTimeRange : ValueObject
 {
     public DateTime Start { get; private set; }

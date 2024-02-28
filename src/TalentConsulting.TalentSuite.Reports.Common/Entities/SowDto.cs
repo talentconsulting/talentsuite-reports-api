@@ -1,7 +1,9 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 
 namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
 
+[ExcludeFromCodeCoverage]
 public record SowDto
 {
     private SowDto() { }

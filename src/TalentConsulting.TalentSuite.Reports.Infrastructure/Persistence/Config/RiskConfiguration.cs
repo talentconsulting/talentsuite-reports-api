@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Config;
 
+[ExcludeFromCodeCoverage]
 public class RiskConfiguration
 {
     public void Configure(EntityTypeBuilder<Risk> builder)
