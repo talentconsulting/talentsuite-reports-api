@@ -5,20 +5,13 @@ using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("sows")]
-public class Sow : EntityBase<Guid>, IAggregateRoot
+public class Sow : EntityBaseEx<Guid>, IAggregateRoot
 {
     private Sow() { }
 
-    public Sow(string id, DateTime created, byte[] file, bool ischangerequest, DateTime sowstartdate, DateTime sowenddate, string projectid)
+    public Sow(Guid id, DateTime created, byte[] file, bool ischangerequest, DateTime sowstartdate, DateTime sowenddate, string projectid)
     {
-        if (Guid.TryParse(id, out Guid guidId))
-        {
-            Id = guidId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(id));
-        }
+        Id = id;
         Created = created;
         File = file;
         IsChangeRequest = ischangerequest;

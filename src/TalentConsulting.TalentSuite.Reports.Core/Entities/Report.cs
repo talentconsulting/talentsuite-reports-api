@@ -7,40 +7,19 @@ namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 
 [Table("reports")]
-public class Report : EntityBase<Guid>, IAggregateRoot
+public class Report : EntityBaseEx<Guid>, IAggregateRoot
 {
     private Report() { }
 
-    public Report(string id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, string projectid, string userid, ICollection<Risk> risks)
+    public Report(Guid id, string plannedtasks, string completedtasks, int weeknumber, DateTime submissiondate, Guid projectid, Guid userid, ICollection<Risk> risks)
     {
-        if (Guid.TryParse(id, out Guid guidId))
-        {
-            Id = guidId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(id));
-        }
+        Id = id;
         PlannedTasks = plannedtasks;
         CompletedTasks = completedtasks;
         Weeknumber = weeknumber;
         SubmissionDate = submissiondate;
-        if (Guid.TryParse(projectid, out Guid guidProjectId))
-        {
-            ProjectId = guidProjectId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(projectid));
-        }
-        if (Guid.TryParse(userid, out Guid guidUserId))
-        {
-            UserId = guidUserId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(userid));
-        }
+        ProjectId = projectid;
+        UserId = userid;
         Risks = risks;
     }
 

@@ -5,27 +5,19 @@ using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("contacts")]
-public class Contact : IAggregateRoot
+public class Contact : EntityBase<Guid>, IAggregateRoot
 {
     private Contact() { }
 
-    public Contact(string id, string firstname, string email, bool receivesreport, string projectId)
+    public Contact(Guid id, string firstname, string email, bool receivesreport, string projectId)
     {
-        if (Guid.TryParse(id, out Guid guidId))
-        {
-            Id = guidId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(id));
-        }
+        Id = id;
         Firstname = firstname;
         Email = email;
         ReceivesReport = receivesreport;
         ProjectId = projectId;
     }
 
-    public Guid Id { get; set; }
     public string Firstname { get; set; } = default!;
     public string Email { get; set; } = default!;
     public bool ReceivesReport { get; set; } = default!;

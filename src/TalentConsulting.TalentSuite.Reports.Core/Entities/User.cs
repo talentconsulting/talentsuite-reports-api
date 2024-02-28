@@ -1,23 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("users")]
-public class User : IAggregateRoot
+public class User : EntityBase<Guid>, IAggregateRoot
 {
     private User() { }
 
-    public User(string id, string firstname, string lastname, string email, string usergroupid, ICollection<Report> reports)
+    public User(Guid id, string firstname, string lastname, string email, string usergroupid, ICollection<Report> reports)
     {
-        if (Guid.TryParse(id, out Guid guidId))
-        {
-            Id = guidId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(id));
-        }
+        Id = id;
         Firstname = firstname;
         Lastname = lastname;
         Email = email;
@@ -25,7 +19,6 @@ public class User : IAggregateRoot
         Reports = reports;
     }
 
-    public Guid Id { get; set; }
     public string Firstname { get; set; } = null!;
     public string Lastname { get; set; } = null!;
     public string Email { get; set; } = null!;

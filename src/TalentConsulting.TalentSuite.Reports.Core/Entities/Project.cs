@@ -6,24 +6,17 @@ using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("projects")]
-public class Project : EntityBase<Guid>, IAggregateRoot
+public class Project : EntityBaseEx<Guid>, IAggregateRoot
 {
     private Project() { }
 
-    public Project(string id, string contactNumber, string name, string reference, DateTime startDate, DateTime endDate,
+    public Project(Guid id, string contactNumber, string name, string reference, DateTime startDate, DateTime endDate,
         ICollection<ClientProject> clientProjects,
         ICollection<Contact> contacts,
         ICollection<Report> reports,
         ICollection<Sow> sows)
     {
-        if (Guid.TryParse(id, out Guid guidId))
-        {
-            Id = guidId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(id));
-        }
+        Id = id;
         ContactNumber = contactNumber;
         Name = name;
         Reference = reference;

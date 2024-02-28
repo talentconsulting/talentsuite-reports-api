@@ -1,29 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("recipients")]
-public class Recipient : IAggregateRoot
+public class Recipient : EntityBase<Guid>, IAggregateRoot
 {
     private Recipient() { }
 
-    public Recipient(string id, string name, string email, string notificationid)
+    public Recipient(Guid id, string name, string email, string notificationid)
     {
-        if (Guid.TryParse(id, out Guid guidId))
-        {
-            Id = guidId;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid Guid", nameof(id));
-        }
+        Id = id;
         Name = name;
         Email = email;
         Notificationid = notificationid;
     }
 
-    public Guid Id { get; set; }
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Notificationid { get; set; } = null!;

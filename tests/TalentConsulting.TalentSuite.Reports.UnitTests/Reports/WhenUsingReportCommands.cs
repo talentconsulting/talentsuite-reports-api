@@ -57,7 +57,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
         var testReport = GetTestReportDto();
         var logger = new Mock<ILogger<UpdateReportCommandHandler>>();
 
-        var command = new UpdateReportCommand(_reportId, testReport);
+        var command = new UpdateReportCommand(_reportId.ToString(), testReport);
         var handler = new UpdateReportCommandHandler(mockApplicationDbContext, _mapper, logger.Object);
 
         //Act
@@ -137,9 +137,9 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
     {
         var risks = new List<RiskDto>()
         {
-            new RiskDto(_riskId, _reportId, "Risk Details", "Risk Mitigation", "Risk Status" )
+            new RiskDto(_riskId.ToString(), _reportId.ToString(), "Risk Details", "Risk Mitigation", "Risk Status" )
         };
 
-        return new ReportDto(_reportId, DateTime.UtcNow.AddDays(-1), "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId, _userId, risks);
+        return new ReportDto(_reportId.ToString(), DateTime.UtcNow.AddDays(-1), "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId.ToString(), _userId.ToString(), risks);
     }
 }

@@ -53,7 +53,7 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, s
             throw;
         }
 
-        if (request is not null && request.ReportDto is not null)
+        if (request.ReportDto is not null)
             return request.ReportDto.Id;
         else
             return string.Empty;

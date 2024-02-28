@@ -5,7 +5,7 @@ using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("notifications")]
-public class Notification : EntityBase<string>, IAggregateRoot
+public class Notification : EntityBaseEx<string>, IAggregateRoot
 {
     private Notification() { }
 
