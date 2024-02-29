@@ -22,7 +22,9 @@ public class Sow : EntityBaseEx<Guid>, IAggregateRoot
     }
 
     public bool IsChangeRequest { get; set; }
+    [Column("sow_startdate")]
     public DateTime SowStartDate { get; set; }
+    [Column("sow_enddate")]
     public DateTime SowEndDate { get; set; }
     public Guid ProjectId { get; set; }
 #if ADD_ENTITY_NAV

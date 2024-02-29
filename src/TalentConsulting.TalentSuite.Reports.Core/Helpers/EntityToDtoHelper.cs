@@ -1,5 +1,4 @@
 ﻿using Ardalis.Specification;
-using System.Linq;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
@@ -11,7 +10,7 @@ public static class EntityToDtoHelper
     {
         return new ProjectDto(
              id: entity.Id.ToString(),
-          contactNumber: entity.ContactNumber,
+          contractNumber: entity.ContractNumber,
           name: entity.Name,
           reference: entity.Reference,
           startDate: entity.StartDate,
