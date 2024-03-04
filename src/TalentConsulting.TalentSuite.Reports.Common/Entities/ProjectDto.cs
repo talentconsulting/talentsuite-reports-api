@@ -2,6 +2,8 @@
 
 namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
 
+#pragma warning disable S107 // Methods should not have too many parameters
+
 [ExcludeFromCodeCoverage]
 public record ProjectDto
 {
@@ -40,3 +42,5 @@ public record ProjectDto
 
     public ICollection<SowDto> Sows { get; init; } = new List<SowDto>();
 }
+
+#pragma warning restore S107 // Methods should not have too many parameters
