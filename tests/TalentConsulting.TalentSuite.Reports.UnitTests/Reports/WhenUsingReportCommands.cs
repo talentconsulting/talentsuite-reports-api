@@ -7,6 +7,7 @@ using TalentConsulting.TalentSuite.Reports.API.Commands.UpdateReport;
 using TalentConsulting.TalentSuite.Reports.API.Queries.GetReports;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TalentConsulting.TalentSuite.Reports.UnitTests.Reports;
 
@@ -57,7 +58,7 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
         var testReport = GetTestReportDto();
         var logger = new Mock<ILogger<UpdateReportCommandHandler>>();
 
-        var command = new UpdateReportCommand(_reportId, testReport);
+        var command = new UpdateReportCommand(_reportId.ToString(), testReport);
         var handler = new UpdateReportCommandHandler(mockApplicationDbContext, _mapper, logger.Object);
 
         //Act
@@ -84,10 +85,47 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
     }
 
     [Fact]
-    public async Task ThenGetReport()
+    public async Task ThenGetReportById_ShouldReturnSingleReport()
     {
         var mockApplicationDbContext = GetApplicationDbContext();
-        var dbReport = GetTestReport();
+        var dbReport = GetTestReport(_reportId);
+        mockApplicationDbContext.Reports.Add(dbReport);
+        await mockApplicationDbContext.SaveChangesAsync();
+
+
+        var command = new GetReportCommand(_reportId.ToString());
+        var handler = new GetReportCommandHandler(mockApplicationDbContext, _mapper);
+
+        //Act
+        var result = await handler.Handle(command, new CancellationToken());
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Id.Should().Be(dbReport.Id.ToString());
+        result.PlannedTasks.Should().Be(dbReport.PlannedTasks);
+
+    }
+
+    [Fact]
+    public async Task ThenGetReportThatDoesNotExitsWithNullRequest()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbReport = GetTestReport(Guid.NewGuid());
+        mockApplicationDbContext.Reports.Add(dbReport);
+        await mockApplicationDbContext.SaveChangesAsync();
+        var command = new GetReportCommand(Guid.NewGuid().ToString());
+        var handler = new GetReportCommandHandler(mockApplicationDbContext, _mapper);
+
+        //Act and Assert
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(command, CancellationToken.None));
+        
+    }
+
+    [Fact]
+    public async Task ThenGetReports()
+    {
+        var mockApplicationDbContext = GetApplicationDbContext();
+        var dbReport = GetTestReport(_reportId);
         mockApplicationDbContext.Reports.Add(dbReport);
         await mockApplicationDbContext.SaveChangesAsync();
 
@@ -100,16 +138,16 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbReport.Id);
+        result.Items[0].Id.Should().Be(dbReport.Id.ToString());
         result.Items[0].PlannedTasks.Should().Be(dbReport.PlannedTasks);
 
     }
 
     [Fact]
-    public async Task ThenGetReportWithNullRequest()
+    public async Task ThenGetReportsWithNullRequest()
     {
         var mockApplicationDbContext = GetApplicationDbContext();
-        var dbReport = GetTestReport();
+        var dbReport = GetTestReport(_reportId);
         mockApplicationDbContext.Reports.Add(dbReport);
         await mockApplicationDbContext.SaveChangesAsync();
         var handler = new GetReportsCommandHandler(mockApplicationDbContext, _mapper);
@@ -119,27 +157,27 @@ public class WhenUsingReportCommands : BaseCreateDbUnitTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Items[0].Id.Should().Be(dbReport.Id);
+        result.Items[0].Id.Should().Be(dbReport.Id.ToString());
         result.Items[0].PlannedTasks.Should().Be(dbReport.PlannedTasks);
     }
 
-    public static Report GetTestReport()
+    public static Report GetTestReport(Guid reportId)
     {
         var risks = new List<Risk>()
         {
-            new Risk(_riskId, _reportId, "Risk Details", "Risk Mitigation", "Risk Status" )
+            new Risk(_riskId, reportId, "Risk Details", "Risk Mitigation", "Risk Status" )
         };
 
-        return new Report(_reportId, "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId, _userId, risks);
+        return new Report(reportId, "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId, _userId, risks);
     }
 
     public static ReportDto GetTestReportDto()
     {
         var risks = new List<RiskDto>()
         {
-            new RiskDto(_riskId, _reportId, "Risk Details", "Risk Mitigation", "Risk Status" )
+            new RiskDto(_riskId.ToString(), _reportId.ToString(), "Risk Details", "Risk Mitigation", "Risk Status" )
         };
 
-        return new ReportDto(_reportId, DateTime.UtcNow.AddDays(-1), "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId, _userId, risks);
+        return new ReportDto(_reportId.ToString(), DateTime.UtcNow.AddDays(-1), "Planned tasks", "Completed tasks", 1, DateTime.UtcNow, _projectId.ToString(), _userId.ToString(), risks);
     }
 }

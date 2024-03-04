@@ -1,23 +1,27 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
+#pragma warning disable S107 // Methods should not have too many parameters
+
+[ExcludeFromCodeCoverage]
 [Table("projects")]
-public class Project : EntityBase<string>, IAggregateRoot
+public class Project : EntityBaseEx<Guid>, IAggregateRoot
 {
     private Project() { }
 
-    public Project(string id, string contactNumber, string name, string reference, DateTime startDate, DateTime endDate,
+    public Project(Guid id, string contractNumber, string name, string reference, DateTime startDate, DateTime endDate,
         ICollection<ClientProject> clientProjects,
         ICollection<Contact> contacts,
         ICollection<Report> reports,
         ICollection<Sow> sows)
     {
         Id = id;
-        ContactNumber = contactNumber;
+        ContractNumber = contractNumber;
         Name = name;
         Reference = reference;
         StartDate = startDate;
@@ -26,15 +30,15 @@ public class Project : EntityBase<string>, IAggregateRoot
         Contacts = contacts;
         Reports = reports;
         Sows = sows;
-        
+
     }
 
-    public string ContactNumber { get; set; } = null!;
+    public string ContractNumber { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Reference { get; set; } = null!;
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public virtual ICollection<ClientProject> ClientProjects { get; set;  } = new Collection<ClientProject>();
+    public virtual ICollection<ClientProject> ClientProjects { get; set; } = new Collection<ClientProject>();
 
     public virtual ICollection<Contact> Contacts { get; set; } = new Collection<Contact>();
 
@@ -42,3 +46,6 @@ public class Project : EntityBase<string>, IAggregateRoot
 
     public virtual ICollection<Sow> Sows { get; set; } = new Collection<Sow>();
 }
+
+#pragma warning restore S107 // Methods should not have too many parameters
+

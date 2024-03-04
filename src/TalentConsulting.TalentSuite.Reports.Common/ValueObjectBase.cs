@@ -1,5 +1,8 @@
-﻿namespace TalentConsulting.TalentSuite.Reports.Common;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace TalentConsulting.TalentSuite.Reports.Common;
+
+[ExcludeFromCodeCoverage]
 [Serializable]
 public abstract class ValueObjectBase
 {
@@ -17,7 +20,7 @@ public abstract class ValueObjectBase
 
         object[] components = GetEqualityComponents().ToArray();
         object[]? otherComponents = other?.GetEqualityComponents().ToArray();
-        ArgumentNullException.ThrowIfNull(otherComponents, nameof(otherComponents));
+        ArgumentNullException.ThrowIfNull(otherComponents);
 
         for (int i = 0; i < components.Length; i++)
         {
@@ -43,7 +46,7 @@ public abstract class ValueObjectBase
         return type;
     }
 
-    private int CompareComponents(object? object1, object? object2)
+    private static int CompareComponents(object? object1, object? object2)
     {
         if (object1 is null && object2 is null)
             return 0;

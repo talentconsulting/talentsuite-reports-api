@@ -1,8 +1,10 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 
+[ExcludeFromCodeCoverage]
 // We are using the EfRepository from Ardalis.Specification
 // https://github.com/ardalis/Specification/blob/v5/ArdalisSpecificationEF/src/Ardalis.Specification.EF/RepositoryBaseOfT.cs
 public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class, IAggregateRoot

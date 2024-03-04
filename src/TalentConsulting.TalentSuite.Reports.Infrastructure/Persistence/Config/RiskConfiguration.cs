@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Config;
 
-public class RiskConfiguration
+[ExcludeFromCodeCoverage]
+public static class RiskConfiguration
 {
-    public void Configure(EntityTypeBuilder<Risk> builder)
+    public static void Configure(EntityTypeBuilder<Risk> builder)
     {
         builder.Property(t => t.Id)
             .IsRequired();
@@ -16,9 +18,6 @@ public class RiskConfiguration
         builder.Property(t => t.RiskMitigation)
             .IsRequired();
         builder.Property(t => t.RagStatus)
-            .IsRequired();
-
-        builder.Property(t => t.Created)
             .IsRequired();
     }
 }

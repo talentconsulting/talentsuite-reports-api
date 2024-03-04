@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Interfaces.Commands;
@@ -33,7 +34,10 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
     }
     public async Task<string> Handle(UpdateReportCommand request, CancellationToken cancellationToken)
     {
-        var entity = _context.Reports.FirstOrDefault(x => x.Id == request.Id);
+        var entity = _context.Reports.AsNoTracking()
+            .Include(x => x.Risks)
+            .FirstOrDefault(x => x.Id.ToString() == request.Id);
+
         if (entity == null)
         {
             throw new NotFoundException(nameof(Report), request.Id);
@@ -41,13 +45,8 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
 
         try
         {
-            entity.PlannedTasks = request.ReportDto.PlannedTasks;
-            entity.CompletedTasks = request.ReportDto.CompletedTasks;
-            entity.Weeknumber = request.ReportDto.Weeknumber;
-            entity.ProjectId = request.ReportDto.ProjectId;
-            entity.SubmissionDate = request.ReportDto.SubmissionDate;
-            entity.UserId = request.ReportDto.UserId;
-            entity.Risks = AttachExistingRisks(request.ReportDto.Risks);
+            _mapper.Map(request.ReportDto, entity);
+            ArgumentNullException.ThrowIfNull(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
         }
@@ -61,34 +60,6 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
             return request.ReportDto.Id;
         else
             return string.Empty;
-    }
-
-    private ICollection<Risk> AttachExistingRisks(ICollection<RiskDto>? unSavedEntities)
-    {
-        var returnList = new List<Risk>();
-
-        if (unSavedEntities is null || !unSavedEntities.Any())
-            return returnList;
-
-        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();
-
-        for (var i = 0; i < unSavedEntities.Count; i++)
-        {
-            var unSavedItem = unSavedEntities.ElementAt(i);
-            var savedItem = existing.FirstOrDefault(x => x.Id == unSavedItem.Id);
-
-            if (savedItem is not null)
-            {
-                savedItem.ReportId = unSavedItem.ReportId;
-                savedItem.RiskDetails = unSavedItem.RiskDetails;
-                savedItem.RiskMitigation = unSavedItem.RiskMitigation;
-                savedItem.RagStatus = unSavedItem.RagStatus;
-            }
-
-            returnList.Add(savedItem ?? _mapper.Map<Risk>(unSavedItem));
-        }
-
-        return returnList;
     }
 }
 

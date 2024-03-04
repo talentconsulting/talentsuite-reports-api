@@ -2,5 +2,5 @@
 
 public interface IDomainEventDispatcher
 {
-    Task DispatchAndClearEvents(IEnumerable<EntityBase<string>> entitiesWithEvents);
+    Task DispatchAndClearEvents(IEnumerable<EntityBaseEx<string>> entitiesWithEvents);
 }

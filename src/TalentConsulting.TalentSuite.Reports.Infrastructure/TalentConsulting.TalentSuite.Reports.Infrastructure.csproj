@@ -1,23 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="6.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+		<PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
 		<PackageReference Include="SQLite" Version="3.13.0" />
 	</ItemGroup>
@@ -25,5 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\TalentConsulting.TalentSuite.Reports.Core\TalentConsulting.TalentSuite.Reports.Core.csproj" />
   </ItemGroup>
+
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);NETSDK1206</NoWarn>
+	</PropertyGroup>
+
 
 </Project>

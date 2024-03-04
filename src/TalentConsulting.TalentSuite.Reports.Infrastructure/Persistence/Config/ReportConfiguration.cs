@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Config;
 
-public class ReportConfiguration
+[ExcludeFromCodeCoverage]
+public static class ReportConfiguration
 {
-    public void Configure(EntityTypeBuilder<Report> builder)
+    public static void Configure(EntityTypeBuilder<Report> builder)
     {
         builder.Property(t => t.Id)
             .IsRequired();

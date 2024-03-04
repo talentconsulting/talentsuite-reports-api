@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
 
+[ExcludeFromCodeCoverage]
 public record NotificationDto
 {
     private NotificationDto() { }

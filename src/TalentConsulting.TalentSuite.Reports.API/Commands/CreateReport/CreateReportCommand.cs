@@ -53,17 +53,17 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, s
             throw;
         }
 
-        if (request is not null && request.ReportDto is not null)
+        if (request.ReportDto is not null)
             return request.ReportDto.Id;
         else
             return string.Empty;
     }
 
-    private ICollection<Risk> AttachExistingRisk(ICollection<Risk>? unSavedEntities)
+    private List<Risk> AttachExistingRisk(ICollection<Risk>? unSavedEntities)
     {
         var returnList = new List<Risk>();
 
-        if (unSavedEntities is null || !unSavedEntities.Any())
+        if (unSavedEntities is null || unSavedEntities.Count == 0)
             return returnList;
 
         var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id)).ToList();

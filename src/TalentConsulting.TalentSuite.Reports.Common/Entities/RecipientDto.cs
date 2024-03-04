@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace TalentConsulting.TalentSuite.Reports.Common.Entities;
 
+[ExcludeFromCodeCoverage]
 public record RecipientDto
 {
     private RecipientDto() { }
