@@ -45,7 +45,7 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
 
         try
         {
-            entity = _mapper.Map<Report>(request.ReportDto);
+            _mapper.Map(request.ReportDto, entity);
             ArgumentNullException.ThrowIfNull(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
