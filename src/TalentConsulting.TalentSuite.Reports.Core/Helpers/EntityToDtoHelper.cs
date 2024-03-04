@@ -39,6 +39,6 @@ public static class EntityToDtoHelper
 
     public static List<SowFileDto> GetSowFiles(ICollection<SowFile> files)
     {
-        return files.Select(x => new SowFileDto { Id = x.Id.ToString(), Mimetype = x.Mimetype, Filename = x.Filename, Size = x.Size, SowId = x.SowId, File = x.File }).ToList();
+        return files.Select(x => new SowFileDto { Id = x.Id.ToString(), Mimetype = x.Mimetype, Filename = x.Filename, Size = x.Size, SowId = x.SowId.ToString(), File = x.File }).ToList();
     }
 }

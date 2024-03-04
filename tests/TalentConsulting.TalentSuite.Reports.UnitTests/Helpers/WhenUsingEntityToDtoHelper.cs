@@ -42,7 +42,7 @@ public class WhenUsingEntityToDtoHelper
         {
             new Report(new Guid(reportId), "Planned Tasks", "Completed Tasks", 1, dtStartDate, new Guid(projectId), new Guid(userId), risks)
         };
-        SowFile file = new SowFile { Id = new Guid("c5fe11c4-c345-4ffd-99b3-1b3b2a65403e"), Mimetype = "Mimetype", Filename = "Filename", File = new byte[0], Size = 0, SowId = sowId };
+        SowFile file = new SowFile { Id = new Guid("c5fe11c4-c345-4ffd-99b3-1b3b2a65403e"), Mimetype = "Mimetype", Filename = "Filename", File = new byte[0], Size = 0, SowId = new Guid(sowId) };
         var sows = new List<Sow>
         {
             new Sow(new Guid(sowId), dtStartDate, new List<SowFile>{ file }, true, dtStartDate, dtEndDate, new Guid(projectId))
