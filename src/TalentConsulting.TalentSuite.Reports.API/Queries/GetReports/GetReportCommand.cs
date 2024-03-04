@@ -3,10 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
-using TalentConsulting.TalentSuite.Reports.Core.Entities;
-using TalentConsulting.TalentSuite.Reports.Core.Helpers;
 using TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Repository;
 
 namespace TalentConsulting.TalentSuite.Reports.API.Queries.GetReports;

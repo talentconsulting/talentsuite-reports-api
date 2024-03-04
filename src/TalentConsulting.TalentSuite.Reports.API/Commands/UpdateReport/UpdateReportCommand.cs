@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TalentConsulting.TalentSuite.Reports.Common.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Entities;
 using TalentConsulting.TalentSuite.Reports.Core.Interfaces.Commands;
@@ -33,7 +34,10 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
     }
     public async Task<string> Handle(UpdateReportCommand request, CancellationToken cancellationToken)
     {
-        var entity = _context.Reports.FirstOrDefault(x => x.Id.ToString() == request.Id);
+        var entity = _context.Reports.AsNoTracking()
+            .Include(x => x.Risks)
+            .FirstOrDefault(x => x.Id.ToString() == request.Id);
+
         if (entity == null)
         {
             throw new NotFoundException(nameof(Report), request.Id);
@@ -41,22 +45,8 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
 
         try
         {
-            entity.PlannedTasks = request.ReportDto.PlannedTasks;
-            entity.CompletedTasks = request.ReportDto.CompletedTasks;
-            entity.Weeknumber = request.ReportDto.Weeknumber;
-            if (!Guid.TryParse(request.ReportDto.ProjectId, out Guid projectId))
-            {
-                throw new ArgumentException("Invalid Guid for request.ReportDto.ProjectId");
-            }
-            entity.ProjectId = projectId;
-            entity.SubmissionDate = request.ReportDto.SubmissionDate;
-            if (!Guid.TryParse(request.ReportDto.UserId, out Guid userId))
-            {
-                throw new ArgumentException("Invalid Guid for request.ReportDto.UserId");
-            }
-            
-            entity.UserId = userId;
-            entity.Risks = AttachExistingRisks(request.ReportDto.Risks);
+            entity = _mapper.Map<Report>(request.ReportDto);
+            ArgumentNullException.ThrowIfNull(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
         }
@@ -70,39 +60,6 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, s
             return request.ReportDto.Id;
         else
             return string.Empty;
-    }
-
-    private List<Risk> AttachExistingRisks(ICollection<RiskDto>? unSavedEntities)
-    {
-        var returnList = new List<Risk>();
-
-        if (unSavedEntities is null || unSavedEntities.Count == 0)
-            return returnList;
-
-        var existing = _context.Risks.Where(e => unSavedEntities.Select(c => c.Id).Contains(e.Id.ToString())).ToList();
-
-        for (var i = 0; i < unSavedEntities.Count; i++)
-        {
-            var unSavedItem = unSavedEntities.ElementAt(i);
-            var savedItem = existing.Find(x => x.Id.ToString() == unSavedItem.Id);
-
-            if (savedItem is not null)
-            {
-                if (!Guid.TryParse(unSavedItem.ReportId, out Guid reportId))
-                {
-                    throw new ArgumentException("Invalid Guid for unSavedItem.ReportId");
-                }
-                
-                savedItem.ReportId = reportId;
-                savedItem.RiskDetails = unSavedItem.RiskDetails;
-                savedItem.RiskMitigation = unSavedItem.RiskMitigation;
-                savedItem.RagStatus = unSavedItem.RagStatus;
-            }
-
-            returnList.Add(savedItem ?? _mapper.Map<Risk>(unSavedItem));
-        }
-
-        return returnList;
     }
 }
 
