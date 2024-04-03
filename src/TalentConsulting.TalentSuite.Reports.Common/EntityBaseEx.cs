@@ -5,11 +5,16 @@ namespace TalentConsulting.TalentSuite.Reports.Common;
 /// <summary>
 /// Base types for all Entities which track state using a given Id.
 /// </summary>
+public abstract class EntityBaseEx<Tid> : EntityBase<Tid>
+{    
+    public DateTime? Created { get; set; } = default;
+
+}
+
 public abstract class EntityBase<Tid>
 {
-    public string Id { get; set; } = default!;
+    public Tid Id { get; set; } = default!;
 
-    public DateTime? Created { get; set; } = default;
 
     private readonly List<DomainEventBase> _domainEvents = new();
 

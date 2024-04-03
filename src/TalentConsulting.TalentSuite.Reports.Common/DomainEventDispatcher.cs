@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 
 namespace TalentConsulting.TalentSuite.Reports.Common;
 
+[ExcludeFromCodeCoverage]
 public class DomainEventDispatcher : IDomainEventDispatcher
 {
     private readonly IMediator _mediator;
@@ -12,7 +14,7 @@ public class DomainEventDispatcher : IDomainEventDispatcher
         _mediator = mediator;
     }
 
-    public async Task DispatchAndClearEvents(IEnumerable<EntityBase<string>> entitiesWithEvents)
+    public async Task DispatchAndClearEvents(IEnumerable<EntityBaseEx<string>> entitiesWithEvents)
     {
         foreach (var entity in entitiesWithEvents)
         {

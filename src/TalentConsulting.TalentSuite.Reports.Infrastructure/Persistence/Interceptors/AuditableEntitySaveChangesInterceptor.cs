@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.Reports.Common;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 using TalentConsulting.TalentSuite.Reports.Core;
 
 namespace TalentConsulting.TalentSuite.Reports.Infrastructure.Persistence.Interceptors;
 
+[ExcludeFromCodeCoverage]
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly IDateTime _dateTime;
@@ -36,7 +38,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     {
         if (context == null) return;
 
-        foreach (var entry in context.ChangeTracker.Entries<EntityBase<string>>())
+        foreach (var entry in context.ChangeTracker.Entries<EntityBaseEx<Guid>>())
         {
             if (entry.State == EntityState.Added)
             {
@@ -47,6 +49,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     }
 }
 
+[ExcludeFromCodeCoverage]
 public static class Extensions
 {
     public static bool HasChangedOwnedEntities(this EntityEntry entry) =>

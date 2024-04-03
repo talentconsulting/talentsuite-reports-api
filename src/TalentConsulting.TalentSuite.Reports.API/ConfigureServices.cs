@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 using TalentConsulting.TalentSuite.Reports.Core;
@@ -7,6 +8,7 @@ using TalentConsulting.TalentSuite.Reports.Infrastructure.Service;
 
 namespace TalentConsulting.TalentSuite.Reports.API;
 
+[ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)

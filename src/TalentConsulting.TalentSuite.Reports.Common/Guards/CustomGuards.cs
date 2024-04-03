@@ -1,7 +1,9 @@
 ﻿using Ardalis.GuardClauses;
+using System.Diagnostics.CodeAnalysis;
 
 namespace alentConsulting.TalentSuite.Reports.Common.Guards;
 
+[ExcludeFromCodeCoverage]
 public static class CustomGuards
 {
     public static DateTimeOffset OutOfRange(this IGuardClause guardClause, DateTimeOffset input, string parameterName, DateTimeOffset rangeFrom, DateTimeOffset rangeTo)

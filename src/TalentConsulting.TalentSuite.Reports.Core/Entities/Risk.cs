@@ -5,11 +5,11 @@ using TalentConsulting.TalentSuite.Reports.Common.Interfaces;
 namespace TalentConsulting.TalentSuite.Reports.Core.Entities;
 
 [Table("risks")]
-public class Risk : EntityBase<string>, IAggregateRoot
+public class Risk : EntityBase<Guid>, IAggregateRoot
 {
     private Risk() { }
 
-    public Risk(string id, string reportid, string riskdetails, string riskmitigation, string ragstatus)
+    public Risk(Guid id, Guid reportid, string riskdetails, string riskmitigation, string ragstatus)
     {
         Id = id;
         ReportId = reportid;
@@ -18,7 +18,7 @@ public class Risk : EntityBase<string>, IAggregateRoot
         RagStatus = ragstatus;
     }
 
-    public string ReportId { get; set; } = default!;
+    public Guid ReportId { get; set; }
     public string RiskDetails { get; set; } = default!;
     public string RiskMitigation { get; set; } = default!;
     public string RagStatus { get; set; } = default!;
