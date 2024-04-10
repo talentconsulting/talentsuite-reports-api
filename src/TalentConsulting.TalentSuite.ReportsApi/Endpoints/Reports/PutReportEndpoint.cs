@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
@@ -12,9 +13,9 @@ public sealed class PutReportEndpoint : IApiEndpoint
 
     public static void Register(WebApplication app)
     {
-        app.MapPut("/reports/{id:guid}", PutReport)
+        app.MapPut("/reports", PutReport)
             .Accepts<ReportDto>(false, MediaTypeNames.Application.Json)
-            .Produces<ReportDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
             .WithTags("Reporting")
@@ -25,23 +26,20 @@ public sealed class PutReportEndpoint : IApiEndpoint
     [Authorize(Policy = "TalentConsultingUser")]
     private static async Task<IResult> PutReport(
         [FromServices] IReportsProvider reportsProvider,
-        Guid id,
+        [FromServices] IValidator<ReportDto> validator,
         [FromBody] ReportDto reportDto,
         CancellationToken cancellationToken)
     {
-        // TODO: validation
-        if (reportDto.Id != id)
+        var results = validator.Validate(reportDto);
+        if (!results.IsValid)
         {
-            return TypedResults.Problem(new ProblemDetails()
-            {
-                Detail = "Ids do not match"
-            });
+            return Results.ValidationProblem(results.ToDictionary());
         }
 
         var report = await reportsProvider.Update(reportDto.ToEntity(), cancellationToken);
 
         return report is null
             ? Results.NotFound()
-            : TypedResults.Ok(ReportDto.From(report));
+            : Results.NoContent();
     }
 }

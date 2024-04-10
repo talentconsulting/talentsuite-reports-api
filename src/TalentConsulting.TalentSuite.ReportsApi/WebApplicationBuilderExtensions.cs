@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
+﻿using FluentValidation;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using System.Text;
+using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
+using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos.Validators;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
@@ -27,7 +30,6 @@ internal static class WebApplicationBuilderExtensions
         builder.ConfigureEntityFramework();
         builder.ConfigureApplicationDependencies();
         builder.ConfigureHealthChecks();
-        //builder.ConfigureAutoMapper();
     }
 
     private static void ConfigureSerilog(this WebApplicationBuilder builder)
@@ -74,17 +76,17 @@ internal static class WebApplicationBuilderExtensions
 
         builder.Services.AddAuthorization(options =>
         {
-            if (builder.Environment.IsProduction())
+            if (builder.Environment.IsDevelopment())
+            {
+                options.AddPolicy("TalentConsultingUser", policy =>
+                    policy.RequireAssertion(_ => true));
+            }
+            else
             {
                 options.AddPolicy("TalentConsultingUser", policy =>
                     policy.RequireAssertion(context =>
                         context.User.IsInRole("TalentConsultingReader") ||
                         context.User.IsInRole("TalentConsultingWriter")));
-            }
-            else //LocalHost, Dev, Test, PP, disable Authorisation
-            {
-                options.AddPolicy("TalentConsultingUser", policy =>
-                    policy.RequireAssertion(_ => true));
             }
         });
     }
@@ -140,9 +142,14 @@ internal static class WebApplicationBuilderExtensions
 
     private static void ConfigureApplicationDependencies(this WebApplicationBuilder builder)
     {
-        // add to DI container
         builder.Services.AddTransient<ApplicationDbContextInitialiser>();
         builder.Services.AddTransient<IReportsProvider, ReportsProvider>();
+
+        // Validators
+        builder.Services.AddScoped<IValidator<CreateReportDto>, CreateReportDtoValidator>();
+        builder.Services.AddScoped<IValidator<CreateRiskDto>, CreateRiskDtoValidator>();
+        builder.Services.AddScoped<IValidator<ReportDto>, ReportDtoValidator>();
+        builder.Services.AddScoped<IValidator<RiskDto>, RiskDtoValidator>();
     }
 
     private static void ConfigureHealthChecks(this WebApplicationBuilder builder)
@@ -151,15 +158,4 @@ internal static class WebApplicationBuilderExtensions
             .AddHealthChecks()
             .AddCheck<DefaultHealthCheck>("default");
     }
-    
-    //private static void ConfigureAutoMapper(this WebApplicationBuilder builder)
-    //{
-    //    var config = new MapperConfiguration(cfg =>
-    //    {
-    //        cfg.ShouldMapMethod = m => false;
-    //        cfg.AddProfile(new DefaultAutoMapperProfile());
-    //    });
-
-    //    builder.Services.AddSingleton(config.CreateMapper());
-    //}
 }

@@ -10,7 +10,7 @@ public record ReportDto(
     string? Completed,
     string? Planned,
     IEnumerable<RiskDto> Risks,
-    string Status
+    ReportStatus Status
 )
 {
     public static ReportDto From(Report report)
@@ -21,7 +21,7 @@ public record ReportDto(
             report.Completed,
             report.Planned,
             report.Risks.Select(RiskDto.From),
-            report.Status.ToString()
+            report.Status
         );
     }
 
@@ -36,7 +36,7 @@ public record ReportDto(
             Completed = Completed,
             Planned = Planned,
             Risks = Risks.Select(x => x.ToEntity()).ToList(),
-            Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), Status)
+            Status = Status
         };
     }
 }

@@ -5,7 +5,7 @@ namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 public record CreateRiskDto(
     string Description,
     string Mitigation,
-    string Status
+    RiskStatus Status
 )
 {
     public static CreateRiskDto From(Risk risk)
@@ -13,7 +13,7 @@ public record CreateRiskDto(
         return new CreateRiskDto(
             risk.Description,
             risk.Mitigation,
-            risk.Status.ToString()
+            risk.Status
         );
     }
 
@@ -23,7 +23,7 @@ public record CreateRiskDto(
         {
             Description = Description,
             Mitigation = Mitigation,
-            Status = (RiskStatus)Enum.Parse(typeof(RiskStatus), Status)
+            Status = Status
         };
     }
 }

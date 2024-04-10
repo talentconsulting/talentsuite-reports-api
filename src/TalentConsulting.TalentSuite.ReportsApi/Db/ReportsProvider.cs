@@ -69,7 +69,18 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
             }
         }
 
-        await context.SaveChangesAsync(cancellationToken);
+        var transaction = context.Database.BeginTransaction();
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+
         return existingReport;
     }
 

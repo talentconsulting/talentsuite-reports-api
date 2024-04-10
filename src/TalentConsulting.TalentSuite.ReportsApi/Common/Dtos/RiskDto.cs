@@ -6,7 +6,7 @@ public record RiskDto(
     Guid Id,
     string Description,
     string Mitigation,
-    string Status
+    RiskStatus Status
 )
 {
     public static RiskDto From(Risk risk)
@@ -15,7 +15,7 @@ public record RiskDto(
             risk.Id,
             risk.Description,
             risk.Mitigation,
-            risk.Status.ToString()
+            risk.Status
         );
     }
 
@@ -26,7 +26,7 @@ public record RiskDto(
             Id = Id,
             Description = Description,
             Mitigation = Mitigation,
-            Status = (RiskStatus)Enum.Parse(typeof(RiskStatus), Status)
+            Status = Status
         };
     }
 }

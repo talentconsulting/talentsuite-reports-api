@@ -9,17 +9,19 @@ public record CreateReportDto(
     string? Completed,
     string? Planned,
     IEnumerable<CreateRiskDto> Risks,
-    string Status
+    ReportStatus Status
 )
 {
     public static CreateReportDto From(Report report)
     {
         return new CreateReportDto(
-            report.ClientId, report.ProjectId, report.SowId,
+            report.ClientId,
+            report.ProjectId,
+            report.SowId,
             report.Completed,
             report.Planned,
             report.Risks.Select(CreateRiskDto.From),
-            report.Status.ToString()
+            report.Status
         );
     }
 
@@ -33,7 +35,8 @@ public record CreateReportDto(
             Completed = Completed,
             Planned = Planned,
             Risks = Risks.Select(x => x.ToEntity()).ToList(),
-            Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), Status)
+            //Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), Status)
+            Status = Status
         };
     }
 }

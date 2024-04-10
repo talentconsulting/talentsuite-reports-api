@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Reflection;
 using TalentConsulting.TalentSuite.ReportsApi.Db.Entities;
 
@@ -8,8 +9,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
+    { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,13 +27,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning));
     }
-
-    //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-    //{
-    //    int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-    //    return result;
-    //}
     
     public DbSet<Report> Reports => Set<Report>();
     public DbSet<Risk> Risks => Set<Risk>();

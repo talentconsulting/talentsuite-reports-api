@@ -22,7 +22,7 @@ public sealed class GetReportEndpoint : IApiEndpoint
     [Authorize(Policy = "TalentConsultingUser")]
     private static async Task<IResult> GetReport(
         [FromServices] IReportsProvider reportsProvider,
-        Guid id,
+        [FromRoute] Guid id,
         CancellationToken cancellationToken)
     {
         var report = await reportsProvider.Fetch(id, cancellationToken);
