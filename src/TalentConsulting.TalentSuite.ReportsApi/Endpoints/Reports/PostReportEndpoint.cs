@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
@@ -12,8 +13,8 @@ public sealed class PostReportEndpoint : IApiEndpoint
     public static void Register(WebApplication app)
     {
         app.MapPost("/reports", PostReport)
-            .Produces<ReportDto>(200)
-            .Produces(500)
+            .Accepts<CreateReportDto>(false, MediaTypeNames.Application.Json)
+            .Produces(StatusCodes.Status201Created)
             .WithTags("Reporting")
             .WithDescription("The report to create")
             .WithOpenApi();
@@ -21,11 +22,13 @@ public sealed class PostReportEndpoint : IApiEndpoint
 
     [Authorize(Policy = "TalentConsultingUser")]
     private static async Task<IResult> PostReport(
+        HttpContext http,
         [FromServices] IReportsProvider reportsProvider,
         [FromBody] CreateReportDto createReportDto,
         CancellationToken cancellationToken)
     {
         var report = await reportsProvider.Create(createReportDto.ToEntity(), cancellationToken);
-        return TypedResults.Ok(ReportDto.From(report));
+        http.Response.Headers.Location = $"/reports/{report.Id}";
+        return Results.Created();
     }
 }
