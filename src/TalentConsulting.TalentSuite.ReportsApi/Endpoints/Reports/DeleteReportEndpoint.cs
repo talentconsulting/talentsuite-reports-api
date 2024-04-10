@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
@@ -11,9 +12,8 @@ public sealed class DeleteReportEndpoint : IApiEndpoint
     public static void Register(WebApplication app)
     {
         app.MapDelete("/reports/{id:guid}", DeleteReport)
-            .Produces(200)
-            .Produces(404)
-            .Produces(500)
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
             .WithTags("Reporting")
             .WithDescription("The report to delete")
             .WithOpenApi();

@@ -12,7 +12,7 @@ public sealed class PutReportEndpoint : IApiEndpoint
 
     public static void Register(WebApplication app)
     {
-        app.MapPut("/reports/{id}", PutReport)
+        app.MapPut("/reports/{id:guid}", PutReport)
             .Accepts<ReportDto>(false, MediaTypeNames.Application.Json)
             .Produces<ReportDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
@@ -25,11 +25,18 @@ public sealed class PutReportEndpoint : IApiEndpoint
     [Authorize(Policy = "TalentConsultingUser")]
     private static async Task<IResult> PutReport(
         [FromServices] IReportsProvider reportsProvider,
-        //Guid id, // TODO: uncomment this line
+        Guid id,
         [FromBody] ReportDto reportDto,
         CancellationToken cancellationToken)
     {
         // TODO: validation
+        if (reportDto.Id != id)
+        {
+            return TypedResults.Problem(new ProblemDetails()
+            {
+                Detail = "Ids do not match"
+            });
+        }
 
         var report = await reportsProvider.Update(reportDto.ToEntity(), cancellationToken);
 

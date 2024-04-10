@@ -8,44 +8,35 @@ internal record DeleteResult(bool Success, bool Found);
 
 internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
 {
-    public async Task<bool> Delete(Guid reportId, CancellationToken cancellationToken)
+    public async Task<Report> Create(Report report, CancellationToken cancellationToken)
     {
-        var report = await context.Reports.FindAsync(reportId, cancellationToken);
-        if (report == null)
-        {
-            return false;
-        }
-
-        // TODO: delete the dependent Risks
-        context.Reports.Remove(report);
+        context.Reports.Add(report);
         await context.SaveChangesAsync(cancellationToken);
-        return true;
-    }
 
-    public async Task<PagedResults<Report>> GetAllBy(Guid projectId, PageQueryParameters pagingInfo)
-    {
-        var entities = context.Reports
-            //.OrderBy(x => x.CreatedWhen)
-            //.ThenBy(x => x.Id)
-            .Where(x => x.ProjectId == projectId);
-        
-        var totalCount = await entities.CountAsync();
-
-        var skip = (pagingInfo.SafePage - 1) * pagingInfo.SafePageSize;
-        entities = entities
-            .Skip(skip)
-            .Take(pagingInfo.SafePageSize);
-
-        var results = await entities.Include(x => x.Risks).ToListAsync();
-
-        return new PagedResults<Report>(skip + 1, totalCount, results);
+        return report;
     }
 
     public async Task<Report?> Fetch(Guid reportId, CancellationToken cancellationToken)
     {
-        return await context.Reports
-            .Include(x => x.Risks)
-            .FirstOrDefaultAsync(report => report.Id == reportId, cancellationToken);
+        return await context.Reports.FindAsync(reportId, cancellationToken);
+    }
+
+    public async Task<bool> Delete(Guid reportId, CancellationToken cancellationToken)
+    {
+        var report = await Fetch(reportId, cancellationToken);
+        if (report is null)
+        {
+            return false;
+        }
+
+        foreach (var risk in report.Risks)
+        {
+            context.Remove(risk);
+        }
+        context.Remove(report);
+        await context.SaveChangesAsync(cancellationToken);
+        
+        return true;
     }
 
     public async Task<Report?> Update(Report report, CancellationToken cancellationToken)
@@ -82,11 +73,18 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
         return existingReport;
     }
 
-    public async Task<Report> Create(Report report, CancellationToken cancellationToken)
+    public async Task<PagedResults<Report>> FetchAllBy(Guid projectId, PageQueryParameters pagingInfo, CancellationToken cancellationToken)
     {
-        context.Reports.Add(report);
-        await context.SaveChangesAsync(cancellationToken);
+        var entities = context.Reports.Where(x => x.ProjectId == projectId);
+        var totalCount = await entities.CountAsync(cancellationToken);
 
-        return report;
+        var skip = (pagingInfo.SafePage - 1) * pagingInfo.SafePageSize;
+        entities = entities
+            .Skip(skip)
+            .Take(pagingInfo.SafePageSize);
+
+        var results = await entities.Include(x => x.Risks).ToListAsync(cancellationToken);
+
+        return new PagedResults<Report>(skip + 1, totalCount, results);
     }
 }

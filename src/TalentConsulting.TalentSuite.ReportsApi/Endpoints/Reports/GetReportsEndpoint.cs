@@ -13,18 +13,23 @@ public sealed class GetReportsEndpoint : IApiEndpoint
     public static void Register(WebApplication app)
     {
         app.MapGet("/reports", GetReports)
-            .Produces(200)
+            .Produces< ReportsResponse>(StatusCodes.Status200OK)
             .WithTags("Reporting")
-            .WithDescription("Return a paged view of reports in normalised form")
+            .WithDescription("Return a paged view of reports")
             .WithOpenApi();
     }
 
     [Authorize(Policy = "TalentConsultingUser")]
-    private static async Task<ReportsResponse> GetReports(int page, int pageSize, /*Guid userId, Guid projectId,*/ [FromServices] IReportsProvider reportsProvider)
+    private static async Task<ReportsResponse> GetReports(
+        [FromServices] IReportsProvider reportsProvider,
+        int page,
+        int pageSize,
+        //Guid userId,
+        Guid projectId,
+        CancellationToken cancellationToken)
     {
-        var projectId = new Guid("86b610ee-e866-4749-9f10-4a5c59e96f2f");
         var paging = new PageQueryParameters(page, pageSize);
-        var pagedResults = await reportsProvider.GetAllBy(projectId, paging);
+        var pagedResults = await reportsProvider.FetchAllBy(projectId, paging, cancellationToken);
         var mappedResults = pagedResults.Results.Select(report => ReportDto.From(report));
         var pagingInfo = new PageInfoDto(
             pagedResults.Total,

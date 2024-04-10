@@ -11,9 +11,9 @@ public sealed class GetReportEndpoint : IApiEndpoint
 
     public static void Register(WebApplication app)
     {
-        app.MapGet("/reports/{id}", GetReport)
-            .Produces<ReportDto>(200)
-            .Produces(500)
+        app.MapGet("/reports/{id:guid}", GetReport)
+            .Produces<ReportDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
             .WithTags("Reporting")
             .WithDescription("The report to return")
             .WithOpenApi();
