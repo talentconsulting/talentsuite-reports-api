@@ -21,11 +21,6 @@ static partial class WebApplicationExtensions
         app.MapHealthChecks("/health");
         await app.InitialiseDb();
         app.RegisterEndpoints();
-
-        if (app.Environment.IsProduction())
-        {
-            app.UseExceptionHandler(configure => configure.Run(async ctx => await Results.Problem().ExecuteAsync(ctx)));
-        }
     }
 
     private static async Task InitialiseDb(this WebApplication app)
