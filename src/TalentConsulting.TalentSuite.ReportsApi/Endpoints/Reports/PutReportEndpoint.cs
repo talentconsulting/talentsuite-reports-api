@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
@@ -12,7 +13,10 @@ public sealed class PutReportEndpoint : IApiEndpoint
     public static void Register(WebApplication app)
     {
         app.MapPut("/reports/{id}", PutReport)
-            .Produces(500)
+            .Accepts<ReportDto>(false, MediaTypeNames.Application.Json)
+            .Produces<ReportDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status404NotFound)
             .WithTags("Reporting")
             .WithDescription("The report to update")
             .WithOpenApi();
@@ -25,9 +29,12 @@ public sealed class PutReportEndpoint : IApiEndpoint
         [FromBody] ReportDto reportDto,
         CancellationToken cancellationToken)
     {
-        var report = reportDto.ToEntity();
-        await reportsProvider.Update(report, cancellationToken);
+        // TODO: validation
 
-        return Results.Ok();
+        var report = await reportsProvider.Update(reportDto.ToEntity(), cancellationToken);
+
+        return report is null
+            ? Results.NotFound()
+            : TypedResults.Ok(ReportDto.From(report));
     }
 }

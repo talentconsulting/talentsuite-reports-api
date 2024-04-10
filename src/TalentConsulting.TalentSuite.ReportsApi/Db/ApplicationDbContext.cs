@@ -15,7 +15,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        modelBuilder.Entity<Report>().OwnsMany(x => x.Risks);
+        modelBuilder.Entity<Report>().OwnsMany(x => x.Risks, i =>
+        {
+            i.WithOwner().HasForeignKey("ReportId");
+            i.Property<Guid>("Id");
+            i.HasKey("Id");
+        });
         base.OnModelCreating(modelBuilder);
     }
 

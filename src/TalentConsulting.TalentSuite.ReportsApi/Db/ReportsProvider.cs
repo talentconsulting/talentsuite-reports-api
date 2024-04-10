@@ -48,27 +48,43 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
             .FirstOrDefaultAsync(report => report.Id == reportId, cancellationToken);
     }
 
-    public async Task Update(Report report, CancellationToken cancellationToken)
+    public async Task<Report?> Update(Report report, CancellationToken cancellationToken)
     {
-        context.Reports.Attach(report);
-        if (report.Risks is not null && report.Risks.Any())
+        var existingReport = await Fetch(report.Id, cancellationToken);
+        if (existingReport is null)
         {
-            // TODO: context.Risks.AttachRange()
-            context.Risks.AttachRange(report.Risks);
-            context.Risks.UpdateRange(report.Risks);
+            return null;
         }
-        else
+
+        context.Entry(existingReport).CurrentValues.SetValues(report);
+        foreach (var risk in report.Risks)
         {
-            //context.Risks.Where(x => x.)
+            var existingRisk = existingReport.Risks.FirstOrDefault(r => r.Id == risk.Id);
+            if (existingRisk is null)
+            {
+                existingReport.Risks.Add(risk);
+            }
+            else
+            {
+                context.Entry(existingRisk).CurrentValues.SetValues(risk);
+            }
         }
-        context.Reports.Update(report);
-        
+
+        foreach (var risk in existingReport.Risks)
+        {
+            if (!report.Risks.Any(r => r.Id == risk.Id))
+            {
+                context.Remove(risk);
+            }
+        }
+
         await context.SaveChangesAsync(cancellationToken);
+        return existingReport;
     }
 
     public async Task<Report> Create(Report report, CancellationToken cancellationToken)
     {
-        await context.Reports.AddAsync(report, cancellationToken);
+        context.Reports.Add(report);
         await context.SaveChangesAsync(cancellationToken);
 
         return report;
