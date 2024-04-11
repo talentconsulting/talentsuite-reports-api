@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints;
 
-public sealed class GetInfoEndpoint : IApiEndpoint
+internal sealed class GetInfoEndpoint : IApiEndpoint
 {
     internal record InfoResponse(string Version);
     

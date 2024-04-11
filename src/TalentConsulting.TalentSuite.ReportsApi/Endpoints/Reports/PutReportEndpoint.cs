@@ -7,7 +7,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
-public sealed class PutReportEndpoint : IApiEndpoint
+internal sealed class PutReportEndpoint : IApiEndpoint
 {
     internal record InfoResponse(string Version);
 

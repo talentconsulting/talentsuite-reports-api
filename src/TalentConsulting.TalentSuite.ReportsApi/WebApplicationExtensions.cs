@@ -1,9 +1,11 @@
 ﻿using Serilog;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
-static partial class WebApplicationExtensions
+[ExcludeFromCodeCoverage]
+internal static partial class WebApplicationExtensions
 {
     static partial void RegisterEndpoints(this WebApplication app);
 

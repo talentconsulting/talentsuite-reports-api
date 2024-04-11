@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 
-public record CreateReportDto(
+internal record CreateReportDto(
     Guid ClientId,
     Guid ProjectId,
     Guid SowId,
@@ -35,7 +35,6 @@ public record CreateReportDto(
             Completed = Completed,
             Planned = Planned,
             Risks = Risks.Select(x => x.ToEntity()).ToList(),
-            //Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), Status)
             Status = Status
         };
     }

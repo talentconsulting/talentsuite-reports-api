@@ -4,7 +4,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
-public sealed class DeleteReportEndpoint : IApiEndpoint
+internal sealed class DeleteReportEndpoint : IApiEndpoint
 {
     internal record InfoResponse(string Version);
 

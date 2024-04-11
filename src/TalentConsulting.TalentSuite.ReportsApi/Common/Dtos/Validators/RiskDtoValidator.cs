@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos.Validators;
 
-public class RiskDtoValidator : AbstractValidator<RiskDto>
+internal class RiskDtoValidator : AbstractValidator<RiskDto>
 {
     public RiskDtoValidator()
     {

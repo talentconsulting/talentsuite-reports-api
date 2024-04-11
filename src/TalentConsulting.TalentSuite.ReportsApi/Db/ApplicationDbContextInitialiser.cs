@@ -6,7 +6,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db.Entities;
 namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 
 [ExcludeFromCodeCoverage]
-public class ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context)
+internal class ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context)
 {
     public async Task InitialiseAsync(bool isProduction, bool restartDatabase)
     {

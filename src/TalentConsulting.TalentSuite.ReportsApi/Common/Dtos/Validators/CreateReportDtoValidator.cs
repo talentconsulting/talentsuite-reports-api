@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos.Validators;
 
-public class CreateReportDtoValidator : AbstractValidator<CreateReportDto>
+internal class CreateReportDtoValidator : AbstractValidator<CreateReportDto>
 {
     public CreateReportDtoValidator()
     {

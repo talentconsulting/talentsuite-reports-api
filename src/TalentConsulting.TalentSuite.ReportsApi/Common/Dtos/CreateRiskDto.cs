@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 
-public record CreateRiskDto(
+internal record CreateRiskDto(
     string Description,
     string Mitigation,
     RiskStatus Status

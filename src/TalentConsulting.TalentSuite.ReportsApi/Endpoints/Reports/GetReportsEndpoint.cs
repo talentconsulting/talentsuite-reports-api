@@ -6,7 +6,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Requests;
 
-public sealed class GetReportsEndpoint : IApiEndpoint
+internal sealed class GetReportsEndpoint : IApiEndpoint
 {
     internal record ReportsResponse(PageInfoDto PageInfo, IEnumerable<ReportDto> Reports);
 

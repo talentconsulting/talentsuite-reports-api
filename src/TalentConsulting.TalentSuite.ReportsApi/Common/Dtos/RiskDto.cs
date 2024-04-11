@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 
-public record RiskDto(
+internal record RiskDto(
     Guid Id,
     string Description,
     string Mitigation,

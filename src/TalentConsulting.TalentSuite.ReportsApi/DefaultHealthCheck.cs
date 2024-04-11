@@ -3,10 +3,11 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
-public class DefaultHealthCheck(IApplicationDbContext dbContext) : IHealthCheck
+internal class DefaultHealthCheck(IApplicationDbContext dbContext) : IHealthCheck
 {
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
+        // Note: will fail on in-memory provider, but that provider should only be used in development
         try
         {
             await dbContext.Ping(cancellationToken);

@@ -5,7 +5,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
-public sealed class GetReportEndpoint : IApiEndpoint
+internal sealed class GetReportEndpoint : IApiEndpoint
 {
     internal record InfoResponse(string Version);
 

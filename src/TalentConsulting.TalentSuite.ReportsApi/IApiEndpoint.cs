@@ -1,6 +1,6 @@
 ﻿namespace TalentConsulting.TalentSuite.ReportsApi;
 
-public interface IApiEndpoint
+internal interface IApiEndpoint
 {
     static abstract void Register(WebApplication app);
 }

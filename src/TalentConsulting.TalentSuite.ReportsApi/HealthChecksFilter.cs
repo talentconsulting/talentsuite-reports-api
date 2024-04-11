@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
 // TODO: implement correct output
-public class HealthChecksFilter : IDocumentFilter
+internal class HealthChecksFilter : IDocumentFilter
 {
     public const string HealthCheckEndpoint = @"/health";
     

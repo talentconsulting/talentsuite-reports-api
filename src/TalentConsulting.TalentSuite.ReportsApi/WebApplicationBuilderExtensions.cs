@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos.Validators;
@@ -14,6 +15,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
+[ExcludeFromCodeCoverage]
 internal static partial class WebApplicationBuilderExtensions
 {
     public static void Configure(this WebApplicationBuilder builder)

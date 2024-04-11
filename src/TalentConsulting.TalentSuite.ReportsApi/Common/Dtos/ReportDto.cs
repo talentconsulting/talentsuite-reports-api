@@ -2,7 +2,7 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 
-public record ReportDto(
+internal record ReportDto(
     Guid Id,
     Guid ClientId,
     Guid ProjectId,
