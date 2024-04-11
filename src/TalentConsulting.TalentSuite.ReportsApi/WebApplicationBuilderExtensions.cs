@@ -81,8 +81,7 @@ internal static partial class WebApplicationBuilderExtensions
         {
             if (builder.Environment.IsDevelopment())
             {
-                options.AddPolicy("TalentConsultingUser", policy =>
-                    policy.RequireAssertion(_ => true));
+                options.AddPolicy("TalentConsultingUser", policy => policy.RequireAssertion(_ => true));
             }
             else
             {
@@ -127,8 +126,7 @@ internal static partial class WebApplicationBuilderExtensions
 
     private static void ConfigureApplicationDependencies(this WebApplicationBuilder builder)
     {
-        builder.Services.AddTransient<ApplicationDbContextInitialiser>();
-        builder.Services.AddTransient<IReportsProvider, ReportsProvider>();
+        builder.Services.AddScoped<IReportsProvider, ReportsProvider>();
 
         // Validators
         builder.Services.AddScoped<IValidator<CreateReportDto>, CreateReportDtoValidator>();

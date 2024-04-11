@@ -18,7 +18,7 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
 
     public async Task<Report?> Fetch(Guid reportId, CancellationToken cancellationToken)
     {
-        return await context.Reports.FindAsync(reportId, cancellationToken);
+        return await context.Reports.FindAsync([reportId, cancellationToken], cancellationToken: cancellationToken);
     }
 
     public async Task<bool> Delete(Guid reportId, CancellationToken cancellationToken)
@@ -73,11 +73,11 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
         try
         {
             await context.SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync();
+            await transaction.CommitAsync(cancellationToken);
         }
         catch
         {
-            await transaction.RollbackAsync();
+            await transaction.RollbackAsync(cancellationToken);
             throw;
         }
 

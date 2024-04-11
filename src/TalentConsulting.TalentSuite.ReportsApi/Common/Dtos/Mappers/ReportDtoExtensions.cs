@@ -11,7 +11,7 @@ internal static class ReportDtoExtensions
             report.ClientId, report.ProjectId, report.SowId,
             report.Completed,
             report.Planned,
-            report.Risks.Select(risk => risk.ToRiskDto()),
+            report.Risks.Select(risk => risk.ToRiskDto()).ToList(),
             report.Status
         );
     }

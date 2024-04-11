@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.ReportsApi", "TalentConsulting.TalentSuite.ReportsApi\TalentConsulting.TalentSuite.ReportsApi.csproj", "{3901977F-EDF0-4C4A-BE30-C7FFC82BECCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentConsulting.MinimalApi.Registration", "TalentConsulting.MinimalApi.Registration\TalentConsulting.MinimalApi.Registration.csproj", "{AF1E73ED-789D-442C-8EFF-F6CE4DFE9041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.MinimalApi.Registration", "TalentConsulting.MinimalApi.Registration\TalentConsulting.MinimalApi.Registration.csproj", "{AF1E73ED-789D-442C-8EFF-F6CE4DFE9041}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentConsulting.TalentSuite.ReportsApi.Tests", "TalentConsulting.TalentSuite.ReportsApi.Tests\TalentConsulting.TalentSuite.ReportsApi.Tests.csproj", "{5EEB1216-1C51-435B-943C-E8AA52DB06FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AF1E73ED-789D-442C-8EFF-F6CE4DFE9041}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1E73ED-789D-442C-8EFF-F6CE4DFE9041}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1E73ED-789D-442C-8EFF-F6CE4DFE9041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEB1216-1C51-435B-943C-E8AA52DB06FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEB1216-1C51-435B-943C-E8AA52DB06FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEB1216-1C51-435B-943C-E8AA52DB06FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEB1216-1C51-435B-943C-E8AA52DB06FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

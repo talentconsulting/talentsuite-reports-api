@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Db.Entities;
@@ -21,6 +20,6 @@ public class Report
     public Guid SowId { get; set; }
     public string? Completed { get; set; }
     public string? Planned { get; set; }
-    public ICollection<Risk> Risks { get; set; } = new Collection<Risk>();
+    public ICollection<Risk> Risks { get; set; } = [];
     public ReportStatus Status { get; set; }
 }

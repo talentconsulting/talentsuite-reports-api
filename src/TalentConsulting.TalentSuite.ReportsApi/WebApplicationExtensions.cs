@@ -1,11 +1,12 @@
-﻿using Serilog;
+﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
 [ExcludeFromCodeCoverage]
-internal static partial class WebApplicationExtensions
+public static partial class WebApplicationExtensions
 {
     static partial void RegisterEndpoints(this WebApplication app);
 
@@ -28,21 +29,19 @@ internal static partial class WebApplicationExtensions
     private static async Task InitialiseDb(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-
         try
         {
-            if (!app.Environment.IsProduction())
+            var dbContext = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+
+            if (!dbContext.Database.ProviderName?.Contains("InMemory", StringComparison.OrdinalIgnoreCase) ?? false)
             {
-                // Seed Database
-                var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-                var shouldResetDatabase = app.Configuration.GetValue<bool>("RestartDatabase", false);
-                await initialiser.InitialiseAsync(app.Environment.IsProduction(), shouldResetDatabase);
-                await initialiser.SeedAsync();
+                await dbContext.Database.MigrateAsync(CancellationToken.None);
             }
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "An error occurred seeding the DB. {exceptionMessage}", ex.Message);
+            Log.Fatal(ex, ex.Message);
+            throw;
         }
     }
 }

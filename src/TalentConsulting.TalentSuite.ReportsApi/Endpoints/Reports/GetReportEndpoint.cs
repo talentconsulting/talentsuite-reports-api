@@ -7,8 +7,6 @@ namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
 internal sealed class GetReportEndpoint : IApiEndpoint
 {
-    internal record InfoResponse(string Version);
-
     public static void Register(WebApplication app)
     {
         app.MapGet("/reports/{id:guid}", GetReport)
