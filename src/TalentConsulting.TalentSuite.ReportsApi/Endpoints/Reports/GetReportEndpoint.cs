@@ -28,6 +28,6 @@ internal sealed class GetReportEndpoint : IApiEndpoint
         var report = await reportsProvider.Fetch(id, cancellationToken);
         return report == null
             ? Results.NotFound()
-            : TypedResults.Ok(ReportDto.From(report));
+            : TypedResults.Ok(report.ToReportDto());
     }
 }

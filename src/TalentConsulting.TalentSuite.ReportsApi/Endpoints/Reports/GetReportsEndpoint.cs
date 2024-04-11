@@ -30,7 +30,7 @@ internal sealed class GetReportsEndpoint : IApiEndpoint
     {
         var paging = new PageQueryParameters(page, pageSize);
         var pagedResults = await reportsProvider.FetchAllBy(projectId, paging, cancellationToken);
-        var mappedResults = pagedResults.Results.Select(report => ReportDto.From(report));
+        var mappedResults = pagedResults.Results.Select(report => report.ToReportDto());
         var pagingInfo = new PageInfoDto(
             pagedResults.Total,
             paging.SafePage,
