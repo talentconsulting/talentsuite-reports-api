@@ -43,7 +43,4 @@ static partial class WebApplicationExtensions
             Log.Error(ex, "An error occurred seeding the DB. {exceptionMessage}", ex.Message);
         }
     }
-
-
-
 }
