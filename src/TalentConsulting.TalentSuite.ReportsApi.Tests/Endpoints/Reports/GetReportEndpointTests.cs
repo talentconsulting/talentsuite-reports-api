@@ -3,7 +3,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 namespace TalentConsulting.TalentSuite.ReportsApi.Tests.Endpoints.Reports;
 
 [TestFixture]
-public class GetReportTests : ServerFixtureBase
+public class GetReportEndpointTests : ServerFixtureBase
 {
     [SetUp]
     public async Task Setup()

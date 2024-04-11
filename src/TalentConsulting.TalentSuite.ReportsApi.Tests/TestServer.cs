@@ -19,4 +19,14 @@ internal class TestServer: WebApplicationFactory<Program>
 
         await value(ctx);
     }
+
+    internal async Task QueryDbAsync(Func<IApplicationDbContext, Task> value)
+    {
+        if (value is null) return;
+
+        using var scope = Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        var ctx = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+
+        await value(ctx);
+    }
 }

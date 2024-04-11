@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
 internal sealed class DeleteReportEndpoint : IApiEndpoint
 {
-    internal record InfoResponse(string Version);
-
+    [ExcludeFromCodeCoverage]
     public static void Register(WebApplication app)
     {
         app.MapDelete("/reports/{id:guid}", DeleteReport)

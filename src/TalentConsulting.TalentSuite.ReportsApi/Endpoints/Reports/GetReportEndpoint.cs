@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 using TalentConsulting.TalentSuite.ReportsApi.Db;
 
@@ -7,6 +8,7 @@ namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
 internal sealed class GetReportEndpoint : IApiEndpoint
 {
+    [ExcludeFromCodeCoverage]
     public static void Register(WebApplication app)
     {
         app.MapGet("/reports/{id:guid}", GetReport)
