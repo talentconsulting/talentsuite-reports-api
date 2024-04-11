@@ -1,12 +1,20 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
-public class DefaultHealthCheck : IHealthCheck
+public class DefaultHealthCheck(IApplicationDbContext dbContext) : IHealthCheck
 {
-    public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        // TODO: ping the db
-        return Task.FromResult(HealthCheckResult.Healthy());
+        try
+        {
+            await dbContext.Ping(cancellationToken);
+            return HealthCheckResult.Healthy();
+        }
+        catch
+        {
+            return HealthCheckResult.Unhealthy();
+        }
     }
 }

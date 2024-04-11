@@ -30,7 +30,7 @@ internal static partial class WebApplicationBuilderExtensions
         builder.ConfigureCors();
         builder.ConfigureEntityFramework();
         builder.ConfigureApplicationDependencies();
-        builder.ConfigureHealthChecks();
+        builder.ConfigureHealthChecks(); // must come after db init
     }
 
     private static void ConfigureSerilog(this WebApplicationBuilder builder)

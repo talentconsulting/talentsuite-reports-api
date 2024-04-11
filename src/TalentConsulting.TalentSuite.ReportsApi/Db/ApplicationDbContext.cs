@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using TalentConsulting.TalentSuite.ReportsApi.Db.Entities;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     { }
 
@@ -30,7 +30,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning));
     }
-    
+
+    public async Task Ping(CancellationToken cancellationToken)
+    {
+        await Database
+                .ExecuteSqlRawAsync("SELECT 1;", cancellationToken)
+                .ConfigureAwait(false);
+    }
+
     public DbSet<Report> Reports => Set<Report>();
     public DbSet<Risk> Risks => Set<Risk>();
+
+
 }

@@ -13,4 +13,6 @@ public interface IApplicationDbContext
     EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     EntityEntry<TEntity> Remove<TEntity>(TEntity entity) where TEntity : class;
     DatabaseFacade Database { get; }
+
+    Task Ping(CancellationToken cancellationToken);
 }
