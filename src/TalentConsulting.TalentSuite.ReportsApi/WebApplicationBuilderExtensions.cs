@@ -2,6 +2,7 @@
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -13,7 +14,7 @@ using TalentConsulting.TalentSuite.ReportsApi.Db;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
-internal static class WebApplicationBuilderExtensions
+internal static partial class WebApplicationBuilderExtensions
 {
     public static void Configure(this WebApplicationBuilder builder)
     {
@@ -62,7 +63,7 @@ internal static class WebApplicationBuilderExtensions
         {
             // Adding Jwt Bearer
             options.SaveToken = true;
-            options.RequireHttpsMetadata = false;
+            //options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
@@ -107,35 +108,17 @@ internal static class WebApplicationBuilderExtensions
     private static void ConfigureEntityFramework(this WebApplicationBuilder builder)
     {
         var useDbType = builder.Configuration.GetValue<string>("UseDbType");
-
-        switch (useDbType)
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
-            case "UseInMemoryDatabase":
-                builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("TalentDb"));
-                break;
-
-            //case "UseSqlServerDatabase":
-            //    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
-            //    break;
-
-            //case "UseSqlLite":
-            //    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlite(configuration.GetConnectionString("DefaultConnection") ?? String.Empty));
-            //    break;
-
-            //case "UsePostgresDatabase":
-            //    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? String.Empty)
-            //        .ReplaceService<ISqlGenerationHelper, NpgsqlSqlGenerationLowercasingHelper>());
-            //    break;
-
-            default:
-                builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("TalentDb"));
-                break;
-        }
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+            switch (useDbType)
+            {
+                case "UseSqlServerDatabase" : options.UseSqlServer(connectionString); break;
+                case "UseSqlLite"           : options.UseSqlite(connectionString); break;
+                case "UsePostgresDatabase"  : options.UseNpgsql(connectionString); break;
+                default                     : options.UseInMemoryDatabase("TalentDb"); break;
+            }
+        });
 
         builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
     }
