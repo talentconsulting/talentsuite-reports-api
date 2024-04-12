@@ -30,7 +30,7 @@ public class DeleteReportEndpointTests : ServerFixtureBase
     {
         // arrange
         var report = TestData.Client1.Reports.First();
-        Report? target = new Report();
+        Report? target = new ();
 
         // act
         using var deleteResponse = await Client.DeleteAsync($"/reports/{report.Id}");
