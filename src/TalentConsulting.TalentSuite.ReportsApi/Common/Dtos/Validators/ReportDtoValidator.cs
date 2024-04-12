@@ -10,6 +10,7 @@ internal class ReportDtoValidator : AbstractValidator<ReportDto>
         RuleFor(dto => dto.ClientId).NotEmpty();
         RuleFor(dto => dto.ProjectId).NotEmpty();
         RuleFor(dto => dto.SowId).NotEmpty();
-        RuleForEach(dto => dto.Risks).SetValidator(new RiskDtoValidator());
+        RuleFor(dto => dto.Risks).NotNull();
+        RuleForEach(dto => dto.Risks).NotNull().SetValidator(new RiskDtoValidator());
     }
 }
