@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TalentConsulting.TalentSuite.ReportsApi.Db.Entities;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 
+[ExcludeFromCodeCoverage]
 internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,7 +36,4 @@ internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> optio
     }
 
     public DbSet<Report> Reports => Set<Report>();
-    public DbSet<Risk> Risks => Set<Risk>();
-
-
 }

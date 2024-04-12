@@ -125,7 +125,7 @@ public class PutReportEndpointTests : ServerFixtureBase
             Status = ReportStatus.Retracted
         };
         var expected = report.ToEntity();
-        Report? actual = new Report();
+        Report? actual = new ();
 
         // act
         using var response = await Client.PutAsync($"/reports", JsonContent.Create(report));
