@@ -1,8 +1,3 @@
 ﻿namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 
-internal class PagedResults<T>(int start, int total, List<T> results)
-{
-    public int Start { get; set; } = start;
-    public int Total { get; set; } = total;
-    public List<T> Results { get; init; } = results;
-}
+public record PagedResults<T>(int Page, int PageSize, int First, int Last, int TotalCount, List<T> Results);

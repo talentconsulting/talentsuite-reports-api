@@ -13,7 +13,8 @@ internal sealed class GetReportsEndpoint : IApiEndpoint
     public static void Register(WebApplication app)
     {
         app.MapGet("/reports", GetReports)
-            .Produces< ReportsResponse>(StatusCodes.Status200OK)
+            .Produces<ReportsResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .WithTags("Reporting")
             .WithDescription("Return a paged view of reports")
             .WithOpenApi();
@@ -31,13 +32,7 @@ internal sealed class GetReportsEndpoint : IApiEndpoint
         var paging = new PageQueryParameters(page, pageSize);
         var pagedResults = await reportsProvider.FetchAllBy(projectId, paging, cancellationToken);
         var mappedResults = pagedResults.Results.Select(report => report.ToReportDto());
-        var pagingInfo = new PageInfoDto(
-            pagedResults.Total,
-            paging.SafePage,
-            paging.SafePageSize,
-            pagedResults.Start,
-            Math.Max(pagedResults.Start + pagedResults.Results.Count - 1, 0));
 
-        return new ReportsResponse(pagingInfo, mappedResults);
+        return new ReportsResponse(pagedResults.ToPageInfoDto(), mappedResults);
     }
 }

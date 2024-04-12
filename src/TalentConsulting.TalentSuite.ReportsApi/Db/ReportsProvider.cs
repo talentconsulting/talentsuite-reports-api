@@ -88,14 +88,18 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
     {
         var entities = context.Reports.Where(x => x.ProjectId == projectId);
         var totalCount = await entities.CountAsync(cancellationToken);
-
-        var skip = (pagingInfo.SafePage - 1) * pagingInfo.SafePageSize;
+        
+        var maxPage = (int)Math.Ceiling((double)totalCount / pagingInfo.SafePageSize);
+        var actualPage = Math.Min(pagingInfo.SafePage, maxPage);
+        var skip = (actualPage - 1) * pagingInfo.SafePageSize;
+        
         entities = entities
             .Skip(skip)
             .Take(pagingInfo.SafePageSize);
 
         var results = await entities.Include(x => x.Risks).ToListAsync(cancellationToken);
-
-        return new PagedResults<Report>(skip + 1, totalCount, results);
+        var first = skip + 1;
+        var last = Math.Max(first + results.Count - 1, 0);
+        return new PagedResults<Report>(actualPage, pagingInfo.SafePageSize, first, last, totalCount, results);
     }
 }
