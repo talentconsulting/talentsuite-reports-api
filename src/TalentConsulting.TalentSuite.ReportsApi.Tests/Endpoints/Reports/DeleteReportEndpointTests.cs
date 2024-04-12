@@ -16,7 +16,7 @@ public class DeleteReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task DeleteReport_Returns_NotFound()
+    public async Task Delete_Returns_NotFound()
     {
         // act
         using var response = await Client.DeleteAsync($"/reports/{Guid.NewGuid()}");
@@ -26,7 +26,7 @@ public class DeleteReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task DeleteReport_Removes_Report_From_DataStore()
+    public async Task Delete_Removes_Report_From_DataStore()
     {
         // arrange
         var report = TestData.Client1.Reports.First();

@@ -59,7 +59,7 @@ public class PostReportEndpointTests : ServerFixtureBase
 
     [Test]
     [TestCaseSource(nameof(BadRequestTestCases))]
-    public async Task PostReport_Returns_BadRequest(TestCreateReportDto report, string expectedError)
+    public async Task Post_Returns_BadRequest(TestCreateReportDto report, string expectedError)
     {
         // arrange
         var content = JsonContent.Create(report);
@@ -74,7 +74,7 @@ public class PostReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task PostReport_Returns_Created()
+    public async Task Post_Returns_Created()
     {
         // arrange
         var risk = new CreateRiskDto("A description", null, RiskStatus.Green);

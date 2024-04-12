@@ -15,7 +15,7 @@ public class GetReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task GetReport_Returns_NotFound()
+    public async Task Get_Returns_NotFound()
     {
         // act
         using var response = await Client.GetAsync($"/reports/{Guid.NewGuid()}");
@@ -25,7 +25,7 @@ public class GetReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task GetReport_Returns_Report()
+    public async Task Get_Returns_Report()
     {
         // arrange
         var expected = TestData.Client1.Reports.First();
