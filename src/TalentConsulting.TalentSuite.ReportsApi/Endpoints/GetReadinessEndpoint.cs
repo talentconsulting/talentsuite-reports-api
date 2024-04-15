@@ -4,8 +4,6 @@ namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints;
 
 internal sealed class GetReadinessEndpoint : IApiEndpoint
 {
-    internal record InfoResponse(string Version);
-
     public static void Register(WebApplication app)
     {
         app.MapGet("/readiness", GetReadiness)

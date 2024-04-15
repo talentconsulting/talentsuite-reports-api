@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.MinimalApi.Registration", "TalentConsulting.MinimalApi.Registration\TalentConsulting.MinimalApi.Registration.csproj", "{AF1E73ED-789D-442C-8EFF-F6CE4DFE9041}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentConsulting.TalentSuite.ReportsApi.Tests", "TalentConsulting.TalentSuite.ReportsApi.Tests\TalentConsulting.TalentSuite.ReportsApi.Tests.csproj", "{5EEB1216-1C51-435B-943C-E8AA52DB06FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentConsulting.TalentSuite.ReportsApi.Tests", "TalentConsulting.TalentSuite.ReportsApi.Tests\TalentConsulting.TalentSuite.ReportsApi.Tests.csproj", "{5EEB1216-1C51-435B-943C-E8AA52DB06FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1CD71EB7-3EBA-4AD9-A2E4-D2A7AE234F79}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

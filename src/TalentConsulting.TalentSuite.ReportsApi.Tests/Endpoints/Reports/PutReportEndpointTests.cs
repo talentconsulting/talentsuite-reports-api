@@ -83,7 +83,7 @@ public class PutReportEndpointTests : ServerFixtureBase
 
     [Test]
     [TestCaseSource(nameof(BadRequestTestCases))]
-    public async Task Post_Returns_BadRequest(TestReportDto report, string expectedError)
+    public async Task Put_Returns_BadRequest(TestReportDto report, string expectedError)
     {
         // arrange
         var content = JsonContent.Create(report);
@@ -98,7 +98,7 @@ public class PutReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task Post_Returns_NotFound()
+    public async Task Put_Returns_NotFound()
     {
         // arrange
         var report = new ReportDto(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), string.Empty, string.Empty, [], ReportStatus.Submitted);
@@ -111,7 +111,7 @@ public class PutReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task Post_Returns_NoContent()
+    public async Task Put_Returns_NoContent()
     {
         // arrange
         var report = TestData.Client1.Reports.First().ToReportDto() with

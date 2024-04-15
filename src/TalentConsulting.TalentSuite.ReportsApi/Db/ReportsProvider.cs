@@ -4,8 +4,6 @@ using TalentConsulting.TalentSuite.ReportsApi.Db.Entities;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 
-internal record DeleteResult(bool Success, bool Found);
-
 internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
 {
     public async Task<Report> Create(Report report, CancellationToken cancellationToken)
