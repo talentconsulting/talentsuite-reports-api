@@ -1,9 +1,11 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TalentConsulting.TalentSuite.ReportsApi;
 
-// TODO: implement correct output
+[ExcludeFromCodeCoverage]
 internal class HealthChecksFilter : IDocumentFilter
 {
     public const string HealthCheckEndpoint = @"/health";
@@ -13,24 +15,33 @@ internal class HealthChecksFilter : IDocumentFilter
         var pathItem = new OpenApiPathItem();
         var operation = new OpenApiOperation();
         operation.Tags.Add(new OpenApiTag { Name = "Service Status" });
-        var properties = new Dictionary<string, OpenApiSchema>
-        {
-            { "status", new OpenApiSchema() { Type = "string" } },
-            { "errors", new OpenApiSchema() { Type = "array" } }
-        };
 
-        var response = new OpenApiResponse();
-        response.Content.Add("application/json", new OpenApiMediaType
+        var healthyResponse = new OpenApiResponse();
+        healthyResponse.Content.Add("text/plain", new OpenApiMediaType
         {
             Schema = new OpenApiSchema
             {
-                Type = "object",
-                AdditionalPropertiesAllowed = true,
-                Properties = properties,
+                Type = "string",
+                Enum = [
+                    new OpenApiString("Healthy"),
+                ]
+            }
+        });
+        operation.Responses.Add("200", healthyResponse);
+
+        var unhealthyResponse = new OpenApiResponse();
+        unhealthyResponse.Content.Add("text/plain", new OpenApiMediaType
+        {
+            Schema = new OpenApiSchema
+            {
+                Type = "string",
+                Enum = [
+                    new OpenApiString("Unhealthy"),
+                ]
             }
         });
 
-        operation.Responses.Add("200", response);
+        operation.Responses.Add("503", unhealthyResponse);
         pathItem.AddOperation(OperationType.Get, operation);
         openApiDocument?.Paths.Add(HealthCheckEndpoint, pathItem);
     }
