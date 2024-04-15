@@ -2,9 +2,12 @@
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal;
 using Serilog;
 using Serilog.Events;
 using System.Diagnostics.CodeAnalysis;
@@ -116,7 +119,7 @@ internal static partial class WebApplicationBuilderExtensions
             {
                 case "UseSqlServerDatabase" : options.UseSqlServer(connectionString); break;
                 case "UseSqlLite"           : options.UseSqlite(connectionString); break;
-                case "UsePostgresDatabase"  : options.UseNpgsql(connectionString); break;
+                case "UsePostgresDatabase"  : options.UseNpgsql(connectionString).ReplaceService<IHistoryRepository, SnakeCaseHistoryContext>(); break;
                 default                     : options.UseInMemoryDatabase("TalentDb"); break;
             }
         });
