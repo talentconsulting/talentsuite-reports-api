@@ -133,8 +133,6 @@ internal static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IValidator<CreateRiskDto>, CreateRiskDtoValidator>();
         builder.Services.AddScoped<IValidator<UpdateReportDto>, UpdateReportDtoValidator>();
         builder.Services.AddScoped<IValidator<UpdateRiskDto>, UpdateRiskDtoValidator>();
-        builder.Services.AddScoped<IValidator<ReportDto>, ReportDtoValidator>();
-        builder.Services.AddScoped<IValidator<RiskDto>, RiskDtoValidator>();
     }
 
     private static void ConfigureHealthChecks(this WebApplicationBuilder builder)

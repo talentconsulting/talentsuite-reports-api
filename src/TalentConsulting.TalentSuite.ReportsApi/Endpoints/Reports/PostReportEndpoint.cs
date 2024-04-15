@@ -9,8 +9,6 @@ namespace TalentConsulting.TalentSuite.ReportsApi.Endpoints.Reports;
 
 internal sealed class PostReportEndpoint : IApiEndpoint
 {
-    internal record InfoResponse(string Version);
-
     public static void Register(WebApplication app)
     {
         app.MapPost("/reports", PostReport)
