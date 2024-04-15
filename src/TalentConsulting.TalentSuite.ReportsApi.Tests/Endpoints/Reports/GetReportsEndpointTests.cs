@@ -62,7 +62,7 @@ public class GetReportsEndpointTests : ServerFixtureBase
         });
 
         // act
-        using var response = await Client.GetAsync($"/reports?pageSize={pageSize}&page={page}&projectId={TestData.Client1.Project1Id}");
+        using var response = await Client.GetAsync($"/reports?pageSize={pageSize}&page={page}&projectId={TestData.Client1.ProjectId}");
         var reportsResponse = await response.Content.ReadFromJsonAsync<ReportsResponse>();
 
         // assert
@@ -87,7 +87,7 @@ public class GetReportsEndpointTests : ServerFixtureBase
         });
 
         // act
-        using var response = await Client.GetAsync($"/reports?pageSize={pageSize}&page={page}&projectId={TestData.Client1.Project1Id}");
+        using var response = await Client.GetAsync($"/reports?pageSize={pageSize}&page={page}&projectId={TestData.Client1.ProjectId}");
         var reportsResponse = await response.Content.ReadFromJsonAsync<ReportsResponse>();
 
         // assert
@@ -97,5 +97,32 @@ public class GetReportsEndpointTests : ServerFixtureBase
         reportsResponse.PageInfo.PageSize.ShouldBe(expectedPageSize);
         reportsResponse.Reports.Count().ShouldBe(expectedCount);
         reportsResponse.PageInfo.TotalCount.ShouldBe(expectedTotal);
+    }
+
+    [Test]
+    public async Task Get_Filters_By_ProjectId()
+    {
+        // arrange
+        await Server.ResetDbAsync(async ctx => {
+            var reports = TestData.Client1.GenerateNewReports(50);
+            await ctx.Reports.AddRangeAsync(reports);
+
+            reports = TestData.Client2.GenerateNewReports(50);
+            await ctx.Reports.AddRangeAsync(reports);
+
+            await ctx.SaveChangesAsync(CancellationToken.None);
+        });
+
+        // act
+        using var response = await Client.GetAsync($"/reports?pageSize=10&page=1&projectId={TestData.Client2.ProjectId}");
+        var reportsResponse = await response.Content.ReadFromJsonAsync<ReportsResponse>();
+
+        // assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        reportsResponse.ShouldNotBeNull();
+        reportsResponse.Reports.All(x => x.ProjectId == TestData.Client2.ProjectId).ShouldBeTrue();
+        reportsResponse.PageInfo.Page.ShouldBe(1);
+        reportsResponse.PageInfo.PageSize.ShouldBe(10);
+        reportsResponse.PageInfo.TotalCount.ShouldBe(50);
     }
 }
