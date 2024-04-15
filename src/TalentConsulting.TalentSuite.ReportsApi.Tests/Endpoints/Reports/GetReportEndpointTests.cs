@@ -37,6 +37,6 @@ public class GetReportEndpointTests : ServerFixtureBase
         // assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         actual.ShouldNotBeNull();
-        actual.ShouldBe(expected.ToReportDto());
+        actual.ShouldBeEquivalentTo(expected.ToReportDto());
     }
 }

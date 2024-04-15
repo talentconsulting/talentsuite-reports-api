@@ -14,6 +14,16 @@ internal static class RiskDtoExtensions
         );
     }
 
+    public static UpdateRiskDto ToUpdateRiskDto(this Risk risk)
+    {
+        return new UpdateRiskDto(
+            risk.Id,
+            risk.Description,
+            risk.Mitigation,
+            risk.Status
+        );
+    }
+
     public static Risk ToEntity(this RiskDto dto)
     {
         return new Risk()

@@ -131,6 +131,8 @@ internal static partial class WebApplicationBuilderExtensions
         // Validators
         builder.Services.AddScoped<IValidator<CreateReportDto>, CreateReportDtoValidator>();
         builder.Services.AddScoped<IValidator<CreateRiskDto>, CreateRiskDtoValidator>();
+        builder.Services.AddScoped<IValidator<UpdateReportDto>, UpdateReportDtoValidator>();
+        builder.Services.AddScoped<IValidator<UpdateRiskDto>, UpdateRiskDtoValidator>();
         builder.Services.AddScoped<IValidator<ReportDto>, ReportDtoValidator>();
         builder.Services.AddScoped<IValidator<RiskDto>, RiskDtoValidator>();
     }

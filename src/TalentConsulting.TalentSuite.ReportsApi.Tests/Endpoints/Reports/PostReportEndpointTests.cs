@@ -48,7 +48,7 @@ public class PostReportEndpointTests : ServerFixtureBase
             yield return new object[] { report with { Status = "Invalid" }, "BadHttpRequestException" };
             yield return new object[] { report with { Status = null }, "BadHttpRequestException" };
             yield return new object[] { report with { Risks = null }, "'Risks' must not be empty" };
-            yield return new object[] { report with { Risks = [null] }, "'Risks' must not be empty" };
+            yield return new object[] { report with { Risks = [null] }, "BadHttpRequestException" };
             yield return new object[] { report with { Risks = [risk with { Description = null }] }, "'Description' must not be empty" };
             yield return new object[] { report with { Risks = [risk with { Description = string.Empty }] }, "'Description' must not be empty" };
             yield return new object[] { report with { Risks = [risk with { Status = null }] }, "BadHttpRequestException" };

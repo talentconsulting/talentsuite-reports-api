@@ -2,12 +2,13 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 
-public record struct CreateReportDto(
+public record struct UpdateReportDto(
+    Guid Id,
     Guid ClientId,
     Guid ProjectId,
     Guid SowId,
     string? Completed,
     string? Planned,
-    IEnumerable<CreateRiskDto> Risks,
+    IReadOnlyCollection<UpdateRiskDto> Risks,
     ReportStatus Status
 );

@@ -2,4 +2,4 @@
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Common.Dtos;
 
-public record struct CreateRiskDto(string Description, string? Mitigation, RiskStatus Status);
+public record struct UpdateRiskDto(Guid? Id, string Description, string? Mitigation, RiskStatus Status);

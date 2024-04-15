@@ -16,6 +16,18 @@ internal static class ReportDtoExtensions
         );
     }
 
+    public static UpdateReportDto ToUpdateReportDto(this Report report)
+    {
+        return new UpdateReportDto(
+            report.Id,
+            report.ClientId, report.ProjectId, report.SowId,
+            report.Completed,
+            report.Planned,
+            report.Risks.Select(risk => risk.ToUpdateRiskDto()).ToList(),
+            report.Status
+        );
+    }
+
     public static Report ToEntity(this ReportDto dto)
     {
         return new Report()

@@ -72,7 +72,7 @@ public class PutReportEndpointTests : ServerFixtureBase
             yield return new object[] { report with { Status = "Invalid" }, "BadHttpRequestException" };
             yield return new object[] { report with { Status = null }, "BadHttpRequestException" };
             yield return new object[] { report with { Risks = null }, "'Risks' must not be empty" };
-            yield return new object[] { report with { Risks = [null] }, "'Risks' must not be empty" };
+            yield return new object[] { report with { Risks = [null] }, "BadHttpRequestException" };
             yield return new object[] { report with { Risks = [risk with { Description = null }] }, "'Description' must not be empty" };
             yield return new object[] { report with { Risks = [risk with { Description = string.Empty }] }, "'Description' must not be empty" };
             yield return new object[] { report with { Risks = [risk with { Status = null }] }, "BadHttpRequestException" };
@@ -111,7 +111,7 @@ public class PutReportEndpointTests : ServerFixtureBase
     }
 
     [Test]
-    public async Task Put_Returns_NoContent()
+    public async Task Put_Can_Add_Report()
     {
         // arrange
         var report = TestData.Client1.Reports.First().ToReportDto() with
@@ -134,5 +134,72 @@ public class PutReportEndpointTests : ServerFixtureBase
         // assert
         response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
         actual.ShouldNotBeNull().ShouldBeEquivalentTo(expected);
+    }
+
+    [Test]
+    public async Task Put_Can_Update_Report_Risk()
+    {
+        // arrange
+        var report = TestData.Client1.Reports.First();
+        var reportDto = TestData.Client1.Reports.First().ToReportDto() with
+        {
+            Risks = [report.Risks.First().ToRiskDto() with { Description = "An updated description" }]
+        };
+        var expected = reportDto.ToEntity();
+        Report? actual = new();
+
+        // act
+        using var response = await Client.PutAsync($"/reports", JsonContent.Create(reportDto));
+        await Server.QueryDbAsync(async ctx => actual = await ctx.Reports.FindAsync(report.Id));
+
+        // assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        actual.ShouldNotBeNull().ShouldBeEquivalentTo(expected);
+    }
+
+    [Test]
+    public async Task Put_Can_Delete_Report_Risk()
+    {
+        // arrange
+        var report = TestData.Client1.Reports.First();
+        var reportDto = TestData.Client1.Reports.First().ToUpdateReportDto() with
+        {
+            Risks = []
+        };
+        var expected = reportDto.ToEntity();
+        Report? actual = new();
+
+        // act
+        using var response = await Client.PutAsync($"/reports", JsonContent.Create(reportDto));
+        await Server.QueryDbAsync(async ctx => actual = await ctx.Reports.FindAsync(report.Id));
+
+        // assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        actual.ShouldNotBeNull().ShouldBeEquivalentTo(expected);
+    }
+
+    [Test]
+    public async Task Put_Can_Add_Report_Risk()
+    {
+        // arrange
+        var report = TestData.Client1.Reports.First();
+        var reportDto = TestData.Client1.Reports.First().ToUpdateReportDto() with
+        {
+            Risks = [new UpdateRiskDto(null, "My description", null, RiskStatus.Green)]
+        };
+        var expected = reportDto.ToEntity();
+        Report? actual = new();
+
+        // act
+        using var response = await Client.PutAsync($"/reports", JsonContent.Create(reportDto));
+        await Server.QueryDbAsync(async ctx => actual = await ctx.Reports.FindAsync(report.Id));
+
+        // assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        actual.ShouldNotBeNull();
+        var risk = actual.Risks.First();
+        risk.Description.ShouldBe("My description");
+        risk.Mitigation.ShouldBeNull();
+        risk.Status.ShouldBe(RiskStatus.Green);
     }
 }

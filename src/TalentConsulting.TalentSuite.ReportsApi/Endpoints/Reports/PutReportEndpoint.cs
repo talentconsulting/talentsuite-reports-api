@@ -26,8 +26,8 @@ internal sealed class PutReportEndpoint : IApiEndpoint
     [Authorize(Policy = "TalentConsultingUser")]
     private static async Task<IResult> PutReport(
         [FromServices] IReportsProvider reportsProvider,
-        [FromServices] IValidator<ReportDto> validator,
-        [FromBody] ReportDto reportDto,
+        [FromServices] IValidator<UpdateReportDto> validator,
+        [FromBody] UpdateReportDto reportDto,
         CancellationToken cancellationToken)
     {
         var results = validator.Validate(reportDto);
