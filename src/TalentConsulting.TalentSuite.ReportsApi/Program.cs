@@ -1,4 +1,5 @@
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 using TalentConsulting.TalentSuite.ReportsApi;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -25,3 +26,6 @@ finally
 {
     await Log.CloseAndFlushAsync();
 }
+
+[ExcludeFromCodeCoverage]
+public partial class Program { }
