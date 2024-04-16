@@ -16,7 +16,7 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
 
     public async Task<Report?> Fetch(Guid reportId, CancellationToken cancellationToken)
     {
-        return await context.Reports.FindAsync([reportId, cancellationToken], cancellationToken: cancellationToken);
+        return await context.Reports.FindAsync([reportId], cancellationToken: cancellationToken);
     }
 
     public async Task<bool> Delete(Guid reportId, CancellationToken cancellationToken)
