@@ -21,7 +21,7 @@ internal sealed class GetReportsEndpoint : IApiEndpoint
     }
 
     [Authorize(Policy = "TalentConsultingUser")]
-    private static async Task<ReportsResponse> GetReports(
+    private static async Task<IResult> GetReports(
         [FromServices] IReportsProvider reportsProvider,
         int page,
         int pageSize,
@@ -33,6 +33,6 @@ internal sealed class GetReportsEndpoint : IApiEndpoint
         var pagedResults = await reportsProvider.FetchAllBy(projectId, paging, cancellationToken);
         var mappedResults = pagedResults.Results.Select(report => report.ToReportDto());
 
-        return new ReportsResponse(pagedResults.ToPageInfoDto(), mappedResults);
+        return TypedResults.Ok(new ReportsResponse(pagedResults.ToPageInfoDto(), mappedResults));
     }
 }
