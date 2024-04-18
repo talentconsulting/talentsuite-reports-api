@@ -12,12 +12,12 @@ public class SourceGenerator : ISourceGenerator
 {
     private readonly ContextReceiver _contextReceiver = new();
 
-    private static string GetNamespace(SyntaxNode? node) => node switch
+    private static string? GetNamespace(SyntaxNode? node) => node switch
         {
             NamespaceDeclarationSyntax namespaceNode => namespaceNode.Name.ToString(),
             FileScopedNamespaceDeclarationSyntax fileScopedNamespaceNode => fileScopedNamespaceNode.Name.ToString(),
             { } => GetNamespace(node.Parent),
-            _ => throw new InvalidOperationException("Could not find namespace")
+            _ => null
         };
 
     public void Initialize(GeneratorInitializationContext context) => context.RegisterForSyntaxNotifications(() => _contextReceiver);
@@ -36,6 +36,22 @@ public class SourceGenerator : ISourceGenerator
         foreach (var endpointClass in _contextReceiver.Endpoints)
         {
             var classNamespace = GetNamespace(endpointClass);
+
+            if (classNamespace is null)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        "TC00001",
+                        "Namespace not found",
+                        "The namespace for class {0} could not be found",
+                        "Endpoint Registration",
+                        DiagnosticSeverity.Warning,
+                        true),
+                    endpointClass.GetLocation(),
+                    endpointClass.GetType()));
+                continue;
+            }
+
             if (!nsHashSet.Contains(classNamespace))
             {
                 nsHashSet.Add(classNamespace);
