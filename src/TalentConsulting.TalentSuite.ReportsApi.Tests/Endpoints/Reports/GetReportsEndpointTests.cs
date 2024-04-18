@@ -125,4 +125,21 @@ public class GetReportsEndpointTests : ServerFixtureBase
         reportsResponse.PageInfo.PageSize.ShouldBe(10);
         reportsResponse.PageInfo.TotalCount.ShouldBe(50);
     }
+
+    [Test]
+    public async Task Get_When_No_Data_Returns_Correct_Paging_Info()
+    {
+        // act
+        using var response = await Client.GetAsync($"/reports?pageSize=10&page=1&projectId={TestData.Client2.ProjectId}");
+        var reportsResponse = await response.Content.ReadFromJsonAsync<ReportsResponse>();
+
+        // assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        reportsResponse.ShouldNotBeNull();
+        reportsResponse.PageInfo.Page.ShouldBe(1);
+        reportsResponse.PageInfo.PageSize.ShouldBe(10);
+        reportsResponse.PageInfo.TotalCount.ShouldBe(0);
+        reportsResponse.PageInfo.First.ShouldBe(0);
+        reportsResponse.PageInfo.Last.ShouldBe(0);
+    }
 }

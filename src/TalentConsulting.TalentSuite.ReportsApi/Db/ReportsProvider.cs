@@ -88,7 +88,7 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
         var totalCount = await entities.CountAsync(cancellationToken);
         
         var maxPage = (int)Math.Ceiling((double)totalCount / pagingInfo.SafePageSize);
-        var actualPage = Math.Min(pagingInfo.SafePage, maxPage);
+        var actualPage = Math.Max(1, Math.Min(pagingInfo.SafePage, maxPage));
         var skip = (actualPage - 1) * pagingInfo.SafePageSize;
         
         entities = entities
@@ -96,7 +96,7 @@ internal class ReportsProvider(IApplicationDbContext context) : IReportsProvider
             .Take(pagingInfo.SafePageSize);
 
         var results = await entities.Include(x => x.Risks).ToListAsync(cancellationToken);
-        var first = skip + 1;
+        var first = totalCount > 0 ? skip + 1 : 0;
         var last = Math.Max(first + results.Count - 1, 0);
         return new PagedResults<Report>(actualPage, pagingInfo.SafePageSize, first, last, totalCount, results);
     }
