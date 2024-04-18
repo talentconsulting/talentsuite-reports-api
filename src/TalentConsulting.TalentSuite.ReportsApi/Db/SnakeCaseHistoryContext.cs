@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 
@@ -10,6 +11,7 @@ namespace TalentConsulting.TalentSuite.ReportsApi.Db;
 /// <summary>A replacement for <see cref="NpgsqlHistoryRepository"/>
 /// to convert the migration table id columns to snake case.
 
+[ExcludeFromCodeCoverage]
 public class SnakeCaseHistoryContext(HistoryRepositoryDependencies dependencies) : NpgsqlHistoryRepository(dependencies)
 {
     protected override void ConfigureTable(EntityTypeBuilder<HistoryRow> history)

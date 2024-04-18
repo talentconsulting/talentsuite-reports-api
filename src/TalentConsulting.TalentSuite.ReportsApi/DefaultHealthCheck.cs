@@ -7,7 +7,11 @@ internal class DefaultHealthCheck(IApplicationDbContext dbContext) : IHealthChec
 {
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        // Note: will fail on in-memory provider, but that provider should only be used in development
+        if (dbContext.Database.ProviderName?.EndsWith("InMemory", StringComparison.OrdinalIgnoreCase) ?? false)
+        {
+            return HealthCheckResult.Healthy();
+        }
+
         try
         {
             await dbContext.Ping(cancellationToken);
