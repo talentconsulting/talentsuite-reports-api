@@ -7,6 +7,8 @@ internal sealed class GetReadinessEndpoint : IApiEndpoint
     public static void Register(WebApplication app)
     {
         app.MapGet("/readiness", GetReadiness)
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status503ServiceUnavailable)
             .WithTags("Service Status")
             .WithDescription("Returns whether the service is ready")
             .WithOpenApi();
