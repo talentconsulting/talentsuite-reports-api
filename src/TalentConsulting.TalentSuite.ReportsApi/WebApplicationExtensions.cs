@@ -18,6 +18,8 @@ public static partial class WebApplicationExtensions
             app.UseSwaggerUI(options => {
                 options.ShowCommonExtensions();
             });
+
+            app.UseCors("AllowReactAppForLocalDev");
         }
 
         app.UseHttpsRedirection();
