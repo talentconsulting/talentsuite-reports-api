@@ -10,7 +10,7 @@ internal class HealthChecksFilter : IDocumentFilter
 {
     public const string HealthCheckEndpoint = @"/health";
     
-    public void Apply(OpenApiDocument openApiDocument, DocumentFilterContext context)
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         var pathItem = new OpenApiPathItem();
         var operation = new OpenApiOperation();
@@ -43,6 +43,6 @@ internal class HealthChecksFilter : IDocumentFilter
 
         operation.Responses.Add("503", unhealthyResponse);
         pathItem.AddOperation(OperationType.Get, operation);
-        openApiDocument?.Paths.Add(HealthCheckEndpoint, pathItem);
+        swaggerDoc?.Paths.Add(HealthCheckEndpoint, pathItem);
     }
 }

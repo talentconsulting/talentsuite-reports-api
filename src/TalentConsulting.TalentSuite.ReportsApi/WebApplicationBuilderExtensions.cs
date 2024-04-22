@@ -68,7 +68,6 @@ internal static partial class WebApplicationBuilderExtensions
         {
             // Adding Jwt Bearer
             options.SaveToken = true;
-            //options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,

@@ -31,19 +31,11 @@ public static partial class WebApplicationExtensions
     private static async Task InitialiseDb(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-        try
-        {
-            var dbContext = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
 
-            if (!dbContext.Database.ProviderName?.Contains("InMemory", StringComparison.OrdinalIgnoreCase) ?? false)
-            {
-                await dbContext.Database.MigrateAsync(CancellationToken.None);
-            }
-        }
-        catch (Exception ex)
+        if (!dbContext.Database.ProviderName?.Contains("InMemory", StringComparison.OrdinalIgnoreCase) ?? false)
         {
-            Log.Fatal(ex, ex.Message);
-            throw;
+            await dbContext.Database.MigrateAsync(CancellationToken.None);
         }
     }
 }

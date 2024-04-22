@@ -15,5 +15,5 @@ internal sealed class GetReadinessEndpoint : IApiEndpoint
     }
 
     // TODO: implement whatever constitutes a readiness check
-    private static IResult GetReadiness([FromServices] IConfiguration configuration) => Results.NoContent();
+    private static IResult GetReadiness() => Results.NoContent();
 }
