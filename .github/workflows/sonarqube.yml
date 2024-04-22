@@ -51,6 +51,7 @@
           - name: Build, Test and Analyze
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            working-directory: ./src
             run: |
               dotnet-sonarscanner begin \
                 /k:"talentconsulting_talentsuite-reports-api" \
