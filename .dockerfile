@@ -1,5 +1,6 @@
 # Base Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
 EXPOSE 80 443
 
@@ -15,5 +16,4 @@ RUN dotnet publish ./TalentConsulting.TalentSuite.ReportsApi.csproj -c $BUILD_CO
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-USER app
 ENTRYPOINT ["dotnet", "TalentConsulting.TalentSuite.ReportsApi.dll"]
