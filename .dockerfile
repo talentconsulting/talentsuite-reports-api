@@ -32,4 +32,5 @@ RUN dotnet publish "TalentConsulting.TalentSuite.ReportsApi.csproj" -c Release -
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+USER app
 ENTRYPOINT ["dotnet", "TalentConsulting.TalentSuite.ReportsApi.dll"]
