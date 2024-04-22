@@ -7,7 +7,9 @@ EXPOSE 80 443
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 COPY ./src ./src
 WORKDIR ./src/TalentConsulting.TalentSuite.ReportsApi
-RUN dotnet publish ./TalentConsulting.TalentSuite.ReportsApi.csproj -c Release -o /app/publish
+
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish ./TalentConsulting.TalentSuite.ReportsApi.csproj -c $BUILD_CONFIGURATION -o /app/publish -p:UseAppHost=false
 
 # Build runtime image
 FROM base AS final
