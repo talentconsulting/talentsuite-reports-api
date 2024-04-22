@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TalentConsulting.MinimalApi.Registration;
 
+[ExcludeFromCodeCoverage]
 internal class ContextReceiver : ISyntaxContextReceiver
 {
     private readonly Collection<ClassDeclarationSyntax> _endpoints = [];

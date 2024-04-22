@@ -3,10 +3,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace TalentConsulting.MinimalApi.Registration;
 
+[ExcludeFromCodeCoverage]
 [Generator]
 public class SourceGenerator : ISourceGenerator
 {
